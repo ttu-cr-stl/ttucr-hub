@@ -1,8 +1,8 @@
 'use client'
-
-import { NavPath } from "@/components/layout/NavBar";
 import { Button } from "@/components/ui/button";
+import { NavPath } from "@/lib/utils/consts";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 
@@ -16,7 +16,12 @@ export default function Index() {
       console.log(user, isNewUser, wasAlreadyAuthenticated);
       // Any logic you'd like to execute if the user is/becomes authenticated while this
       // component is mounted
-      router.push(NavPath.HOME)
+
+      if (isNewUser) {
+        router.push(NavPath.ONBOARDING); // Do check for @ttu email in onboarding /^[A-Za-z0-9._%+-]+@testdomain\.com$/.test(user.email?.toString() || "")
+      } else {
+        router.push(NavPath.HOME);
+      }
     },
     onError: (error) => {
       console.log(error);
@@ -30,15 +35,18 @@ export default function Index() {
     return <></>;
   }
 
-  if (ready && authenticated) {
-    router.push(NavPath.HOME)
-  }
-
   return (
     <main className="relative h-dvh w-dvw flex flex-col items-center justify-center">
-      <Button onClick={login}>
-        Login
-      </Button>
+
+      {authenticated ? <>
+
+        <Button onClick={() => router.push(NavPath.HOME)}>Continue</Button>
+
+      </>:<>
+
+        <Button onClick={login}>Login</Button>
+
+      </>}
     </main>
   );
 }

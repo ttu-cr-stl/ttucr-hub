@@ -1,5 +1,6 @@
 'use client'
 import { cn } from "@/lib/utils/cn";
+import { NavPath } from "@/lib/utils/consts";
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
 import { FC, ReactNode } from 'react';
@@ -9,15 +10,6 @@ import { BarChart, CreditCard, Home, Search, Settings } from 'react-feather';
 interface NavBarProps {
   
 }
-
-export enum NavPath {
-    HOME = '/home',
-    LEADERBOARD = '/leaderboard',
-    EXPLORE = '/explore',
-    WALLET = '/wallet',
-    SETTINGS = '/settings'
-}
-
 const NavBar: FC<NavBarProps> = ({  }) => {
 
     const activePath = usePathname();

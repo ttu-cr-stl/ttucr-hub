@@ -13,12 +13,12 @@ const AuthChecker: FC<{children: ReactNode}> = ({ children }) => {
         return <></>;
     }
 
-    if (ready && !authenticated) {
+    if (ready && authenticated) {
         router.push('/')
     }
 
     return (
-        <>{children}</>
+        <>{authenticated && <>{children}</>}</>
     )
 }
 
