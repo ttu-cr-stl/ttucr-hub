@@ -9,13 +9,13 @@ export default function AppLayout({
 }>) {
 
     return (
-        // <AuthChecker>
+        <AuthChecker>
           <main className="relative h-dvh w-dvw px-4">
 
               {children}
 
               <NavBar />
           </main>
-        // {/* </AuthChecker> */}
+        </AuthChecker>
     )
 }

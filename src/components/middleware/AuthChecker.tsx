@@ -10,10 +10,10 @@ const AuthChecker: FC<{children: ReactNode}> = ({ children }) => {
 
     if (!ready) {
         // Do nothing while the PrivyProvider initializes with updated user state
-        return <></>;
+        return <><span>loading...</span></>;
     }
 
-    if (ready && authenticated) {
+    if (ready && !authenticated) {
         router.push('/')
     }
 

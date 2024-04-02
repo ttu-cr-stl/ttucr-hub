@@ -8,7 +8,9 @@ const withPWA = nextPWA({
 //   register: true,
   scope: '/src/app',
   sw: '/src/service/index.ts',
-  //...
+  images: {
+    domains: ['drive.usercontent.google.com'],
+  },
 })
 
 export default withPWA(nextConfig);
