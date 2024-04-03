@@ -16,7 +16,7 @@ model User {
   addres     String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  Org        Org[]    @relation("OrgToUser")
+  orgs       Org[]    @relation("OrgToUser")
 }
 
 model Activity {

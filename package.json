@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma": "yarn prisma && yarn prisma generate && yarn prisma db pull"
+    "prisma-gen": "yarn prisma generate && yarn prisma db pull"
   },
   "dependencies": {
     "@prisma/client": "^5.12.0",
