@@ -1,13 +1,9 @@
-import React, { FC } from 'react'
+import React, { FC } from "react";
 
-interface PersonalOnboardProps {
-  
-}
+interface PersonalOnboardProps {}
 
-const PersonalOnboard: FC<PersonalOnboardProps> = ({  }) => {
-    return (
-        <div className={''}></div>
-    )
-}
+const PersonalOnboard: FC<PersonalOnboardProps> = ({}) => {
+  return <div className={""}>hg fghfj hghjk</div>;
+};
 
 export default PersonalOnboard;

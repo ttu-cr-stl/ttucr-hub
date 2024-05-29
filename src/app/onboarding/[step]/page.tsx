@@ -3,7 +3,15 @@ import PersonalOnboard from "../steps/PersonalOnboard";
 
 const steps: { [key: string]: JSX.Element } = {
   1: <PersonalOnboard />,
-  2: <OrgsOnboard />,
+  // 2: <OrgsOnboard user={{
+  //   id: 1;
+  //   email: string;
+  //   name: string | null;
+  //   profilePic: string | null;
+  //   addres: string;
+  //   createdAt: Date;
+  //   updatedAt: Date;
+  // }} />,
 };
 
 export default function Onboarding({ params }: { params: { step: string } }) {
