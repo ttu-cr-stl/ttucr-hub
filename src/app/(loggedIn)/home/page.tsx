@@ -1,6 +1,7 @@
 import { getAllUsers } from "@/db/users";
 
 export default async function Home() {
+
   const users = await getAllUsers();
 
   console.log(users)

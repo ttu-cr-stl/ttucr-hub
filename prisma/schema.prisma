@@ -13,7 +13,7 @@ model User {
   email      String   @unique
   name       String?
   profilePic String?
-  addres     String
+  address    String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   orgs       Org[]    @relation("OrgToUser")
