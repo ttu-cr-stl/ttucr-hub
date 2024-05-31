@@ -22,6 +22,7 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
 
   if (ready && !authenticated) {
     router.push("/login");
+    return <SplashScreen />;
   }
 
   return <>{authenticated && <>{children}</>}</>;
