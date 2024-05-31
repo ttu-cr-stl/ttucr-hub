@@ -28,9 +28,9 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
       {!authenticated && (
         <Button
           disabled={!ready || (ready && authenticated)}
-          onClick={ready ? login : () => {}}
+          onClick={login}
         >
-          {ready ? "Login" : "Loading..."}
+          {ready ? "Login" : "Getting Ready..."}
         </Button>
       )}
     </>
