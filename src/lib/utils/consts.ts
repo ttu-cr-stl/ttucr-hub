@@ -1,5 +1,5 @@
 export enum NavPath {
-  HOME = "/home",
+  HOME = "/",
   LEADERBOARD = "/leaderboard",
   EXPLORE = "/explore",
   WALLET = "/wallet",
