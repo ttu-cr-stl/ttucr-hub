@@ -9,16 +9,17 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         appId={privyId || ""}
         config={{
           // Display email and wallet as login methods
-          loginMethods: ["email", "wallet"],
+          loginMethods: ["email"],
           // Customize Privy's appearance in your app
           appearance: {
             theme: "light",
             accentColor: "#9C4544",
-            logo: "https://drive.usercontent.google.com/download?id=1KlSHmxRcsKVzMYaDCOaXMPslfGSoxU2z",
+            logo: "/LoginLogo.png",
+            landingHeader: "Login with @ttu.edu email",
           },
           // Create embedded wallets for users who don't have a wallet
           embeddedWallets: {
-            createOnLogin: "users-without-wallets",
+            createOnLogin: "off",
           },
         }}
       >
