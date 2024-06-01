@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { usePrivy } from "@privy-io/react-auth";
 
 export default function Settings() {
-  const { updateEmail, logout, user, linkEmail } = usePrivy();
+  const { logout, user } = usePrivy();
 
   return (
     <div className="flex flex-col space-y-10 px-4 pt-10 w-[90vw]">
@@ -12,8 +12,6 @@ export default function Settings() {
       </span>
 
       <Button onClick={logout}>Log out</Button>
-
-      <Button onClick={linkEmail}>Add your email</Button>
     </div>
   );
 }
