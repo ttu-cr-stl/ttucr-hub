@@ -4,7 +4,7 @@ const nextConfig = {};
 
 const withPWA = nextPWA({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
+  disable: true,
 //   register: true,
   scope: '/src/app',
   sw: '/src/service/index.ts',
