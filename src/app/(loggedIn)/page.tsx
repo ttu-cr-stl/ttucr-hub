@@ -1,17 +1,10 @@
-import { getAllUsers } from "@/db/users";
+import React from "react";
 
-export default async function Home() {
-  const users = await getAllUsers();
-
-  console.log(users);
+export default function Home() {
 
   return (
     <div className="flex flex-col pt-12 px-8">
-      {users.map((user) => (
-        <div key={user.id} className="">
-          {user.name}
-        </div>
-      ))}
+      <span></span>
     </div>
   );
 }
