@@ -1,7 +1,7 @@
 "use client";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { SplashScreen } from "../utils/SplashScreen";
 
@@ -10,8 +10,14 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();
   const [prevAuth] = useLocalStorage("prev-authenticated", false);
 
+  useEffect(() => {
+    if (!prevAuth || (ready && !authenticated)) {
+      router.push("/login");
+    }
+
+  }, [authenticated, prevAuth, ready, router]);
+
   if (!prevAuth) {
-    router.push("/login");
     return <SplashScreen />;
   }
 
@@ -21,7 +27,6 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
   }
 
   if (ready && !authenticated) {
-    router.push("/login");
     return <SplashScreen />;
   }
 
