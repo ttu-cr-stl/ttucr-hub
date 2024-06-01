@@ -6,7 +6,7 @@ export default function AppLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <AuthChecker>
-      <main className="relative h-dvh w-dvw px-4">
+      <main className="relative w-full h-full px-4">
         {children}
 
         <NavBar />

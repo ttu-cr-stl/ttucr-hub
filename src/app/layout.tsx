@@ -1,9 +1,9 @@
 import { GlobalProviders } from "@/lib/providers";
 import "@/lib/styles/globals.css";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,15 +18,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log(SpeedInsights, Analytics);
+
   return (
     <html lang="en">
-      <body>
-        <div className="block sm:hidden">
-          <GlobalProviders>{children}</GlobalProviders>
-        </div>
-        <div className="hidden sm:flex justify-center items-center h-dvh w-dvw">
+      <body className="relative self-center h-dvh w-dvw sm:h-[667px] sm:w-[375px] bg-stone-300 *:bg-white">
+        {/* <div className="block sm:hidden"> */}
+        <GlobalProviders>{children}</GlobalProviders>
+        {/* </div> */}
+
+        {/* <div className="hidden sm:flex justify-center items-center h-dvh w-dvw">
           <span>Come back on mobile...</span>
-        </div>
+        </div> */}
       </body>
     </html>
   );
