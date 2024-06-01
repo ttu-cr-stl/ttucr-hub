@@ -19,7 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <GlobalProviders>{children}</GlobalProviders>
+        <div className="block sm:hidden">
+          <GlobalProviders>{children}</GlobalProviders>
+        </div>
+        <div className="hidden sm:flex justify-center items-center h-dvh w-dvw">
+          <span>Come back on mobile...</span>
+        </div>
       </body>
     </html>
   );
