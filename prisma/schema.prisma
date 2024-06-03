@@ -11,8 +11,12 @@ datasource db {
 model User {
   id         String   @id @default(cuid())
   email      String   @unique
-  name       String?
+  firstName  String
+  lastName   String
   profilePic String?
+  r_number   String
+  major      String
+  minor      String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   address    String
