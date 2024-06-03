@@ -13,7 +13,7 @@ export const useUser = () => {
         setUser(user);
       })
     }
-  });
+  }, [privyUser]);
 
   return { user };
 };
