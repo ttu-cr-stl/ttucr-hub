@@ -23,8 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="relative self-center h-dvh w-dvw sm:h-[667px] sm:w-[375px] bg-stone-300 *:bg-white">
-      <Analytics />
-      <SpeedInsights />
+        <Analytics />
+        <SpeedInsights />
         {/* <div className="block sm:hidden"> */}
         <GlobalProviders>{children}</GlobalProviders>
         {/* </div> */}
