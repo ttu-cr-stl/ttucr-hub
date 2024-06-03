@@ -18,7 +18,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log(SpeedInsights, Analytics);
 
   return (
     <html lang="en">
