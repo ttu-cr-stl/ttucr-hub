@@ -19,7 +19,7 @@ model User {
   minor      String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  address    String
+  address    String?
   orgs       Org[]    @relation("OrgToUser")
 }
 
