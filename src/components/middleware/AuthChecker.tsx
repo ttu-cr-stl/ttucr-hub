@@ -31,7 +31,7 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
     return <SplashScreen />;
   }
 
-  if (user && user.email && /(?!.*@ttu\.edu)/.test(user.email.address)) {
+  if (user && user.email && !/@ttu\.edu/.test(user.email.address)) {
     return <EmailNotTTU />;
   }
 

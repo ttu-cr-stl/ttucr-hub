@@ -18,18 +18,19 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
     onComplete: async (user, isNewUser) => {
       setPrevAuth(true);
 
-      if (isNewUser) {
+      if (isNewUser && /@ttu\.edu/.test(user.email?.address!)) {
         try {
           // Create user in DB
           await createUser(user.email?.address!);
           router.push(NavPath.ONBOARDING);
         } catch (error) {
           console.log(error);
+          setPrevAuth(false);
           throw new Error("Failed to create user");
         }
+      } else {
+        router.push(NavPath.HOME);
       }
-
-      router.push(NavPath.HOME);
     },
 
     onError: (error) => {
