@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FC } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { Button } from "../ui/button";
+import { createUser } from "@/db/users";
 
 interface LoginBtnProps {}
 
@@ -14,10 +15,23 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
   const router = useRouter();
 
   const { login } = useLogin({
-    onComplete: (user, isNewUser, wasAlreadyAuthenticated) => {
+    onComplete: async (user, isNewUser) => {
       setPrevAuth(true);
+
+      if (isNewUser) {
+        try {
+          // Create user in DB
+          await createUser(user.email?.address!);
+          router.push(NavPath.ONBOARDING);
+        } catch (error) {
+          console.log(error);
+          throw new Error("Failed to create user");
+        }
+      }
+
       router.push(NavPath.HOME);
     },
+
     onError: (error) => {
       console.log(error);
     },
