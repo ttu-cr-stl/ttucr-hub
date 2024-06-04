@@ -1,4 +1,3 @@
-"use client";
 import LoginBtn from "@/components/utils/LoginBtn";
 
 export default function Login() {
