@@ -13,7 +13,7 @@ const NavBar: FC<NavBarProps> = ({}) => {
   return (
     <div
       className={
-        "absolute bottom-0 left-0 w-full h-16 border-t flex items-center justify-evenly z-10"
+        "fixed bottom-0 left-0 w-full h-16 border-t flex items-center justify-evenly z-10 bg-white"
       }
     >
       <NavIcon pathname={NavPath.HOME} activePath={activePath}>
