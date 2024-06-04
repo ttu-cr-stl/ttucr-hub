@@ -3,6 +3,7 @@ import prisma from "@/db/prisma";
 import { User } from "@prisma/client";
 
 export async function getAllUsers() {
+  console.log('fetching all users')
   const users = await prisma.user.findMany();
 
   return users;
@@ -34,7 +35,7 @@ export async function createUser(email: string) {
   return user;
 }
 
-export async function updateUserByEmail(email: string, data: Partial<User>) {
+export async function internalUpdateUserByEmail(email: string, data: Partial<User>) {
   console.log('updating user by email')
   const user = await prisma.user.update({
     where: {
