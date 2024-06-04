@@ -8,9 +8,9 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  // TODO: Update metadata
   title: "TTU@CR Hub",
-  description: "The place to catch up on Campus Activities, Student Orgs & fellow Students",
+  description:
+    "The place to catch up on Campus Activities, Student Orgs & fellow Students",
 };
 
 export default function RootLayout({
@@ -18,9 +18,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="relative self-center h-dvh w-dvw sm:h-[667px] sm:w-[375px] bg-stone-300 *:bg-white">
         <Analytics />
         <SpeedInsights />
