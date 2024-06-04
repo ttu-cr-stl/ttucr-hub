@@ -16,7 +16,7 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
       router.push("/login");
     }
     
-  }, [authenticated, prevAuth, ready, router, user, user?.email?.address]);
+  }, [authenticated, prevAuth, ready, router]);
 
   if (!prevAuth) {
     return <SplashScreen />;

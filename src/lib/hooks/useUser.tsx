@@ -9,6 +9,17 @@ export const useUser = () => {
   const [userLoading, setLoading] = useState(true);
   const { user: privyUser } = usePrivy();
 
+  useEffect(() => {
+    if (user) setLoading(false);
+
+    if (privyUser?.email?.address && user === null) {
+      getUserByEmail(privyUser.email.address).then((user) => {
+        setUser(user);
+        setLoading(false);
+      });
+    }
+  }, [privyUser, setUser, user]);
+
   const updateUser = (data: Partial<User>) => {
     setLoading(true);
     try {
@@ -22,17 +33,6 @@ export const useUser = () => {
     }
     setLoading(false);
   };
-
-  useEffect(() => {
-    if (user) setLoading(false);
-
-    if (privyUser?.email?.address && user === null) {
-      getUserByEmail(privyUser.email.address).then((user) => {
-        setUser(user);
-        setLoading(false);
-      });
-    }
-  }, [privyUser, setUser, user]);
 
   return { user, updateUser, userLoading };
 };
