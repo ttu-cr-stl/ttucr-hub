@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="relative self-center h-dvh w-dvw sm:h-[667px] sm:w-[375px] bg-stone-300 *:bg-white">
+      <body className="relative self-center h-dvh w-dvw md:h-[667px] md:w-[375px] bg-stone-300 *:bg-white text-black">
         <Analytics />
         <SpeedInsights />
 
