@@ -18,7 +18,7 @@ model User {
   major      String
   minor      String?
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime? @updatedAt
   address    String?
   orgs       Org[]    @relation("OrgToUser")
 }
@@ -28,14 +28,17 @@ model Activity {
   name        String
   description String
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime? @updatedAt
 }
 
 model Org {
   id          String   @id @default(cuid())
   name        String
-  description String
+  description String?
+  color       String?
+  orgPicture  String?
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime? @updatedAt
+  officers    Json[]   @default([])
   members     User[]   @relation("OrgToUser")
 }
