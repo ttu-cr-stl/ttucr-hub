@@ -42,15 +42,17 @@ const NavBar: FC<NavBarProps> = ({  }) => {
 const NavIcon: FC<{ children: ReactNode, pathname: NavPath, activePath: string }> = ({ children, pathname, activePath }) => {
 
     return (
-        <Link href={pathname}>
-            <div className={cn(
-                activePath == pathname && 'bg-primary/20',
-                'p-2 rounded-xl'
-            )}>
-                {children}
-            </div>
-        </Link>
-    )
+      <Link href={pathname}>
+        <div
+          className={cn(
+          activePath.match(/\/[^\/]*/)![0] == pathname && "bg-primary/20",
+            "p-2 rounded-xl"
+          )}
+        >
+          {children}
+        </div>
+      </Link>
+    );
 }
 
 export default NavBar;
