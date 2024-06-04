@@ -1,11 +1,11 @@
 "use client";
+import { createUser } from "@/db/users";
 import { NavPath } from "@/lib/utils/consts";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { FC } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { Button } from "../ui/button";
-import { createUser } from "@/db/users";
 
 interface LoginBtnProps {}
 
@@ -41,10 +41,7 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
   return (
     <>
       {!authenticated && (
-        <Button
-          disabled={!ready || (ready && authenticated)}
-          onClick={login}
-        >
+        <Button disabled={!ready || (ready && authenticated)} onClick={login}>
           {ready ? "Login" : "Getting Ready..."}
         </Button>
       )}
