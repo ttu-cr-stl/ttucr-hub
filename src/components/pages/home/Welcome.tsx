@@ -12,13 +12,13 @@ export const Welcome: FC<WelcomeProps> = ({}) => {
     <>
       <span>Welcome, {user?.address}!</span>
 
-      <Button
+      {/* <Button
         onClick={() => {
-          updateUser({ address: "8833" });
+          updateUser({ address: "0x5bfa" });
         }}
       >
         {userLoading ? "Loading..." : "Change address"}
-      </Button>
+      </Button> */}
     </>
   );
 };
