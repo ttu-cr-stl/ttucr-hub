@@ -10,7 +10,7 @@ export const Welcome: FC<WelcomeProps> = ({}) => {
 
   return (
     <>
-      <span>Welcome, {user?.address}!</span>
+      <span>Welcome, {user?.firstName}!</span>
 
       {/* <Button
         onClick={() => {
