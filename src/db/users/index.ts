@@ -9,6 +9,7 @@ export async function getAllUsers() {
 }
 
 export async function getUserByEmail(email: string) {
+  console.log('fetching user by email')
   const user = await prisma.user.findUnique({
     where: {
       email,
@@ -19,6 +20,7 @@ export async function getUserByEmail(email: string) {
 }
 
 export async function createUser(email: string) {
+  console.log('creating user')
   const user = await prisma.user.create({
     data: {
       firstName: "",
@@ -33,6 +35,7 @@ export async function createUser(email: string) {
 }
 
 export async function updateUserByEmail(email: string, data: Partial<User>) {
+  console.log('updating user by email')
   const user = await prisma.user.update({
     where: {
       email,
