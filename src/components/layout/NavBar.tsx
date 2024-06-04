@@ -15,7 +15,7 @@ const NavBar: FC<NavBarProps> = ({  }) => {
     const activePath = usePathname();
 
     return (
-        <div className={'absolute bottom-0 left-0 w-screen h-16 border-t flex items-center justify-evenly z-10'}>
+        <div className={'absolute bottom-0 left-0 w-full h-16 border-t flex items-center justify-evenly z-10'}>
             <NavIcon pathname={NavPath.HOME} activePath={activePath}>
                 <Home />
             </NavIcon>
