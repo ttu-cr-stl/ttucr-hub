@@ -2,9 +2,12 @@
 import { useUser } from "@/lib/hooks/useUser";
 import { Degree, DegreeKeys, NavPath } from "@/lib/utils/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -21,8 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { usePathname, useRouter } from "next/navigation";
-import { Button } from "../ui/button";
 
 const formSchema = z.object({
   firstName: z.string({
@@ -38,13 +39,13 @@ const formSchema = z.object({
     .length(8, {
       message: "R number must be 8 characters long",
     }),
-  profilePic: z.string().url().optional(),
+  profilePic: z.string(), //.url()
   major: z.nativeEnum(DegreeKeys),
   minor: z.nativeEnum(DegreeKeys),
 });
 
 export const UpdateProfile = () => {
-  const { user, userLoading, updateUser } = useUser();
+  const { user, updateUser, userLoading } = useUser();
   const pathname = usePathname();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -53,13 +54,14 @@ export const UpdateProfile = () => {
       firstName: user?.firstName,
       lastName: user?.lastName,
       r_number: user?.r_number,
-      profilePic: user?.profilePic!,
+      profilePic: user?.profilePic || "",
       major: user?.major as DegreeKeys,
       minor: user?.minor as DegreeKeys,
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("submitting", values);
     try {
       updateUser(values);
       if (pathname === NavPath.ONBOARDING) {
@@ -178,7 +180,11 @@ export const UpdateProfile = () => {
           )}
         />
         <Button type="submit">
-          {pathname === NavPath.ONBOARDING ? "Save and Continue" : "Save"}
+          {userLoading
+            ? "Loading..."
+            : pathname === NavPath.ONBOARDING
+            ? "Save and Continue"
+            : "Save"}
         </Button>
       </form>
     </Form>
