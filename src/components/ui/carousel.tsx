@@ -1,13 +1,13 @@
 "use client"
 
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons"
+import * as React from "react"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react"
-import * as React from "react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils/cn"
+import { Button } from "@/components/ui/button"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -216,7 +216,7 @@ const CarouselPrevious = React.forwardRef<
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeftIcon className="h-4 w-4" />
+      <ArrowLeft className="h-4 w-4" />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
@@ -245,7 +245,7 @@ const CarouselNext = React.forwardRef<
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRightIcon className="h-4 w-4" />
+      <ArrowRight className="h-4 w-4" />
       <span className="sr-only">Next slide</span>
     </Button>
   )
@@ -253,8 +253,10 @@ const CarouselNext = React.forwardRef<
 CarouselNext.displayName = "CarouselNext"
 
 export {
+  type CarouselApi,
   Carousel,
   CarouselContent,
-  CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
 }
-
