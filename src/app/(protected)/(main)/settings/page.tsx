@@ -1,5 +1,5 @@
+import { UpdateProfile } from "@/components/pages/settings/UpdateProfile";
 import { LogoutBtn } from "@/components/utils/LogoutBtn";
-import { UpdateProfile } from "@/components/utils/UpdateProfile";
 
 export default function Settings() {
   return (
