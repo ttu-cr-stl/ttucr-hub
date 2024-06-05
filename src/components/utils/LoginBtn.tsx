@@ -17,23 +17,21 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
 
   const { login } = useLogin({
     onComplete: async (user, isNewUser) => {
-      setLoading(true)
+      setLoading(true);
       setPrevAuth(true);
 
       if (isNewUser && /@ttu\.edu/.test(user.email?.address!)) {
         try {
           // Create user in DB
           await createUser(user.email?.address!);
-          setLoading(false)
           router.push(NavPath.ONBOARDING);
         } catch (error) {
-          setLoading(false)
+          setLoading(false);
           console.log(error);
           setPrevAuth(false);
           throw new Error("Failed to create user");
         }
       } else {
-        setLoading(false)
         router.push(NavPath.HOME);
       }
     },
@@ -44,13 +42,9 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
   });
 
   return (
-    <>
-      {!authenticated && (
-        <Button disabled={!ready || (ready && authenticated)} onClick={login}>
-          {ready ? (loading ? "Just a sec..." : "Login") : "Getting Ready..."}
-        </Button>
-      )}
-    </>
+    <Button disabled={!ready || authenticated} onClick={login}>
+      {ready ? (loading ? "Just a sec..." : "Login") : "Getting Ready..."}
+    </Button>
   );
 };
 
