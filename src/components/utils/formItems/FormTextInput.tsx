@@ -14,6 +14,7 @@ export const FormTextInput: FC<FormComponentProps> = ({
   name,
   label,
   placeholder,
+  type
 }) => {
   return (
     <FormField
@@ -23,7 +24,7 @@ export const FormTextInput: FC<FormComponentProps> = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} {...field} />
+            <Input type={type} placeholder={placeholder} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

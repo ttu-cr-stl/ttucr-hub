@@ -67,6 +67,7 @@ export const CarousselForm: FC = ({}) => {
                 name="r_number"
                 label="R#"
                 placeholder="XXXXXXXX"
+                type="number"
               />
             </CarouselItem>
 

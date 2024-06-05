@@ -37,6 +37,7 @@ export const UpdateProfile = () => {
           name="r_number"
           label="R#"
           placeholder="XXXXXXXX"
+          type="number"
         />
 
         <FormRadio
