@@ -16,11 +16,6 @@ export const UpdateProfile = () => {
         className="flex flex-col space-y-6"
         onSubmit={profileForm.handleSubmit(onSubmit)}
       >
-        <ProfilePicInput
-          control={profileForm.control}
-          name="profilePic"
-          label="Profile Picture"
-        />
 
         <div className="flex flex-col space-y-2">
           <FormTextInput
