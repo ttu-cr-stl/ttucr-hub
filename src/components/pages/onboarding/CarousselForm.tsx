@@ -39,11 +39,11 @@ export const CarousselForm: FC = ({}) => {
       <div className="w-full overflow-hidden space-y-6">
         <form
           id="profileForm"
-          className="embla__viewport flex flex-col space-y-6"
+          className="flex flex-col space-y-6"
           ref={emblaRef}
           onSubmit={profileForm.handleSubmit(onSubmit)}
         >
-          <div className="embla__container flex">
+          <div className="flex">
             <CarouselItem>
               <div className="flex flex-col space-y-2">
                 <FormTextInput
