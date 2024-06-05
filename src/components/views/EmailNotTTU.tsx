@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { LogoutBtn } from "./LogoutBtn";
+import { LogoutBtn } from "../utils/LogoutBtn";
 
 export const EmailNotTTU = () => (
   <main className="relative h-dvh w-dvw flex flex-col items-center justify-center space-y-4">

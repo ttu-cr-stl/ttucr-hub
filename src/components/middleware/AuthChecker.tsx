@@ -3,8 +3,8 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import { SplashScreen } from "../utils/SplashScreen";
-import { EmailNotTTU } from "../utils/EmailNotTTU";
+import { SplashScreen } from "../views/SplashScreen";
+import { EmailNotTTU } from "../views/EmailNotTTU";
 
 const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
   const { ready, authenticated, user } = usePrivy();
@@ -15,7 +15,6 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
     if (!prevAuth || (ready && !authenticated)) {
       router.push("/login");
     }
-    
   }, [authenticated, prevAuth, ready, router]);
 
   if (!prevAuth) {
