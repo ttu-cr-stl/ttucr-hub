@@ -2,7 +2,7 @@ import { GlobalProviders } from "@/lib/providers";
 import "@/lib/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -11,6 +11,13 @@ export const metadata: Metadata = {
   title: "TTU@CR Hub",
   description:
     "The place to catch up on Campus Activities, Student Orgs & fellow Students",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  userScalable: false,
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
