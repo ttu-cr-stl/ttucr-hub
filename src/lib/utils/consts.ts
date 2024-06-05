@@ -19,11 +19,17 @@ export enum DegreeKeys {
   NONE = "NONE",
 }
 
-export const Degree = [
+export type SelectOption = {
+  name: string;
+  value: DegreeKeys;
+  color: string;
+}
+
+export const Degree: SelectOption[] = [
   {
     name: "Computer Science",
     value: DegreeKeys.CS,
-    color: "#FFD700",
+    color: "#9C4544",
   },
   {
     name: "Electrical Engineering",
@@ -66,3 +72,11 @@ export const Degree = [
     color: "#000000",
   },
 ];
+
+export interface FormComponentProps {
+  control: any;
+  name: string;
+  options?: SelectOption[];
+  label: string;
+  placeholder?: string;
+}

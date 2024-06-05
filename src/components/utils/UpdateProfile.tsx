@@ -3,7 +3,6 @@ import { useUser } from "@/lib/hooks/useUser";
 import { Degree, DegreeKeys, NavPath } from "@/lib/utils/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -24,6 +23,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { FormRadio } from "./formItems/FormRadio";
+import { ProfilePicInput } from "./formItems/ProfilePicInput";
+import { FormTextInput } from "./formItems/FormTextInput";
 
 const formSchema = z.object({
   firstName: z.string({
@@ -48,6 +50,7 @@ export const UpdateProfile = () => {
   const { user, updateUser, userLoading } = useUser();
   const pathname = usePathname();
   const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -78,107 +81,32 @@ export const UpdateProfile = () => {
         className="flex flex-col space-y-6"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <Avatar className="w-28 h-28">
-          <AvatarImage src={user?.profilePic!} alt="profilePic" />
-          <AvatarFallback>AA</AvatarFallback>
-        </Avatar>
+
+        <ProfilePicInput control={form.control} name="profilePic" label="Profile Picture" />
+
         <div className="flex flex-col space-y-2">
-          <FormField
-            control={form.control}
-            name="firstName"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="First Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="Last Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <FormTextInput control={form.control} name="firstName" label="First Name" placeholder="First Name" />
+          <FormTextInput control={form.control} name="lastName" label="Last Name" placeholder="Last Name" />     
         </div>
-        <FormField
-          control={form.control}
-          name="r_number"
-          render={({ field }) => (
-            <FormItem className="flex items-center space-x-1">
-              <FormLabel className="pt-1 text-lg">R#</FormLabel>
-              <FormControl>
-                <Input className="w-32" placeholder="XXXXXXXX" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
+
+        <FormTextInput control={form.control} name="r_number" label="R#" placeholder="XXXXXXXX" />
+        
+        <FormRadio
+          label="Major"
           control={form.control}
           name="major"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Major</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="w-[280px]">
-                    <SelectValue placeholder="Select your major" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Degree.map((degree, index) => (
-                    <SelectItem
-                      className="w-[280px]"
-                      style={{ color: degree.color }}
-                      key={index}
-                      value={degree.value}
-                    >
-                      {degree.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
+          placeholder="Choose a major"
+          options={Degree}
         />
-        <FormField
+
+        <FormRadio
+          label="Minor"
           control={form.control}
           name="minor"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Minor</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="w-[280px]">
-                    <SelectValue placeholder="Select your minor" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {Degree.map((degree, index) => (
-                    <SelectItem
-                      className="w-[280px]"
-                      style={{ color: degree.color }}
-                      key={index}
-                      value={degree.value}
-                    >
-                      {degree.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
+          placeholder="Choose a minor"
+          options={Degree}
         />
+
         <Button type="submit">
           {userLoading
             ? "Loading..."
@@ -186,6 +114,7 @@ export const UpdateProfile = () => {
             ? "Save and Continue"
             : "Save"}
         </Button>
+        
       </form>
     </Form>
   );
