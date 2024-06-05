@@ -3,6 +3,7 @@ import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
 import { DegreeKeys } from "../utils/consts";
 import { useUser } from "./useUser";
+import { useState } from "react";
 
 const formSchema = z.object({
   firstName: z.string({
@@ -24,7 +25,8 @@ const formSchema = z.object({
 });
 
 export const useFormProfile = () => {
-  const { user, updateUser, userLoading } = useUser();
+  const { user, updateUser } = useUser();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,12 +41,15 @@ export const useFormProfile = () => {
   }) as UseFormReturn<z.infer<typeof formSchema>>;
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
     try {
       updateUser(values);
+      setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   }
 
-  return { profileForm: form, onSubmit, formLoading: userLoading };
+  return { profileForm: form, onSubmit, formLoading: loading };
 };
