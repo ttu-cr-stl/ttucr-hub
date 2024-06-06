@@ -44,7 +44,7 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
 
   return (
     <Button className="w-20" disabled={!ready || authenticated} onClick={login}>
-      {ready ? loading ? <Spinner /> : "Login" : "Getting Ready..."}
+      {ready || loading ? "Login" : <Spinner />}
     </Button>
   );
 };
