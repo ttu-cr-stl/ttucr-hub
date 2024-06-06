@@ -79,5 +79,5 @@ export interface FormComponentProps {
   options?: SelectOption[];
   label: string;
   placeholder?: string;
-  type?: string;
+  extraProps?: any;
 }

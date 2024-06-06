@@ -14,7 +14,7 @@ export const FormTextInput: FC<FormComponentProps> = ({
   name,
   label,
   placeholder,
-  type
+  extraProps,
 }) => {
   return (
     <FormField
@@ -26,7 +26,7 @@ export const FormTextInput: FC<FormComponentProps> = ({
           <FormControl>
             <Input
               className="text-xl"
-              type={type}
+              {...extraProps}
               placeholder={placeholder}
               {...field}
             />

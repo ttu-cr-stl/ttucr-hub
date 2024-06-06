@@ -70,7 +70,7 @@ export const CarousselForm: FC = ({}) => {
                 name="r_number"
                 label="R#"
                 placeholder="XXXXXXXX"
-                type="number"
+                extraProps={{maxlength: 8, type:"text", inputmode:"numeric", pattern:"[0-9]*"}}
               />
             </CarouselItem>
 
