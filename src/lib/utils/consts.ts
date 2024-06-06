@@ -29,42 +29,42 @@ export const Degree: SelectOption[] = [
   {
     name: "Computer Science",
     value: DegreeKeys.CS,
-    color: "#9C4544",
+    color: "#008080",
   },
   {
-    name: "Electrical Engineering",
+    name: "Electrical Engr.",
     value: DegreeKeys.EE,
-    color: "#FFA500",
+    color: "#0070FF",
   },
   {
-    name: "Industrial Engineering",
+    name: "Industrial Engr.",
     value: DegreeKeys.IE,
-    color: "#FF6347",
+    color: "#7A7A7A",
   },
   {
     name: "Mathematics",
     value: DegreeKeys.MATH,
-    color: "#FF69B4",
+    color: "#800080",
   },
   {
-    name: "Recreation, Hospitality, and Institutional Management",
+    name: "RHIM",
     value: DegreeKeys.RHIM,
     color: "#FF1493",
   },
   {
     name: "Retail",
     value: DegreeKeys.RETAIL,
-    color: "#FF00FF",
+    color: "#FF7F50",
   },
   {
     name: "Business",
     value: DegreeKeys.BUSINESS,
-    color: "#FF4500",
+    color: "#000080",
   },
   {
     name: "Staff",
     value: DegreeKeys.STAFF,
-    color: "#FF0000",
+    color: "#9C4544",
   },
   {
     name: "None or Undeclared",
