@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { Button } from "../ui/button";
+import { Spinner } from "./Spinner";
 
 interface LoginBtnProps {}
 
@@ -42,8 +43,8 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
   });
 
   return (
-    <Button disabled={!ready || authenticated} onClick={login}>
-      {ready ? (loading ? "Just a sec..." : "Login") : "Getting Ready..."}
+    <Button className="w-20" disabled={!ready || authenticated} onClick={login}>
+      {ready ? loading ? <Spinner /> : "Login" : "Getting Ready..."}
     </Button>
   );
 };

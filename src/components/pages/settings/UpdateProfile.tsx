@@ -1,22 +1,25 @@
 "use client";
 import { Form } from "@/components/ui/form";
+import { Spinner } from "@/components/utils/Spinner";
 import { useFormProfile } from "@/lib/hooks/useFormProfile";
 import { Degree } from "@/lib/utils/consts";
+import { useState } from "react";
+import { useInterval, useTimeout } from "usehooks-ts";
 import { Button } from "../../ui/button";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
-import { ProfilePicInput } from "../../utils/formItems/ProfilePicInput";
 
 export const UpdateProfile = () => {
-  const { profileForm, onSubmit, formLoading } = useFormProfile();
+  const { profileForm, onSubmit } = useFormProfile();
+  const [loading, setLoading] = useState(false);
 
   return (
     <Form {...profileForm}>
       <form
+        id="profileForm"
         className="flex flex-col space-y-6"
         onSubmit={profileForm.handleSubmit(onSubmit)}
       >
-
         <div className="flex flex-col space-y-2">
           <FormTextInput
             control={profileForm.control}
@@ -56,7 +59,26 @@ export const UpdateProfile = () => {
           options={Degree}
         />
 
-        <Button type="submit">{formLoading ? "Loading..." : "Save"}</Button>
+        <Button
+          type="button"
+          onClick={() => {
+            setLoading(true);
+            const form = document.getElementById(
+              "profileForm"
+            ) as HTMLFormElement;
+            if (form) {
+              try {
+                form.requestSubmit();
+                setTimeout(() => setLoading(false), 1000)
+              } catch (e) {
+                console.log(e);
+                setLoading(false);
+              }
+            }
+          }}
+        >
+          {loading ? <Spinner /> : "Save"}
+        </Button>
       </form>
     </Form>
   );
