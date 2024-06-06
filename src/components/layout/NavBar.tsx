@@ -1,6 +1,6 @@
 "use client";
+import { NavPath } from "@/lib/types";
 import { cn } from "@/lib/utils/cn";
-import { NavPath } from "@/lib/utils/consts";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC, ReactNode } from "react";

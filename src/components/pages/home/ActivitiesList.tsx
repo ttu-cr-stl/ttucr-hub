@@ -1,12 +1,12 @@
 import { getAllActivities } from "@/db/activity";
 import { FC } from "react";
 
-interface ActivitiesGridProps {}
+interface ActivitiesListProps {}
 
-export const ActivitiesGrid: FC<ActivitiesGridProps> = async ({}) => {
+export const ActivitiesList: FC<ActivitiesListProps> = async ({}) => {
   const activities = await getAllActivities();
   return (
-    <div className={""}>
+    <div className={"flex flex-col space-y-2 font-bold"}>
       {activities.map((activity) => (
         <span key={activity.id}>{activity.name}</span>
       ))}

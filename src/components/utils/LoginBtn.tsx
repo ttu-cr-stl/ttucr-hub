@@ -1,13 +1,13 @@
 "use client";
 import { createUser } from "@/db/users";
-import { NavPath } from "@/lib/utils/consts";
+import { extractUsername, isTTUEmail } from "@/lib/utils";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { Button } from "../ui/button";
 import { Spinner } from "./Spinner";
-import { extractUsername, isTTUEmail } from "@/lib/utils";
+import { NavPath } from "@/lib/types";
 
 interface LoginBtnProps {}
 
@@ -45,7 +45,7 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
 
   return (
     <Button className="w-20" disabled={!ready || authenticated} onClick={login}>
-      {(ready && !loading) ? "Login" : <Spinner />}
+      {ready && !loading ? "Login" : <Spinner />}
     </Button>
   );
 };
