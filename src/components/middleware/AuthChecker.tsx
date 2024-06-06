@@ -1,25 +1,40 @@
-'use client'
-import { usePrivy } from '@privy-io/react-auth';
-import { useRouter } from 'next/navigation';
-import { FC, ReactNode } from 'react';
+"use client";
+import { usePrivy } from "@privy-io/react-auth";
+import { useRouter } from "next/navigation";
+import { FC, ReactNode, useEffect } from "react";
+import { useLocalStorage } from "usehooks-ts";
+import { SplashScreen } from "../views/SplashScreen";
+import { EmailNotTTU } from "../views/EmailNotTTU";
 
-const AuthChecker: FC<{children: ReactNode}> = ({ children }) => {
+const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
+  const { ready, authenticated, user } = usePrivy();
+  const router = useRouter();
+  const [prevAuth] = useLocalStorage("prev-authenticated", false);
 
-    const {ready, authenticated} = usePrivy();
-    const router = useRouter();
-
-    if (!ready) {
-        // Do nothing while the PrivyProvider initializes with updated user state
-        return <><span>loading...</span></>;
+  useEffect(() => {
+    if (!prevAuth || (ready && !authenticated)) {
+      router.push("/login");
     }
+  }, [authenticated, prevAuth, ready, router]);
 
-    if (ready && !authenticated) {
-        router.push('/')
-    }
+  if (!prevAuth) {
+    return <SplashScreen />;
+  }
 
-    return (
-        <>{authenticated && <>{children}</>}</>
-    )
-}
+  if (!ready) {
+    // Do nothing while the PrivyProvider initializes with updated user state
+    return <SplashScreen />;
+  }
+
+  if (ready && !authenticated) {
+    return <SplashScreen />;
+  }
+
+  if (user && user.email && !/@ttu\.edu/.test(user.email.address)) {
+    return <EmailNotTTU />;
+  }
+
+  return <>{authenticated && <>{children}</>}</>;
+};
 
 export default AuthChecker;

@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prisma-gen": "yarn prisma generate && yarn prisma db pull"
+    "setup": "yarn install && yarn prisma generate",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.4.2",
     "@prisma/client": "^5.12.0",
     "@privy-io/react-auth": "^1.57.0",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -18,13 +20,15 @@
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-radio-group": "^1.1.3",
+    "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@vercel/analytics": "^1.3.1",
     "@vercel/speed-insights": "^1.0.11",
     "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
-    "date-fns": "^3.3.1",
-    "embla-carousel-react": "^8.0.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
+    "embla-carousel-react": "^8.1.3",
+    "lucide-react": "^0.383.0",
     "next": "14.1.0",
     "next-pwa": "^5.6.0",
     "next-themes": "^0.2.1",
@@ -32,9 +36,12 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
     "react-feather": "^2.0.10",
-    "tailwind-merge": "^2.2.1",
+    "react-hook-form": "^7.51.5",
+    "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "vaul": "^0.9.0"
+    "usehooks-ts": "^3.1.0",
+    "vaul": "^0.9.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",
