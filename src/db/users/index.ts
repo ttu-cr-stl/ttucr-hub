@@ -9,18 +9,18 @@ export async function getAllUsers() {
   return users;
 }
 
-export async function getUserByEmail(email: string) {
-  console.log("fetching user by email");
+export async function getUserByUsername(username: string) {
+  console.log("fetching user by username");
   const user = await prisma.user.findUnique({
     where: {
-      email,
+      username,
     },
   });
 
   return user;
 }
 
-export async function createUser(email: string) {
+export async function createUser(username: string) {
   console.log("creating user");
   const user = await prisma.user.create({
     data: {
@@ -28,21 +28,21 @@ export async function createUser(email: string) {
       lastName: "",
       r_number: "",
       major: "",
-      email: email,
+      username,
     },
   });
 
   return user;
 }
 
-export async function internalUpdateUserByEmail(
-  email: string,
+export async function internalUpdateUserByUsername(
+  username: string,
   data: Partial<User>
 ) {
-  console.log("updating user by email");
+  console.log("updating user by username");
   const user = await prisma.user.update({
     where: {
-      email,
+      username,
     },
     data,
   });

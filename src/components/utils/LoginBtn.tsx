@@ -7,6 +7,7 @@ import { FC, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { Button } from "../ui/button";
 import { Spinner } from "./Spinner";
+import { extractUsername, isTTUEmail } from "@/lib/utils";
 
 interface LoginBtnProps {}
 
@@ -21,10 +22,10 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
       setLoading(true);
       setPrevAuth(true);
 
-      if (isNewUser && /@ttu\.edu/.test(user.email?.address!)) {
+      if (isNewUser && isTTUEmail(user.email?.address!)) {
         try {
           // Create user in DB
-          await createUser(user.email?.address!);
+          await createUser(extractUsername(user.email?.address!));
           router.push(NavPath.ONBOARDING);
         } catch (error) {
           setLoading(false);

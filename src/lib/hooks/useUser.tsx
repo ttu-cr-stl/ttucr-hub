@@ -1,8 +1,9 @@
-import { getUserByEmail, internalUpdateUserByEmail } from "@/db/users";
+import { getUserByUsername, internalUpdateUserByUsername } from "@/db/users";
 import { User } from "@prisma/client";
 import { usePrivy } from "@privy-io/react-auth";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
+import { extractUsername } from "../utils";
 
 export const useUser = () => {
   const [user, setUser] = useLocalStorage<User | null>("authUser", null);
@@ -13,10 +14,12 @@ export const useUser = () => {
     if (user) setLoading(false);
 
     if (privyUser?.email?.address && user === null) {
-      getUserByEmail(privyUser.email.address).then((user) => {
-        setUser(user);
-        setLoading(false);
-      });
+      getUserByUsername(extractUsername(privyUser.email.address)).then(
+        (user) => {
+          setUser(user);
+          setLoading(false);
+        }
+      );
     }
   }, [privyUser, setUser, user]);
 
@@ -24,7 +27,7 @@ export const useUser = () => {
     setLoading(true);
     try {
       if (user) {
-        internalUpdateUserByEmail(user.email, data).then((user) => {
+        internalUpdateUserByUsername(user.username, data).then((user) => {
           setUser(user);
         });
       }

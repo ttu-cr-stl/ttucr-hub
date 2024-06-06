@@ -9,36 +9,36 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(cuid())
-  email      String   @unique
+  id         String    @id @default(cuid())
+  username   String    @unique
   firstName  String
   lastName   String
   profilePic String?
   r_number   String
   major      String
   minor      String?
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
   address    String?
-  orgs       Org[]    @relation("OrgToUser")
+  orgs       Org[]     @relation("OrgToUser")
 }
 
 model Activity {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
 }
 
 model Org {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String?
   color       String?
   orgPicture  String?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
-  officers    Json[]   @default([])
-  members     User[]   @relation("OrgToUser")
+  officers    Json[]    @default([])
+  members     User[]    @relation("OrgToUser")
 }

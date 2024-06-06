@@ -1,13 +1,14 @@
 "use client";
+import { isTTUEmail } from "@/lib/utils";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useEffect } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import { SplashScreen } from "../views/SplashScreen";
 import { EmailNotTTU } from "../views/EmailNotTTU";
+import { SplashScreen } from "../views/SplashScreen";
 
 const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
-  const { ready, authenticated, user } = usePrivy();
+  const { ready, authenticated, user: PrivyUser } = usePrivy();
   const router = useRouter();
   const [prevAuth] = useLocalStorage("prev-authenticated", false);
 
@@ -30,7 +31,7 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
     return <SplashScreen />;
   }
 
-  if (user && user.email && !/@ttu\.edu/.test(user.email.address)) {
+  if (PrivyUser && PrivyUser.email && !isTTUEmail(PrivyUser.email.address)) {
     return <EmailNotTTU />;
   }
 
