@@ -35,13 +35,20 @@ export const UpdateProfile = () => {
           />
         </div>
 
-        <FormTextInput
-          control={profileForm.control}
-          name="r_number"
-          label="R#"
-          placeholder="XXXXXXXX"
-          type="number"
-        />
+        <CarouselItem>
+          <FormTextInput
+            control={profileForm.control}
+            name="r_number"
+            label="R#"
+            placeholder="XXXXXXXX"
+            extraProps={{
+              maxlength: 8,
+              type: "text",
+              inputmode: "numeric",
+              pattern: "[0-9]*",
+            }}
+          />
+        </CarouselItem>
 
         <FormRadio
           label="Major"
@@ -69,7 +76,7 @@ export const UpdateProfile = () => {
             if (form) {
               try {
                 form.requestSubmit();
-                setTimeout(() => setLoading(false), 1000)
+                setTimeout(() => setLoading(false), 1000);
               } catch (e) {
                 console.log(e);
                 setLoading(false);
