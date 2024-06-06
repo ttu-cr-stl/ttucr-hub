@@ -6,7 +6,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup } from "@/components/ui/radio-group";
-import { FormComponentProps } from "@/lib/utils/consts";
+import { FormComponentProps } from "@/lib/types";
 import { RadioGroupItem } from "@radix-ui/react-radio-group";
 import { FC } from "react";
 

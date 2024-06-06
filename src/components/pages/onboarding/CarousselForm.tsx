@@ -5,16 +5,16 @@ import { Spinner } from "@/components/utils/Spinner";
 import { FormRadio } from "@/components/utils/formItems/FormRadio";
 import { FormTextInput } from "@/components/utils/formItems/FormTextInput";
 import { useFormProfile } from "@/lib/hooks/useFormProfile";
+import { NavPath } from "@/lib/types";
 import { cn } from "@/lib/utils/cn";
-import { Degree, NavPath } from "@/lib/utils/consts";
+import { Degree } from "@/lib/utils/consts";
 import useEmblaCarousel from "embla-carousel-react";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useEffect, useState } from "react";
-import { Loader } from "react-feather";
 
 export const CarousselForm: FC = ({}) => {
   const { profileForm, onSubmit } = useFormProfile();
-  const [ loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [showNext, setShowNext] = useState(true);
@@ -70,7 +70,12 @@ export const CarousselForm: FC = ({}) => {
                 name="r_number"
                 label="R#"
                 placeholder="XXXXXXXX"
-                extraProps={{maxlength: 8, type:"text", inputmode:"numeric", pattern:"[0-9]*"}}
+                extraProps={{
+                  maxlength: 8,
+                  type: "text",
+                  inputmode: "numeric",
+                  pattern: "[0-9]*",
+                }}
               />
             </CarouselItem>
 
@@ -110,7 +115,7 @@ export const CarousselForm: FC = ({}) => {
                 showNext
                   ? scrollNext
                   : () => {
-                      setLoading(true)
+                      setLoading(true);
                       const form = document.getElementById(
                         "profileForm"
                       ) as HTMLFormElement;
@@ -119,14 +124,14 @@ export const CarousselForm: FC = ({}) => {
                           form.requestSubmit();
                         } catch (e) {
                           console.log(e);
-                          setLoading(false)
+                          setLoading(false);
                         }
                       }
-                      router.push(NavPath.HOME)
+                      router.push(NavPath.HOME);
                     }
               }
             >
-              {loading ? <Spinner />: (showNext ? "Next" : "Save & Continue")}
+              {loading ? <Spinner /> : showNext ? "Next" : "Save & Continue"}
             </Button>
           </div>
         </form>
@@ -136,7 +141,10 @@ export const CarousselForm: FC = ({}) => {
 };
 
 const CarouselItem = ({ children }: { children: ReactNode }) => (
-  <div className="first:ml-2 first:mr-14 last:ml-14 last:mr-2 ml-8 mr-8" style={{ flex: "0 0 95%" }}>
+  <div
+    className="first:ml-2 first:mr-14 last:ml-14 last:mr-2 ml-8 mr-8"
+    style={{ flex: "0 0 95%" }}
+  >
     {children}
   </div>
 );

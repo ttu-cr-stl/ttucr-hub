@@ -24,3 +24,12 @@ export type SelectOption = {
   value: DegreeKeys;
   color: string;
 };
+
+export interface FormComponentProps {
+  control: any;
+  name: string;
+  options?: SelectOption[];
+  label: string;
+  placeholder?: string;
+  extraProps?: any;
+}

@@ -6,7 +6,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FormComponentProps } from "@/lib/utils/consts";
+import { FormComponentProps } from "@/lib/types";
 import { FC } from "react";
 
 export const FormTextInput: FC<FormComponentProps> = ({

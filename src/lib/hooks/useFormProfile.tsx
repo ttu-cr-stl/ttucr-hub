@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { z } from "zod";
-import { DegreeKeys } from "../utils/consts";
 import { useUser } from "./useUser";
+import { DegreeKeys } from "../types";
+
 
 const formSchema = z.object({
   firstName: z.string({
