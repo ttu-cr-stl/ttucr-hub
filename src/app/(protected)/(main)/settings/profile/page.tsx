@@ -3,7 +3,7 @@ import { UpdateProfile } from "@/components/pages/settings/UpdateProfile";
 
 export default function Profile() {
     return (
-      <SubPageLayout backHref="/settings">
+      <SubPageLayout backHref="/settings"> {/* TODO: Remove eventually*/}
         <UpdateProfile />
       </SubPageLayout>
     );

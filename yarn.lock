@@ -6345,11 +6345,6 @@ randombytes@^2.1.0:
   dependencies:
     safe-buffer "^5.1.0"
 
-react-day-picker@^8.10.1:
-  version "8.10.1"
-  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-8.10.1.tgz#4762ec298865919b93ec09ba69621580835b8e80"
-  integrity sha512-TMx7fNbhLk15eqcMt+7Z7S2KF7mfTId/XJDjKE8f+IUcFn0l08/kI4FiYTL/0yuOLmEcbR4Fwe3GJf/NiiMnPA==
-
 react-device-detect@^2.2.2:
   version "2.2.3"
   resolved "https://registry.npmjs.org/react-device-detect/-/react-device-detect-2.2.3.tgz"
