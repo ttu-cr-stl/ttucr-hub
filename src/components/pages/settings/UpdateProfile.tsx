@@ -4,7 +4,6 @@ import { Spinner } from "@/components/utils/Spinner";
 import { useFormProfile } from "@/lib/hooks/useFormProfile";
 import { Degree } from "@/lib/utils/consts";
 import { useState } from "react";
-import { useInterval, useTimeout } from "usehooks-ts";
 import { Button } from "../../ui/button";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
@@ -35,20 +34,18 @@ export const UpdateProfile = () => {
           />
         </div>
 
-        <CarouselItem>
-          <FormTextInput
-            control={profileForm.control}
-            name="r_number"
-            label="R#"
-            placeholder="XXXXXXXX"
-            extraProps={{
-              maxlength: 8,
-              type: "text",
-              inputmode: "numeric",
-              pattern: "[0-9]*",
-            }}
-          />
-        </CarouselItem>
+        <FormTextInput
+          control={profileForm.control}
+          name="r_number"
+          label="R#"
+          placeholder="XXXXXXXX"
+          extraProps={{
+            maxlength: 8,
+            type: "text",
+            inputmode: "numeric",
+            pattern: "[0-9]*",
+          }}
+        />
 
         <FormRadio
           label="Major"
