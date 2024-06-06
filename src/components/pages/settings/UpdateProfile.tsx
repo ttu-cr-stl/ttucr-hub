@@ -16,7 +16,7 @@ export const UpdateProfile = () => {
     <Form {...profileForm}>
       <form
         id="profileForm"
-        className="flex flex-col space-y-6"
+        className="flex flex-col space-y-6 px-1"
         onSubmit={profileForm.handleSubmit(onSubmit)}
       >
         <div className="flex flex-col space-y-2">
