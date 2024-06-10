@@ -1,13 +1,13 @@
 "use client";
 import { createUser } from "@/db/users";
+import { NavPath } from "@/lib/types";
 import { extractUsername, isTTUEmail } from "@/lib/utils";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import { Button } from "../ui/button";
+import { Button } from "../ui/shadcn/button";
 import { Spinner } from "./Spinner";
-import { NavPath } from "@/lib/types";
 
 interface LoginBtnProps {}
 

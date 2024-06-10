@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/shadcn/button";
 import Link from "next/link";
 import { ArrowLeft } from "react-feather";
 

@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/shadcn/button";
+import { Form } from "@/components/ui/shadcn/form";
 import { Spinner } from "@/components/utils/Spinner";
 import { FormRadio } from "@/components/utils/formItems/FormRadio";
 import { FormTextInput } from "@/components/utils/formItems/FormTextInput";

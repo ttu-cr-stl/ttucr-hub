@@ -1,10 +1,10 @@
 "use client";
-import { Form } from "@/components/ui/form";
+import { Form } from "@/components/ui/shadcn/form";
 import { Spinner } from "@/components/utils/Spinner";
 import { useFormProfile } from "@/lib/hooks/useFormProfile";
 import { Degree } from "@/lib/utils/consts";
 import { useState } from "react";
-import { Button } from "../../ui/button";
+import { Button } from "../../ui/shadcn/button";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
 

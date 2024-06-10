@@ -4,8 +4,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { RadioGroup } from "@/components/ui/radio-group";
+} from "@/components/ui/shadcn/form";
+import { RadioGroup } from "@/components/ui/shadcn/radio-group";
 import { FormComponentProps } from "@/lib/types";
 import { RadioGroupItem } from "@radix-ui/react-radio-group";
 import { FC } from "react";

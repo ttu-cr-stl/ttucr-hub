@@ -2,7 +2,7 @@
 import { User } from "@prisma/client";
 import { usePrivy } from "@privy-io/react-auth";
 import { useLocalStorage } from "usehooks-ts";
-import { Button } from "../ui/button";
+import { Button } from "../ui/shadcn/button";
 
 export const LogoutBtn = () => {
   const { logout } = usePrivy();
@@ -13,7 +13,7 @@ export const LogoutBtn = () => {
     <Button
       onClick={() => {
         setPrevAuth(false);
-        setUser(null)
+        setUser(null);
         logout();
       }}
     >

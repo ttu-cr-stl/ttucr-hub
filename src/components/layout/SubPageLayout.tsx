@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { FC } from "react";
-import { Button } from "../ui/button";
 import { ArrowLeft } from "react-feather";
+import { Button } from "../ui/shadcn/button";
 
 interface SubPageLayoutProps {
   children: React.ReactNode;
