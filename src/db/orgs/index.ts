@@ -7,3 +7,14 @@ export async function getAllOrgs() {
 
   return orgs;
 }
+
+export async function getOrgById(id: string) {
+  console.log("fetching org by id");
+  const org = await prisma.org.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return org;
+}
