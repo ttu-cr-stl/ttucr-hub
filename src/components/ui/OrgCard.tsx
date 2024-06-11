@@ -1,7 +1,6 @@
-"use server";
 import React from "react";
 import { Org } from "@prisma/client";
-import * from "./card";
+import { Card, CardHeader, CardTitle, CardFooter, CardContent, CardDescription } from "./card";
 
 function OrgCard({ org }: { org: Org }) {
   return (
@@ -15,7 +14,6 @@ function OrgCard({ org }: { org: Org }) {
       </CardContent>
 
       <CardFooter>
-        {org.updateAt}
         {org.id}
       </CardFooter>
     </Card>
