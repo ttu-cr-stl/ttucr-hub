@@ -9,9 +9,9 @@ function OrgCard({ org }: { org: Org }) {
     <Link href={`/org/${org.id}`}>
       <card.Card className="mt-2">
         <card.CardHeader>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="flex items-center justify-between">
             <card.CardTitle>{org.name}</card.CardTitle>
-            <Image src={"/TTULogo.png"} alt={org.name} width={50} height={50} />
+            <Image src={"/TTULogo.png"} alt={org.name} width={75} height={75} />
           </div>
         </card.CardHeader>
         <card.CardContent>
