@@ -6,9 +6,12 @@ import Link from "next/link";
 
 function OrgCard({ org }: { org: Org }) {
   return (
-    <Card>
+    <Card className="mt-2">
       <CardHeader>
-        <CardTitle>{org.name}</CardTitle>
+        <div className="flex items-center">
+          <CardTitle>{org.name}</CardTitle>
+          {/* TODO: Add Orgs picture */}
+        </div>
       </CardHeader>
 
       <CardContent>
@@ -17,7 +20,8 @@ function OrgCard({ org }: { org: Org }) {
 
       <CardFooter>
         <Link href={`/org/${org.id}`}>
-          <Button>Org Page</Button>
+          <Button style={{ backgroundColor: org.color || undefined }}>Org Page</Button>
+          {/* TODO: Make text visible depending on bg color */}
         </Link>
       </CardFooter>
     </Card>
