@@ -16,7 +16,7 @@ function OrgCard({ org }: { org: Org }) {
       </CardContent>
 
       <CardFooter>
-        <Link href={`/org/{ord.id}`}>
+        <Link href={`/org/{org.id}`}>
           <Button>Org Page</Button>
         </Link>
       </CardFooter>
