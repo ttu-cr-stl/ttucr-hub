@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Button } from "../../ui/shadcn/button";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
+import { Avatar, AvatarFallback, AvatarImage,} from "@/components/ui/shadcn/avatar";
 
 export const UpdateProfile = () => {
   const { profileForm, onSubmit } = useFormProfile();
@@ -14,9 +15,17 @@ export const UpdateProfile = () => {
 
   return (
     <Form {...profileForm}>
+        {/* Avatar element outside of the UpdateProfile form */}
+        <label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xl" for=":r0:-form-item">Profile Picture</label>
+        
+          <Avatar className="w-20 h-20">
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarFallback> PFP </AvatarFallback>
+          </Avatar>
+
       <form
         id="profileForm"
-        className="flex flex-col space-y-6 px-1"
+        className="flex flex-col space-y-4 px-1"
         onSubmit={profileForm.handleSubmit(onSubmit)}
       >
         <div className="flex flex-col space-y-2">
