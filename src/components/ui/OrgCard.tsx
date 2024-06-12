@@ -1,30 +1,28 @@
 import React from "react";
 import { Org } from "@prisma/client";
-import { Card, CardHeader, CardTitle, CardFooter, CardContent, CardDescription } from "./card";
-import { Button } from "./button";
+import * as card from "./card";
 import Link from "next/link";
+import Image from "next/image";
 
 function OrgCard({ org }: { org: Org }) {
   return (
-    <Card className="mt-2">
-      <CardHeader>
-        <div className="flex items-center">
-          <CardTitle>{org.name}</CardTitle>
-          {/* TODO: Add Orgs picture */}
-        </div>
-      </CardHeader>
-
-      <CardContent>
-        <CardDescription>{org.description}</CardDescription>
-      </CardContent>
-
-      <CardFooter>
-        <Link href={`/org/${org.id}`}>
-          <Button style={{ backgroundColor: org.color || undefined }}>Org Page</Button>
-          {/* TODO: Make text visible depending on bg color */}
-        </Link>
-      </CardFooter>
-    </Card>
+    <Link href={`/org/${org.id}`}>
+      <card.Card className="mt-2">
+        <card.CardHeader>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <card.CardTitle>{org.name}</card.CardTitle>
+            <Image src={"/TTULogo.png"} alt={org.name} width={50} height={50} />
+          </div>
+        </card.CardHeader>
+        <card.CardContent>
+          <card.CardDescription>{org.description}</card.CardDescription>
+        </card.CardContent>
+        <card.CardFooter
+          className="rounded-br-lg rounded-bl-lg border border-stone-200 P-0"
+          style={{ backgroundColor: `${org.color}` }}
+        />
+      </card.Card>
+    </Link>
   );
 }
 
