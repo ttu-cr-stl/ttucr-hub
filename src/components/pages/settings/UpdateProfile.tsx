@@ -7,7 +7,6 @@ import { useState } from "react";
 import { Button } from "../../ui/shadcn/button";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
-import { Avatar, AvatarFallback, AvatarImage,} from "@/components/ui/shadcn/avatar";
 import { ProfilePicInput } from "../../utils/formItems/ProfilePicInput";
 
 export const UpdateProfile = () => {
