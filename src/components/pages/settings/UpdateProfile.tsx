@@ -67,6 +67,8 @@ export const UpdateProfile = () => {
           options={Degree}
         />
 
+        <hr className="h-px my-8 bg-gray-200 border-1 dark:bg-gray-700"/> {/* This is just the little horizontal divide line */}
+
         <FormRadio
           label="Minor"
           control={profileForm.control}
