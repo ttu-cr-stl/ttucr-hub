@@ -8,26 +8,29 @@ import { Button } from "../../ui/shadcn/button";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
 import { Avatar, AvatarFallback, AvatarImage,} from "@/components/ui/shadcn/avatar";
+import { ProfilePicInput } from "../../utils/formItems/ProfilePicInput";
 
 export const UpdateProfile = () => {
   const { profileForm, onSubmit } = useFormProfile();
   const [loading, setLoading] = useState(false);
 
   return (
-    <Form {...profileForm}>
-        {/* Avatar element outside of the UpdateProfile form */}
-        <label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xl" for=":r0:-form-item">Profile Picture</label>
-        
-          <Avatar className="w-20 h-20">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-            <AvatarFallback> PFP </AvatarFallback>
-          </Avatar>
-
+    <Form {...profileForm}> 
       <form
         id="profileForm"
         className="flex flex-col space-y-4 px-1"
         onSubmit={profileForm.handleSubmit(onSubmit)}
       >
+        <label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xl" for=":r0:-form-item">Profile Picture</label>
+        <div className="flex flex-col space-y-6">
+          <ProfilePicInput
+            control={profileForm.control}
+            name="profilePicture"
+            label="Profile Picture"
+            placeholder="Profile Picture"
+          />
+        </div>
+
         <div className="flex flex-col space-y-2">
           <FormTextInput
             control={profileForm.control}
