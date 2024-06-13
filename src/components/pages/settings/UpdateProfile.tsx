@@ -21,14 +21,16 @@ export const UpdateProfile = () => {
         className="flex flex-col space-y-4 px-1"
         onSubmit={profileForm.handleSubmit(onSubmit)}
       >
-        <label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xl" for=":r0:-form-item">Profile Picture</label>
-        <div className="flex flex-col space-y-6">
-          <ProfilePicInput
-            control={profileForm.control}
-            name="profilePicture"
-            label="Profile Picture"
-            placeholder="Profile Picture"
-          />
+        <div className="flex flex-col items-center space-y-4"> 
+          <label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xl" for=":r0:-form-item">Profile</label>
+          <div className="flex flex-col space-y-6 items-center">
+            <ProfilePicInput
+              control={profileForm.control}
+              name="profilePicture"
+              label="Profile Picture"
+              placeholder="Profile Picture"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col space-y-2">
