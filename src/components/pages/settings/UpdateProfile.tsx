@@ -47,10 +47,11 @@ export const UpdateProfile = () => {
           />
         </div>
 
+        <div className="flex items-center space-x-3">
+          <label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xl" for="r_number">R#</label>
         <FormTextInput
           control={profileForm.control}
           name="r_number"
-          label="R#"
           placeholder="XXXXXXXX"
           extraProps={{
             maxlength: 8,
