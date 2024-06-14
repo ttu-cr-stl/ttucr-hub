@@ -32,7 +32,7 @@ function UserCard({ user }: { user: User }) {
             <CardTitle className="leading-relaxed">
               {user.firstName} {user.lastName}
             </CardTitle>
-            <Avatar className="w-35 h-35 ml-6">
+            <Avatar className="w-24 h-24 ml-6">
               <AvatarImage src="" />
               <AvatarFallback>
                 {user.firstName[0]}
@@ -43,9 +43,11 @@ function UserCard({ user }: { user: User }) {
         </CardHeader>
         <CardContent className="flex items-centers">
           <Badge
-            className="w-24 h-10 flex items-center justify-center text-center border-2 mt-[-10px]"
+            className="w-24 h-10 flex items-center justify-center text-center border-2 mt-[-10px] font-semibold"
             // variant="outline"
-            style={{ backgroundColor: userMajor ? userMajor.color : "pink" }}
+            style={{
+              backgroundColor: userMajor ? userMajor.color : "pink",
+            }}
           >
             {userMajor?.name}
           </Badge>
