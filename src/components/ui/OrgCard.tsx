@@ -12,6 +12,7 @@ function OrgCard({ org }: { org: Org }) {
           <div className="flex items-center justify-between">
             <card.CardTitle>{org.name}</card.CardTitle>
             <Image src={"/TTULogo.png"} alt={org.name} width={75} height={75} />
+            {/* TODO: Use the actual org picture when they are available */}
           </div>
         </card.CardHeader>
         <card.CardContent>
