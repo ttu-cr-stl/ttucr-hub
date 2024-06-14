@@ -6,21 +6,29 @@ import { getAllOrgs } from "@/db/orgs";
 
 export default function Explore() {
   const [orgs, setOrgs] = useState<Org[]>([]);
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchOrgs() {
-      const data = await getAllOrgs();
-      setOrgs(data);
+      try {
+        const data = await getAllOrgs();
+        setOrgs(data);
+      } catch (error) {
+        console.log('Error fetching data from the database:', error);
+        setError(true);
+      }
     }
 
     fetchOrgs();
   }, []);
 
   return (
-    <div className="">
+    <div>
       {orgs.map((org) => (
         <OrgCard key={org.id} org={org} />
       ))}
+
+      {error && <span>An error has occurred</span>}
     </div>
   );
 }
