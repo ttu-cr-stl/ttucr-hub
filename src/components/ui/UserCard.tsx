@@ -18,7 +18,8 @@ import { Badge } from "@/components/ui/shadcn/badge";
 import { Degree } from "@/lib/utils/consts";
 
 function UserCard({ user }: { user: User }) {
-  const userDegree = Degree.find((degree) => degree.value === user.major);
+  const userMajor = Degree.find((degree) => degree.value === user.major);
+  const userMinor = Degree.find((degree) => degree.value === user.minor);
 
   if (user.firstName === "" && user.lastName === "") {
     return null;
@@ -40,14 +41,23 @@ function UserCard({ user }: { user: User }) {
             </Avatar>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex items-centers">
           <Badge
-            className="w-20 h-10 flex items-center justify-center text-center border-2 mt-[-10px]"
+            className="w-24 h-10 flex items-center justify-center text-center border-2 mt-[-10px]"
             // variant="outline"
-            style={{ backgroundColor: userDegree ? userDegree.color : "pink" }}
+            style={{ backgroundColor: userMajor ? userMajor.color : "pink" }}
           >
-            {user.major}
+            {userMajor?.name}
           </Badge>
+          {userMinor?.name && user.minor !== "NONE" ? (
+            <Badge
+              className="w-24 h-10 flex items-center justify-center text-center border-2 mt-[-10px] ml-5"
+              variant="outline"
+              style={{ borderColor: userMinor ? userMinor.color : "pink" }}
+            >
+              {userMinor?.name}
+            </Badge>
+          ) : null}
         </CardContent>
         <CardFooter />
       </Card>
