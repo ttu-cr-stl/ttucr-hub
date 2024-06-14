@@ -23,10 +23,10 @@ export default async function Org({ params }: { params: { id: string } }) {
         <span className="text-lg text-gray-800 text-center">{org.name}'s Board Members</span>
 
         <div className="w-full space-y-2 text-center">
-          {org.officers.map((member) => (
-            <div className="text-sm text-gray-600" key={member?.position}>
-              <span>{member?.position}</span>: <br />
-              <span className="font-semibold">{member?.email}</span>
+          {org.officers.map((member) => ( member !== null &&
+            <div className="text-sm text-gray-600" key={member.position}>
+              <span>{member.position}</span>: <br />
+              <span className="font-semibold">{member.email}</span>
             </div>
           ))}
         </div>
