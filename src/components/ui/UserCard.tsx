@@ -61,7 +61,13 @@ function UserCard({ user }: { user: User }) {
             </Badge>
           ) : null}
         </CardContent>
-        <CardFooter />
+        <CardFooter
+          className="rounded-b-md"
+          style={{
+            height: "4px",
+            backgroundColor: userMajor ? userMajor.color : "pink",
+          }}
+        />
       </Card>
     </Link>
   );
