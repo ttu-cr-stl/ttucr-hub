@@ -1,5 +1,5 @@
+import OrgsList from "@/components/pages/explore/OrgsList";
 import React from "react";
-import OrgsList from "./OrgsList";
 
 export default function Explore() {
   return (
