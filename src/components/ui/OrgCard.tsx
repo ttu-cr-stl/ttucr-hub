@@ -1,8 +1,14 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { Org } from "@prisma/client";
-import { Card, CardHeader, CardContent, CardFooter, CardTitle, CardDescription } from "./card";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./shadcn/card";
 
 function OrgCard({ org }: { org: Org }) {
   return (
