@@ -2,6 +2,11 @@ import { Button } from "@/components/ui/button";
 import { getOrgById } from "@/db/orgs";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 
 export default async function Org({ params }: { params: { id: string } }) {
   const org = await getOrgById(params.id);
@@ -16,19 +21,10 @@ export default async function Org({ params }: { params: { id: string } }) {
   return (
     <div className="bg-gray-100 p-6 rounded-lg shadow-md">
       <div className="flex flex-col items-center space-y-4 font-bold">
-        <div className="relative w-52 h-52 flex items-center justify-center bg-gray-200 rounded-full border-2 border-gray-300 overflow-hidden">
-          <Image
-            className="object-cover"
-            src={org.orgPicture ?? ""}
-            alt=""
-            layout="fill"
-          />
-          {!org.orgPicture && (
-            <span className="absolute text-gray-500 text-4xl">
-              {orgInitials}
-            </span>
-          )}
-        </div>
+        <Avatar>
+          <AvatarImage src={org.orgPicture ?? ""} alt="" />
+          <AvatarFallback>{orgInitials}</AvatarFallback>
+        </Avatar>
 
         <span className="text-xl text-gray-800">{org.name}</span>
         <span className="text-md text-gray-600 text-justify">
