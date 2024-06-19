@@ -1,8 +1,8 @@
-export default function Explore() {
+import OrgsList from "@/components/pages/explore/OrgsList";
+import React from "react";
 
-    return (
-        <div className="">
-            <span>explore</span>
-        </div>
-    )
+export default function Explore() {
+  return (
+    <OrgsList />
+  );
 }
