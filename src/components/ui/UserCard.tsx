@@ -27,7 +27,15 @@ function UserCard({ user }: { user: User }) {
   }
   return (
     <Link href={`/user/${user.username}`}>
-      <Card className="mt-2 border-2">
+      <Card
+        className="mt-2 border-2 rounded-b-md"
+        style={{
+          // backgroundColor: userMajor ? userMajor.color : "pink",
+          border: "6px solid",
+          borderColor: userMajor ? userMajor.color : "pink", // replace with your desired color
+          borderRadius: "10px", // replace with your desired border radius
+        }}
+      >
         <CardHeader>
           <div className="flex items-center justify-left">
             <Avatar className="w-24 h-24 mr-6">
@@ -51,12 +59,12 @@ function UserCard({ user }: { user: User }) {
             </div>
           </div>
         </CardHeader>
-        <CardFooter
+        {/* <CardFooter
           className="rounded-b-md"
           style={{
             backgroundColor: userMajor ? userMajor.color : "pink",
           }}
-        ></CardFooter>
+        ></CardFooter> */}
       </Card>
     </Link>
   );
