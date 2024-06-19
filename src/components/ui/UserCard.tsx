@@ -49,31 +49,8 @@ function UserCard({ user }: { user: User }) {
                 ) : null}
               </div>
             </div>
-            {/* <Link href={`/user/${user.id}`}>
-              <Button>View User</Button>
-            </Link> */}
           </div>
         </CardHeader>
-        {/* <CardContent className="flex items-centers">
-          <Badge
-            className="w-24 h-10 flex items-center justify-center text-center border-2 mt-[-10px] font-semibold"
-            // variant="outline"
-            style={{
-              backgroundColor: userMajor ? userMajor.color : "pink",
-            }}
-          >
-            {userMajor?.name}
-          </Badge>
-          {userMinor?.name && user.minor !== "NONE" ? (
-            <Badge
-              className="w-24 h-10 flex items-center justify-center text-center border-2 mt-[-10px] ml-5"
-              variant="outline"
-              style={{ borderColor: userMinor ? userMinor.color : "pink" }}
-            >
-              {userMinor?.name}
-            </Badge>
-          ) : null}
-        </CardContent> */}
         <CardFooter
           className="rounded-b-md"
           style={{
