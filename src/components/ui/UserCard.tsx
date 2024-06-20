@@ -28,32 +28,34 @@ function UserCard({ user }: { user: User }) {
   return (
     <Link href={`/user/${user.username}`}>
       <Card
-        className="mt-2 border-2 rounded-b-md"
+        className="mt-2 border-2 rounded-b-md p-1" // Adjust padding here
         style={{
-          // backgroundColor: userMajor ? userMajor.color : "pink",
-          border: "6px solid",
-          borderColor: userMajor ? userMajor.color : "pink", // replace with your desired color
-          borderRadius: "10px", // replace with your desired border radius
+          border: "2px solid",
+          borderColor: userMajor ? userMajor.color : "pink",
+          borderRadius: "10px",
         }}
       >
         <CardHeader>
           <div className="flex items-center justify-left">
-            <Avatar className="w-24 h-24 mr-6">
+            <Avatar className="w-20 h-20 mr-6">
               <AvatarImage src="" />
               <AvatarFallback>
                 {user.firstName[0]}
                 {user.lastName[0]}
               </AvatarFallback>
             </Avatar>
-            <div className="flex flex-col justify-start">
-              <CardTitle className="leading-relaxed">
+            <div className="flex flex-col justify-start leading-loose">
+              <CardTitle className="mb-2 text-xl">
+                {" "}
+                {/* Apply font size here */}
                 {user.firstName}
-                <div className="font-normal">{user.lastName}</div>
+                <div className="font-normal text-xl">{user.lastName}</div>{" "}
+                {/* Apply font size here */}
               </CardTitle>
-              <div className="flex flex-wrap">
-                <div className="mr-2 text-lg">{userMajor?.name}</div>
+              <div className="flex flex-col leading-none">
+                <div className="mr-2 text-base">{userMajor?.name}</div>
                 {userMinor?.name && user.minor !== "NONE" ? (
-                  <div className="">{userMinor?.name}</div>
+                  <div className="text-sm">{userMinor?.name}</div>
                 ) : null}
               </div>
             </div>
