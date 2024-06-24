@@ -28,9 +28,9 @@ function UserCard({ user }: { user: User }) {
   return (
     <Link href={`/user/${user.username}`}>
       <Card
-        className="mt-2 border-2 rounded-b-md p-1" // Adjust padding here
+        className="mt-2 border-2 rounded-b-md"
         style={{
-          border: "2px solid",
+          border: "3px solid",
           borderColor: userMajor ? userMajor.color : "pink",
           borderRadius: "10px",
         }}
@@ -47,10 +47,8 @@ function UserCard({ user }: { user: User }) {
             <div className="flex flex-col justify-start leading-loose">
               <CardTitle className="mb-2 text-xl">
                 {" "}
-                {/* Apply font size here */}
                 {user.firstName}
                 <div className="font-normal text-xl">{user.lastName}</div>{" "}
-                {/* Apply font size here */}
               </CardTitle>
               <div className="flex flex-col leading-none">
                 <div className="mr-2 text-base">{userMajor?.name}</div>
@@ -61,12 +59,6 @@ function UserCard({ user }: { user: User }) {
             </div>
           </div>
         </CardHeader>
-        {/* <CardFooter
-          className="rounded-b-md"
-          style={{
-            backgroundColor: userMajor ? userMajor.color : "pink",
-          }}
-        ></CardFooter> */}
       </Card>
     </Link>
   );
