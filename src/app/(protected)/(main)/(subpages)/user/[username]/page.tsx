@@ -1,4 +1,4 @@
-import { getUserByUsername } from "@/db/users";
+/* import { getUserByUsername } from "@/db/users";
 import { DegreeKeys, SelectOption } from "@/lib/types";
 import { getDegreeByKey } from "@/lib/utils";
 export default async function User({
@@ -21,5 +21,18 @@ export default async function User({
       </div>
       <span>{user.minor == "NONE" ? false : user.minor}</span>
     </div>
+  );
+}
+ */
+
+import UserComponent from '@/components/pages/subpages/user/userProfile';
+
+export default function UserPage({
+  params,
+}: {
+  params: { username: string };
+}) {
+  return (
+    <UserComponent username={params.username} />
   );
 }
