@@ -14,14 +14,19 @@ export const UpdateProfile = () => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <Form {...profileForm}> 
+    <Form {...profileForm}>
       <form
         id="profileForm"
         className="flex flex-col space-y-4 px-1"
         onSubmit={profileForm.handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col items-center space-y-4"> 
-          <label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xl" for=":r0:-form-item">Profile</label>
+        <div className="flex flex-col items-center space-y-4">
+          <label
+            className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xl"
+            htmlFor=":r0:-form-item"
+          >
+            Profile
+          </label>
           <div className="flex flex-col space-y-6 items-center">
             <ProfilePicInput
               control={profileForm.control}
@@ -31,7 +36,6 @@ export const UpdateProfile = () => {
             />
           </div>
         </div>
-
         <div className="flex flex-col space-y-2">
           <FormTextInput
             control={profileForm.control}
@@ -46,10 +50,15 @@ export const UpdateProfile = () => {
             placeholder="Last Name"
           />
         </div>
-
         <div className="flex items-center space-x-3">
-          <label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xl" for="r_number">R#</label>
+          <label
+            className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-xl"
+            htmlFor="r_number"
+          >
+            R#
+          </label>
           <FormTextInput
+            label=""
             control={profileForm.control}
             name="r_number"
             placeholder="XXXXXXXX"
@@ -61,11 +70,9 @@ export const UpdateProfile = () => {
             }}
           />
         </div>
-        
         {/* Space between elements and horizontal divider line */}
-        <div className="space-y-1"/>
-        <hr className="h-px my-8 bg-gray-200 border-1 dark:bg-gray-700"/> 
-
+        <div className="space-y-1" />
+        <hr className="h-px my-8 bg-gray-200 border-1 dark:bg-gray-700" />
         <FormRadio
           label="Major"
           control={profileForm.control}
@@ -73,9 +80,8 @@ export const UpdateProfile = () => {
           placeholder="Choose a major"
           options={Degree}
         />
-
-        <hr className="h-px my-8 bg-gray-200 border-1 dark:bg-gray-700"/> {/* Another horizontal divide line */}
-
+        <hr className="h-px my-8 bg-gray-200 border-1 dark:bg-gray-700" />{" "}
+        {/* Another horizontal divide line */}
         <FormRadio
           label="Minor"
           control={profileForm.control}
@@ -83,7 +89,6 @@ export const UpdateProfile = () => {
           placeholder="Choose a minor"
           options={Degree}
         />
-
         <Button
           type="button"
           onClick={() => {
