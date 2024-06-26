@@ -1,8 +1,6 @@
-export default function LeaderboardPage() {
+import React from "react";
+import UsersList from "./UsersList";
 
-    return (
-        <div className="">
-            <span>leaderboard</span>
-        </div>
-    )
+export default function Leaderboard() {
+  return <UsersList />;
 }
