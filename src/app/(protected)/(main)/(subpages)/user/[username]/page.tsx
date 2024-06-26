@@ -1,17 +1,11 @@
-import { getUserByUsername } from "@/db/users";
+import UserComponent from '@/components/pages/subpages/user/userProfile';
 
-export default async function User({
+export default function UserPage({
   params,
 }: {
   params: { username: string };
 }) {
-  const user = await getUserByUsername(params.username);
-
-  if (!user) return <div>User not found</div>;
-
   return (
-    <div className="">
-      <span>{user.firstName}</span>
-    </div>
+    <UserComponent username={params.username} />
   );
 }

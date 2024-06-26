@@ -2,15 +2,7 @@
 import prisma from "@/db/prisma";
 
 export async function getAllActivities() {
-  console.log("fetching all users");
-  const activities = await prisma.activity
-    .findMany()
-    .then((activities) =>
-      activities.map((activity) => ({
-        ...activity,
-        active: Date.now() < activity.endTime.getTime(),
-      }))
-    );
+  const activities = await prisma.activity.findMany();
 
   return activities;
 }
