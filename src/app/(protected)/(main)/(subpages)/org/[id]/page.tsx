@@ -1,12 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { getOrgById } from "@/db/orgs";
-import Image from "next/image";
-import Link from "next/link";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/components/ui/avatar"
+} from "@/components/ui/shadcn/avatar";
+import { Button } from "@/components/ui/shadcn/button";
+import { getOrgById } from "@/db/orgs";
+import Link from "next/link";
 
 export default async function Org({ params }: { params: { id: string } }) {
   const org = await getOrgById(params.id);
