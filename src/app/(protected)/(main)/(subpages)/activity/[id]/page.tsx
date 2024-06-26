@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/shadcn/button";
 import { getActivityById } from "@/db/activity";
-import { format } from "date-fns"; 
-import { formatDistance } from "date-fns";
+import { format, formatDistance } from "date-fns";
 
 export default async function Activity({ params }: { params: { id: string } }) {
   const activity = await getActivityById(params.id);
