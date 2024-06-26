@@ -7,12 +7,12 @@ export const Degree: SelectOption[] = [
     color: "#008080",
   },
   {
-    name: "Electrical Engr.",
+    name: "Electrical Eng.",
     value: DegreeKeys.EE,
     color: "#0070FF",
   },
   {
-    name: "Industrial Engr.",
+    name: "Industrial Eng.",
     value: DegreeKeys.IE,
     color: "#7A7A7A",
   },
