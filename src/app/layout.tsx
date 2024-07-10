@@ -1,5 +1,6 @@
 import { GlobalProviders } from "@/lib/providers";
 import "@/lib/styles/globals.css";
+import { cn } from "@/lib/utils/cn";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
@@ -62,8 +63,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.className}>
-      <body className="relative self-center h-dvh w-dvw md:h-[667px] md:w-[375px] bg-[#F5F5F5] text-black">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn(inter.className, "bg-[#F5F5F5] text-black")}
+    >
+      <body className="relative self-center h-dvh w-dvw md:h-[667px] md:w-[375px]">
         <Analytics />
         <SpeedInsights />
 
