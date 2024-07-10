@@ -25,16 +25,17 @@ model User {
 }
 
 model Activity {
-  id                 String    @id @default(cuid())
-  name               String
-  description        String
-  startTime          DateTime
-  endTime            DateTime
-  location           String
-  organizer          String
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime? @updatedAt
-  attendees          User[]    @relation("UserToActivity")
+  id          String    @id @default(cuid())
+  name        String
+  description String
+  startTime   DateTime
+  endTime     DateTime
+  location    String
+  organizer   String
+  coverImg    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  attendees   User[]    @relation("UserToActivity")
 }
 
 model Org {
@@ -45,6 +46,7 @@ model Org {
   orgPicture  String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
+  category    String?
   officers    Json[]    @default([])
   members     User[]    @relation("OrgToUser")
 }

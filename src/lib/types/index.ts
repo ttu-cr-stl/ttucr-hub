@@ -33,3 +33,9 @@ export interface FormComponentProps {
   placeholder?: string;
   extraProps?: any;
 }
+
+export enum OrgCategories {
+  ACADEMIC = "ACADEMIC",
+  TECHNOLOGY = "TECHNOLOGY",
+  SERVICE = "SERVICE",
+}
