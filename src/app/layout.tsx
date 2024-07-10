@@ -55,7 +55,10 @@ export const viewport: Viewport = {
   themeColor: "#FFFFFF",
 };
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export default function RootLayout({
   children,
