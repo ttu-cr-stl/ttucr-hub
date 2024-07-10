@@ -1,5 +1,6 @@
 "use client";
 import { NavPath } from "@/lib/types";
+import { detectOS } from "@/lib/utils";
 import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,9 +13,10 @@ const NavBar: FC<NavBarProps> = ({}) => {
 
   return (
     <div
-      className={
-        "fixed bottom-0 left-0 h-24 w-dvw md:w-[375px] pb-4 border-t flex items-center justify-evenly z-10 bg-white"
-      }
+      className={cn(
+        "fixed bottom-0 left-0 w-dvw md:w-[375px] border-t flex items-center justify-evenly z-10 bg-white",
+        detectOS() === "iOS" ? "pb-4 h-24" : "h-16"
+      )}
     >
       <NavIcon pathname={NavPath.HOME} activePath={activePath}>
         <Home />
@@ -47,13 +49,13 @@ const NavIcon: FC<{
   return (
     <Link href={pathname}>
       <div
-        className="p-4"
+        className="p-2"
       >
         <div
           className={cn(
             //TODO Find regex that matches for root
             activePath == pathname && "bg-stone-400/20",
-            "p-2 rounded-xl"
+            "p-3 rounded-xl"
           )}
         >
           {children}
