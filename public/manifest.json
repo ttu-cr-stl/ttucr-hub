@@ -1,0 +1,19 @@
+
+{
+  "name": "TTU@CR Hub",
+  "short_name": "TTU@CR Hub",
+  "description": "The place to catch up on Campus Activities, Student Organizations & fellow Students at the TTU@CR Campus. Built for Students, by Students.",
+  "icons": [
+    {
+      "src": "/TTULogo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#9C4544",
+  "background_color": "#F5F5F5",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
