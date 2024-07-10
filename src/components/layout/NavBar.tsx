@@ -47,13 +47,17 @@ const NavIcon: FC<{
   return (
     <Link href={pathname}>
       <div
-        className={cn(
-          //TODO Find regex that matches for root
-          activePath == pathname && "bg-stone-400/20",
-          "p-2 rounded-xl"
-        )}
+        className="p-4"
       >
-        {children}
+        <div
+          className={cn(
+            //TODO Find regex that matches for root
+            activePath == pathname && "bg-stone-400/20",
+            "p-2 rounded-xl"
+          )}
+        >
+          {children}
+        </div>
       </div>
     </Link>
   );
