@@ -5,7 +5,7 @@ export default function SubPageLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className={"relative w-full h-full flex flex-col py-4 mt-14"}>
-      <div className="fixed top-0 pt-5 -ml-4 px-4 py-2 w-full bg-white">
+      <div className="fixed top-0 pt-6 w-full">
         <BackButton />
       </div>
       {children}
