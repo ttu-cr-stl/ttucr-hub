@@ -9,22 +9,42 @@ import {
   CardHeader,
   CardTitle,
 } from "./shadcn/card";
+import { Button } from "./shadcn/button";
 
 function OrgCard({ org }: { org: Org }) {
   return (
     <Link href={`/org/${org.id}`}>
-      <Card className="mt-2">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>{org.name}</CardTitle>
-            <Image src={"/TTULogo.png"} alt={org.name} width={75} height={75} />
-            {/* TODO: Use the actual org picture when they are available */}
+      <Card className="mb-5 border-2 max-w-screen">
+        <div className="flex">
+          <div className="flex-1">
+            <Image
+              className="rounded-lg"
+              src={"/gray.ico"}
+              alt={org.name}
+              width={200}
+              height={200}
+            />
           </div>
-        </CardHeader>
-        <CardContent>
-          <CardDescription>{org.description}</CardDescription>
-        </CardContent>
-        <CardFooter className="flex justify-end">{"→"}</CardFooter>
+          <div className="flex-1">
+            <CardHeader>
+              <span>{org.category}</span>
+              <CardTitle>{org.name}</CardTitle>
+            </CardHeader>
+            <div className="flex">
+              <CardContent>
+                <CardDescription>{org.description}</CardDescription>
+              </CardContent>
+              <CardFooter className="flex justify-end">
+                <Button
+                  className="w-15 h-5 text-xs rounded-full"
+                  style={{ backgroundColor: `${org.color}` }}
+                >
+                  join
+                </Button>
+              </CardFooter>
+            </div>
+          </div>
+        </div>
       </Card>
     </Link>
   );
