@@ -5,10 +5,16 @@ import {
 } from "@/components/ui/shadcn/avatar";
 import { Button } from "@/components/ui/shadcn/button";
 import { getOrgById } from "@/db/orgs";
+import { getUserByUsername } from "@/db/users";
 import Link from "next/link";
+import { format, formatDistance } from "date-fns";
 
 export default async function Org({ params }: { params: { id: string } }) {
   const org = await getOrgById(params.id);
+  const user = await getUserByUsername("andysanc");
+
+  console.log(org);
+  console.log(user);
 
   if (!org) return <div>Organization not found</div>;
 
@@ -18,41 +24,36 @@ export default async function Org({ params }: { params: { id: string } }) {
     .join("");
 
   return (
-    <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-      <div className="flex flex-col items-center space-y-4 font-bold">
-        <Avatar>
-          <AvatarImage src={org.orgPicture ?? ""} alt="" />
-          <AvatarFallback>{orgInitials}</AvatarFallback>
-        </Avatar>
+    <div className="flex flex-col items-center">
+      <Avatar className="w-20 h-20 rounded-none">
+        <AvatarImage src={org.orgPicture ?? ""} alt="" />
+        <AvatarFallback>{orgInitials}</AvatarFallback>
+      </Avatar>
 
-        <span className="text-xl text-gray-800">{org.name}</span>
-        <span className="text-md text-gray-600 text-justify">
-          {org.description}
-        </span>
-        <span className="text-lg text-gray-800 text-center">
-          {org.name}s Board Members
-        </span>
+      <span className="mt-1 text-3xl text-gray-800">{org.name}</span>
+      <span className="text-sm text-gray-500">Established: {format(org.createdAt, "MMM do, yyyy")}</span>
 
-        <div className="w-full space-y-2 text-center">
-          {(
-            org.officers as unknown as { position: string; username: string }[]
-          ).map(
-            (member) =>
-              member !== null && (
-                <Link key={member.position} href={`/user/${member.username}`}>
-                  <div className="text-sm text-gray-600">
-                    <span>{member.position}</span>: <br />
-                    <span className="font-semibold">{member.username}</span>
+      <div className="mt-4 grid grid-cols-2 gap-4 text-center">
+        {(
+          org.officers as unknown as { position: string; username: string }[]
+        ).map(
+          (member) =>
+            member !== null && (
+              <Link key={member.position} href={`/user/${member.username}`}>
+                <div className="text-sm text-white">
+                  <div className="bg-teal-600 rounded-full px-2 py-1">
+                    <span className="block">{member.position}</span>
+                    <span className="block font-semibold">@{member.username}</span>
                   </div>
-                </Link>
-              )
-          )}
-        </div>
-
-        <Button className="mt-4 font-bold py-2 px-4 rounded">
-          Ask to join
-        </Button>
+                </div>
+              </Link>
+            )
+        )}
       </div>
+
+      <span className="text-md text-gray-600 text-justify">
+        {org.description}
+      </span>
     </div>
   );
 }
