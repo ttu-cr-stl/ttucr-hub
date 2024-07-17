@@ -25,11 +25,10 @@ function UserCard({ user, orgs }: UserCardProps) {
   return (
     <Link href={`/user/${user.username}`}>
       <div
-        className="mt-5 mx-2 border-2 rounded-3xl p-2 flex justify-between items-center"
+        className="mt-5 mx-2 border-2 rounded-2xl p-2 flex justify-between items-center bg-white"
         style={{
           border: "3px solid",
           borderColor: userMajor ? userMajor.color : "black",
-          borderRadius: "10px",
         }}
       >
         <div className="flex items-center">
@@ -41,7 +40,7 @@ function UserCard({ user, orgs }: UserCardProps) {
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col justify-start leading-loose">
-            <div className=" text-xl">
+            <div className=" text-lg">
               {user.firstName} {user.lastName}
             </div>
             <div className="flex flex-row flex-wrap gap-2">
@@ -74,7 +73,9 @@ function UserCard({ user, orgs }: UserCardProps) {
             </div>
           </div>
         </div>
-        <div className="bg-red-500 p-2 rounded text-white">30k</div>
+        <div className="flex bg-red-500 w-16 h-11 rounded-xl text-white items-center justify-center text-lg">
+          30k
+        </div>
       </div>
     </Link>
   );
