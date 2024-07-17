@@ -27,12 +27,6 @@ export default async function Event({ params }: { params: { id: string } }) {
                 {format(event.startTime, "dd/mm/yyyy")}
               </span>
             </h4>
-            <h4 className="text-lg text-gray-700">
-              End:
-              <span className="font-medium">
-                {format(event.endTime, "dd/mm/yyyy")}
-              </span>
-            </h4>
           </div>
           <Button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">
             Register
