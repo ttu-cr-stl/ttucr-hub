@@ -8,7 +8,6 @@ import {
 import Link from "next/link";
 import { Badge } from "@/components/ui/shadcn/badge";
 import { Degree } from "@/lib/utils/consts";
-import { Button } from "@/components/ui/shadcn/button";
 
 interface UserCardProps {
   user: User;
@@ -19,9 +18,19 @@ function UserCard({ user, orgs }: UserCardProps) {
   const userMajor = Degree.find((degree) => degree.value === user.major);
   const userMinor = Degree.find((degree) => degree.value === user.minor);
 
+  const getInitials = (phrase: string): string => {
+    const words = phrase.split(" ");
+    const initials = words
+      .filter((word) => word.length > 2)
+      .map((word) => word[0].toUpperCase())
+      .join("");
+    return initials;
+  };
+
   if (user.firstName === "" && user.lastName === "") {
     return null;
   }
+
   return (
     <Link href={`/user/${user.username}`}>
       <div
@@ -68,7 +77,7 @@ function UserCard({ user, orgs }: UserCardProps) {
                     backgroundColor: org.color || "gray",
                   }}
                 >
-                  {org.name}
+                  {getInitials(org.name)}
                 </Badge>
               ))}
             </div>
