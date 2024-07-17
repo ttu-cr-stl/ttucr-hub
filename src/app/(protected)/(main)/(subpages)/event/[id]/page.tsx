@@ -22,21 +22,9 @@ export default async function Event({ params }: { params: { id: string } }) {
           </h2>
           <div className="flex flex-col gap-2 mb-4">
             <h4 className="text-lg text-gray-700">
-              Duration:
-              <span className="font-medium">
-                {formatDistance(event.startTime, event.endTime)}
-              </span>
-            </h4>
-            <h4 className="text-lg text-gray-700">
               Start:
               <span className="font-medium">
                 {format(event.startTime, "dd/mm/yyyy")}
-              </span>
-            </h4>
-            <h4 className="text-lg text-gray-700">
-              End:
-              <span className="font-medium">
-                {format(event.endTime, "dd/mm/yyyy")}
               </span>
             </h4>
           </div>
