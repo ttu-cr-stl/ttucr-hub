@@ -1,6 +1,7 @@
 import { Org } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "./shadcn/button";
 import {
   Card,
   CardContent,
@@ -9,34 +10,35 @@ import {
   CardHeader,
   CardTitle,
 } from "./shadcn/card";
-import { Button } from "./shadcn/button";
 
 function OrgCard({ org }: { org: Org }) {
   return (
     <Link href={`/org/${org.id}`}>
-      <Card className="mb-5 border-2 max-w-screen">
+      <Card className="mb-5 border-2 max-w-screen max-h-40">
         <div className="flex">
           <div className="flex-1">
             <Image
-              className="rounded-lg"
+              className="rounded-3xl shadow-sm"
               src={"/gray.ico"}
               alt={org.name}
-              width={200}
-              height={200}
+              width={156}
+              height={156}
             />
           </div>
           <div className="flex-1">
             <CardHeader>
-              <span>{org.category}</span>
+              <span className="text-sm text-stone-500">Org Category</span>
               <CardTitle>{org.name}</CardTitle>
             </CardHeader>
             <div className="flex">
               <CardContent>
-                <CardDescription>{org.description}</CardDescription>
+                <CardDescription>
+                  <span className="text-sm text-gray-700">Description</span>
+                </CardDescription>
               </CardContent>
               <CardFooter className="flex justify-end">
                 <Button
-                  className="w-15 h-5 text-xs rounded-full"
+                  className="w-15 h-5 text-xs rounded-full border-2 border-black"
                   style={{ backgroundColor: `${org.color}` }}
                 >
                   join
