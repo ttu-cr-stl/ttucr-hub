@@ -10,7 +10,7 @@ const APP_NAME = "TTU@CR Hub";
 const APP_DEFAULT_TITLE = "TTU@CR Hub";
 const APP_TITLE_TEMPLATE = "%s - TTU@CR Hub";
 const APP_DESCRIPTION =
-  "The place to catch up on Campus Activities, Student Organizations & fellow Students at the TTU@CR Campus. Built for Students, by Students.";
+  "The place to catch up on Campus Events, Student Organizations & fellow Students at the TTU@CR Campus. Built for Students, by Students.";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
