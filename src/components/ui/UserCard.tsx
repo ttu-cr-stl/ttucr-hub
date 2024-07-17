@@ -34,7 +34,7 @@ function UserCard({ user, orgs }: UserCardProps) {
   return (
     <Link href={`/user/${user.username}`}>
       <div
-        className="mt-5 mx-2 border-2 rounded-2xl p-2 flex justify-between items-center bg-white"
+        className="flex justify-between items-center mt-5 mx-2 p-2 border-2 rounded-2xl bg-white"
         style={{
           border: "3px solid",
           borderColor: userMajor ? userMajor.color : "black",
@@ -54,7 +54,7 @@ function UserCard({ user, orgs }: UserCardProps) {
             </div>
             <div className="flex flex-row flex-wrap gap-2">
               <Badge
-                className="text-xs px-2 font-normal"
+                className="px-2 text-xs font-normal"
                 style={{
                   backgroundColor: userMajor?.color,
                 }}
@@ -83,7 +83,7 @@ function UserCard({ user, orgs }: UserCardProps) {
             </div>
           </div>
         </div>
-        <div className="flex bg-red-500 w-16 h-11 rounded-xl text-white items-center justify-center text-lg">
+        <div className="flex justify-center items-center w-16 h-11 rounded-xl bg-red-500 text-white text-lg">
           30k
         </div>
       </div>
