@@ -2,9 +2,9 @@
 import prisma from "@/db/prisma";
 
 export async function getAllEvents() {
-  const activities = await prisma.event.findMany();
+  const events = await prisma.event.findMany();
 
-  return activities;
+  return events;
 }
 
 export async function getEventById(id: string) {

@@ -21,7 +21,7 @@ model User {
   address    String?
   username   String    @unique
   orgs       Org[]     @relation("OrgToUser")
-  activities Event[]   @relation("UserToEvent")
+  events     Event[]   @relation("UserToEvent")
 }
 
 model Event {
