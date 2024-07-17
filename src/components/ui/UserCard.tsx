@@ -1,13 +1,6 @@
 import React from "react";
 import { User } from "@prisma/client";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/shadcn/card";
+import { Org } from "@prisma/client";
 import {
   Avatar,
   AvatarFallback,
@@ -27,39 +20,57 @@ function UserCard({ user }: { user: User }) {
   }
   return (
     <Link href={`/user/${user.username}`}>
-      <Card
+      <div
         className="mt-2 border-2 rounded-b-md"
         style={{
           border: "3px solid",
-          borderColor: userMajor ? userMajor.color : "pink",
+          borderColor: userMajor ? userMajor.color : "black",
           borderRadius: "10px",
         }}
       >
-        <CardHeader>
-          <div className="flex items-center justify-left">
-            <Avatar className="w-20 h-20 mr-6">
-              <AvatarImage src="" />
-              <AvatarFallback>
-                {user.firstName[0]}
-                {user.lastName[0]}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col justify-start leading-loose">
-              <CardTitle className="mb-2 text-xl">
-                {" "}
-                {user.firstName}
-                <div className="font-normal text-xl">{user.lastName}</div>{" "}
-              </CardTitle>
-              <div className="flex flex-col leading-none">
-                <div className="mr-2 text-base">{userMajor?.name}</div>
+        {/* <CardHeader> */}
+        <div className="flex items-center justify-left m-3">
+          <Avatar className="w-16 h-16 mr-6">
+            <AvatarImage src="" />
+            <AvatarFallback className="bg-gray-200">
+              {user.firstName[0]}
+              {user.lastName[0]}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col justify-start leading-loose">
+            <div className="mb-2 text-xl">
+              {" "}
+              {user.firstName} {user.lastName}{" "}
+            </div>
+            <div className="flex flex-col leading-none">
+              {/* <div className="mr-2 text-base">{userMajor?.name}</div>
+              {userMinor?.name && user.minor !== "NONE" ? (
+                <div className="text-sm">{userMinor?.name}</div>
+              ) : null} */}
+              <div className="flex flex-row">
+                <Badge
+                  style={{
+                    backgroundColor: userMajor?.color,
+                  }}
+                >
+                  {userMajor?.value}
+                </Badge>
                 {userMinor?.name && user.minor !== "NONE" ? (
-                  <div className="text-sm">{userMinor?.name}</div>
+                  <Badge
+                    style={{
+                      backgroundColor: userMinor?.color,
+                    }}
+                  >
+                    {userMinor?.value}
+                  </Badge>
                 ) : null}
+                {/* <Badge></Badge> */}
               </div>
             </div>
           </div>
-        </CardHeader>
-      </Card>
+        </div>
+        {/* </CardHeader> */}
+      </div>
     </Link>
   );
 }
