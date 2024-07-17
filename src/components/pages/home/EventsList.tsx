@@ -1,5 +1,5 @@
 import { EventCard } from "@/components/ui/EventCard";
-import { getAllEvents } from "@/db/event";
+import { getAllEvents } from "@/db/events";
 import { FC } from "react";
 
 interface EventsListProps {}
