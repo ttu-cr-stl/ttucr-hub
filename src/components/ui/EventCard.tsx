@@ -1,5 +1,6 @@
-import { Activity } from "@prisma/client";
+import { Event } from "@prisma/client";
 import { format, formatDistance } from "date-fns";
+import Link from "next/link";
 import { Badge } from "./shadcn/badge";
 import { Button } from "./shadcn/button";
 import {
@@ -10,24 +11,22 @@ import {
   CardHeader,
   CardTitle,
 } from "./shadcn/card";
-import Link from "next/link";
 
-export function ActivityCard({ activity }: { activity: Activity }) {
+export function EventCard({ event }: { event: Event }) {
   return (
     <Card className="h-fit w-full">
       <CardHeader>
-        <CardTitle>{activity.name}</CardTitle>
+        <CardTitle>{event.name}</CardTitle>
         <CardDescription className="flex items-center space-x-2">
-          <span>{format(activity.startTime, "dd/mm/yyyy")}</span>
-          <Badge>{formatDistance(activity.startTime, activity.endTime)}</Badge>
+          <span>{format(event.startTime, "dd/mm/yyyy")}</span>
         </CardDescription>
       </CardHeader>
       <CardContent className="max-h-20">
-        <p className="font-thin">{activity.description}</p>
+        <p className="font-thin">{event.description}</p>
       </CardContent>
       <CardFooter className="flex items-center justify-between">
         <div className="">registered</div>
-        <Link href={`/activity/${activity.id}`}>
+        <Link href={`/event/${event.id}`}>
           <Button>Register</Button>
         </Link>
       </CardFooter>

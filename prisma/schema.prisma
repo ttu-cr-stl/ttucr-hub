@@ -9,22 +9,22 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(cuid())
-  username   String     @unique
+  id         String    @id @default(cuid())
   firstName  String
   lastName   String
   profilePic String?
   r_number   String
   major      String
   minor      String?
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime?  @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
   address    String?
-  orgs       Org[]      @relation("OrgToUser")
-  activities Activity[] @relation("UserToActivity")
+  username   String    @unique
+  orgs       Org[]     @relation("OrgToUser")
+  events     Event[]   @relation("UserToEvent")
 }
 
-model Activity {
+model Event {
   id          String    @id @default(cuid())
   name        String
   description String
@@ -35,18 +35,18 @@ model Activity {
   coverImg    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
-  attendees   User[]    @relation("UserToActivity")
+  attendees   User[]    @relation("UserToEvent")
 }
 
 model Org {
   id          String    @id @default(cuid())
   name        String
   description String?
-  color       String?
-  orgPicture  String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
-  category    String?
+  color       String?
+  orgPicture  String?
   officers    Json[]    @default([])
+  category    String?
   members     User[]    @relation("OrgToUser")
 }
