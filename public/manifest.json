@@ -1,8 +1,7 @@
-
 {
   "name": "TTU@CR Hub",
   "short_name": "TTU@CR Hub",
-  "description": "The place to catch up on Campus Activities, Student Organizations & fellow Students at the TTU@CR Campus. Built for Students, by Students.",
+  "description": "The place to catch up on Campus Events, Student Organizations & fellow Students at the TTU@CR Campus. Built for Students, by Students.",
   "icons": [
     {
       "src": "/TTULogo.png",
