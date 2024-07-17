@@ -19,7 +19,6 @@ export function EventCard({ event }: { event: Event }) {
         <CardTitle>{event.name}</CardTitle>
         <CardDescription className="flex items-center space-x-2">
           <span>{format(event.startTime, "dd/mm/yyyy")}</span>
-          <Badge>{formatDistance(event.startTime, event.endTime)}</Badge>
         </CardDescription>
       </CardHeader>
       <CardContent className="max-h-20">
