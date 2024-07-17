@@ -28,7 +28,6 @@ function UserCard({ user }: { user: User }) {
           borderRadius: "10px",
         }}
       >
-        {/* <CardHeader> */}
         <div className="flex items-center justify-left m-3">
           <Avatar className="w-16 h-16 mr-6">
             <AvatarImage src="" />
@@ -42,34 +41,26 @@ function UserCard({ user }: { user: User }) {
               {" "}
               {user.firstName} {user.lastName}{" "}
             </div>
-            <div className="flex flex-col leading-none">
-              {/* <div className="mr-2 text-base">{userMajor?.name}</div>
+            <div className="flex flex-row">
+              <Badge
+                style={{
+                  backgroundColor: userMajor?.color,
+                }}
+              >
+                {userMajor?.value}
+              </Badge>
               {userMinor?.name && user.minor !== "NONE" ? (
-                <div className="text-sm">{userMinor?.name}</div>
-              ) : null} */}
-              <div className="flex flex-row">
                 <Badge
                   style={{
-                    backgroundColor: userMajor?.color,
+                    backgroundColor: userMinor?.color,
                   }}
                 >
-                  {userMajor?.value}
+                  {userMinor?.value}
                 </Badge>
-                {userMinor?.name && user.minor !== "NONE" ? (
-                  <Badge
-                    style={{
-                      backgroundColor: userMinor?.color,
-                    }}
-                  >
-                    {userMinor?.value}
-                  </Badge>
-                ) : null}
-                {/* <Badge></Badge> */}
-              </div>
+              ) : null}
             </div>
           </div>
         </div>
-        {/* </CardHeader> */}
       </div>
     </Link>
   );
