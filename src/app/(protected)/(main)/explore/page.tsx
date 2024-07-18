@@ -4,12 +4,27 @@ import React from "react";
 export default function Explore() {
   return (
     <>
-      <input
-        className="m-5 h-10 w-auto px-5 pr-10 rounded-3xl border-2 border-gray-300 bg-white text-sm focus:outline-none"
-        type="search"
-        id="orgsearch"
-        placeholder="Search TTU@CR"
-      />
+      <div className="relative m-5">
+        <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+          <svg
+            className="h-5 w-5 text-black"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </span>
+        <input
+          className="h-10 w-full px-5 border border-gray-300 rounded-3xl bg-white text-sm focus:outline-none pr-16"
+          placeholder="Search TTU@CR"
+        />
+      </div>
       <OrgsList />
     </>
   );
