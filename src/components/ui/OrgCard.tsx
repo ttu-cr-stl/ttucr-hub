@@ -6,7 +6,7 @@ import { Button } from "./shadcn/button";
 export default function OrgCard({ org }: { org: Org }) {
   return (
     <Link href={`/org/${org.id}`}>
-      <div id="Card" className="mb-5 border-2 h-36 bg-white rounded-3xl">
+      <div id="Card" className="mb-5 border-2 rounded-3xl bg-white h-36">
         <div className="flex">
           <div id="Image" className="w-36 h-36">
             <Image
@@ -31,7 +31,7 @@ export default function OrgCard({ org }: { org: Org }) {
                 {org.description}
               </p>
               <Button
-                className="w-15 h-6 text-xs rounded-full ml-2 items-center"
+                className="ml-2 items-center rounded-full bg-[var(--org-color)] w-15 h-6 text-xs"
                 style={{ backgroundColor: `${org.color}` }}
               >
                 Join
