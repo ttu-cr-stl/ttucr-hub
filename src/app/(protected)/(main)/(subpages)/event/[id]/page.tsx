@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/shadcn/button";
-import { getEventById } from "@/db/event";
+import { getEventById } from "@/db/events";
 import { format, formatDistance } from "date-fns";
 
 export default async function Event({ params }: { params: { id: string } }) {
