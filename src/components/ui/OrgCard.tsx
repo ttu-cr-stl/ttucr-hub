@@ -2,54 +2,44 @@ import { Org } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./shadcn/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./shadcn/card";
 
-function OrgCard({ org }: { org: Org }) {
+export default function OrgCard({ org }: { org: Org }) {
   return (
     <Link href={`/org/${org.id}`}>
-      <Card className="mb-5 border-2 max-w-screen max-h-40">
+      <div id="Card" className="mb-5 border-2 h-36 bg-white rounded-3xl">
         <div className="flex">
-          <div className="flex-1">
+          <div id="Image" className="w-36 h-36">
             <Image
-              className="rounded-3xl shadow-sm"
-              src={"/gray.ico"}
+              className="rounded-3xl object-cover"
+              src={org.orgPicture ? org.orgPicture : "/TTULogo.png"}
               alt={org.name}
-              width={156}
-              height={156}
+              width={150}
+              height={150}
             />
           </div>
-          <div className="flex-1">
-            <CardHeader>
-              <span className="text-sm text-stone-500">Org Category</span>
-              <CardTitle>{org.name}</CardTitle>
-            </CardHeader>
-            <div className="flex">
-              <CardContent>
-                <CardDescription>
-                  <span className="text-sm text-gray-700">Description</span>
-                </CardDescription>
-              </CardContent>
-              <CardFooter className="flex justify-end">
-                <Button
-                  className="w-15 h-5 text-xs rounded-full border-2 border-black"
-                  style={{ backgroundColor: `${org.color}` }}
-                >
-                  join
-                </Button>
-              </CardFooter>
+          <div id="Content" className="flex flex-col p-3 w-[calc(100%-9rem)] h-36">
+            <div id="Header">
+              <span id="Category" className="text-sm text-stone-500 overflow-hidden line-clamp-1">
+                {org.category ? org.category : "Other"}
+              </span>
+              <h2 id="Title" className="text-2xl font-bold overflow-hidden line-clamp-2">
+                {org.name}
+              </h2>
+            </div>
+            <div id="Body" className="flex my-auto justify-between items-center">
+              <p id="Description" className="text-sm text-gray-700 overflow-hidden line-clamp-2">
+                {org.description}
+              </p>
+              <Button
+                className="w-15 h-6 text-xs rounded-full ml-2 items-center"
+                style={{ backgroundColor: `${org.color}` }}
+              >
+                Join
+              </Button>
             </div>
           </div>
         </div>
-      </Card>
+      </div>
     </Link>
   );
 }
-
-export default OrgCard;
