@@ -34,24 +34,23 @@ function UserCard({ user, orgs }: UserCardProps) {
   return (
     <Link href={`/user/${user.username}`}>
       <div
-        className="flex justify-between items-center mt-5 mx-2 p-2 border-2 rounded-2xl bg-white"
+        className={`flex justify-between items-center my-4 mx-2 px-2 py-2 border-2 rounded-2xl bg-white`}
         style={{
-          border: "3px solid",
-          borderColor: userMajor ? userMajor.color : "black",
+          borderColor: userMajor ? userMajor.color : "lightgrey",
         }}
       >
         <div className="flex items-center">
-          <Avatar className="w-12 h-12 mr-2">
+          <Avatar className="w-10 h-10 mr-2">
             <AvatarImage src={user.profilePic || ""} />
             <AvatarFallback className="bg-gray-200">
-              {user.firstName[0]}
-              {user.lastName[0]}
+              {/* {user.firstName[0]}
+              {user.lastName[0]} */}
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col justify-start leading-loose">
-            <div className=" text-lg">
+          <div className="flex flex-col justify-center">
+            <span className="leading-tight">
               {user.firstName} {user.lastName}
-            </div>
+            </span>
             <div className="flex flex-row flex-wrap gap-2">
               <Badge
                 className="px-2 text-xs font-normal"
