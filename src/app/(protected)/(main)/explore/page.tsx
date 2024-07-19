@@ -21,7 +21,7 @@ export default function Explore() {
           </svg>
         </span>
         <input
-          className="h-10 w-full px-5 border border-gray-300 rounded-3xl bg-white text-sm focus:outline-none pr-16"
+          className="h-10 w-full px-5 rounded-3xl bg-white text-sm focus:outline-none pr-16"
           placeholder="Search TTU@CR"
         />
       </div>
