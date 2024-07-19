@@ -1,5 +1,4 @@
-import React from "react";
-import UsersList from "./UsersList";
+import UsersList from "@/components/pages/leaderboard/UsersList";
 
 export default function Leaderboard() {
   return (
