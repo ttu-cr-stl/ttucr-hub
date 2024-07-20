@@ -14,10 +14,10 @@ export default async function Event({ params }: { params: { id: string } }) {
   //(animate) (border & rounded) (shadow) (color) (text & font)
   
   return (
-    <div className="bg-gray-175" >
-      <div className="flex p-4 justify-end h-full w-full rounded-3xl bg-sky-400">
-        <div className="size-20 rounded-lg bg-white">
-          <h3 className="justify-center pl-3 text-gray-700 text-4xl">
+    <div className="h-screen bg-stone-100" >
+      <div className="flex justify-end items-end h-48 -mt-20 p-4 rounded-3xl shadow-md shadow-gray-400 bg-sky-400">
+        <div className="size-20 rounded-2xl bg-stone-100">
+          <h3 className="pl-4 text-3xl">
             {format(event.startTime, "MMM dd")}
           </h3>
         </div>
@@ -27,7 +27,7 @@ export default async function Event({ params }: { params: { id: string } }) {
           <h1 className="text-4xl font-bold pb-3">
             {event.name}
           </h1>
-          <div className = "flex justify-between">
+          <div className="flex justify-between">
           <div className="flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="grey" className="size-6">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -48,9 +48,12 @@ export default async function Event({ params }: { params: { id: string } }) {
               {event.description}
             </h4>
           </div>
-          <div className="p-3 w-full h-20 rounded-xl pt-5 bg-white">
-            <h4 className="text-gray-500">
+          <div className="flex justify-between w-full h-20 rounded-xl shadow-sm shadow-gray-300 bg-white text-gray-500">
+            <h4 className="pl-3 pt-3 text-gray-500">
               Smaple message
+            </h4>
+            <h4 className="content-end pb-2 pr-3">
+              --{event.organizer}
             </h4>
           </div>
         </div>
