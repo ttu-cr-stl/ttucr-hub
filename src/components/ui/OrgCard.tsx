@@ -14,7 +14,7 @@ export default function OrgCard({ org }: { org: Org }) {
                 <Image
                   className="rounded-3xl"
                   src={org.orgPicture}
-                  alt={""}
+                  alt={org.name}
                   width={150}
                   height={150}
                 />
