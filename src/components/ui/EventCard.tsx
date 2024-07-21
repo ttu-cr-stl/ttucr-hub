@@ -15,8 +15,41 @@ import {
 
 export function EventCard({ event, small }: { event: Event, small: boolean }) {
   if (small) {
+    // ASK IF THIS NEEDS TO BE CLICKABLE, SHOW MODIFICATIONS IN HOME PAGE AND EVENT LIST
+    // ASK IF IT'S OK TO NOT USE CARD FROM SHADCN
     return (
-      <div>this is small</div>
+      <div className="relative flex flex-row w-full h-24 rounded-2xl shadow-sm shadow-gray-300 bg-white">
+        <div className="basis-24 h-full rounded-2xl shadow-md bg-sky-400"></div>
+        <div className="flex flex-col items-left space-y-1 w-40 m-2">
+          <div className="flex flex-row">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="grey" className="size-3.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+            </svg>
+
+            <h2 className="pl-0.5 text-[11px] font-semibold text-gray-500">
+              {event.location}
+            </h2>
+          </div>
+
+          <h1 className="text-2xl font-bold">
+            {event.name}
+          </h1>
+          
+          <div className="flex flex-row justify-between items-center">
+            <h1 className="text-md font-medium"> 
+              {format(event.startTime, "MMMM dd")}
+            </h1>
+            
+            <h1 className="w-10 h-4 rounded-2xl border border-red-500 ">
+              <h2 className=" m-0.5 tracking-tighter text-[8px] text-center text-red-500 font-medium">
+                +500
+              </h2>
+            </h1>
+          </div>
+          
+        </div>
+      </div>
     );
   }
 
@@ -63,7 +96,7 @@ export function EventCard({ event, small }: { event: Event, small: boolean }) {
         </div>
         
         <div className="flex flex-col items-left basis-2/3 h-20 pl-2">
-          <div className="flex flex-center test-xs font-bold text-gray-500">
+          <div className="flex flex-row test-xs font-bold text-gray-500">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="grey" className="size-3.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
