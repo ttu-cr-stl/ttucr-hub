@@ -9,15 +9,17 @@ export default function OrgCard({ org }: { org: Org }) {
     <Link href={`/org/${org.id}`}>
       <Card className="rounded-3xl mb-4">
         <div className="flex">
-          <div id="Image" className="w-32 h-32 bg-neutral-200 rounded-xl shadow-md">
-            <Image
-              className="rounded-3xl object-cover"
-              src={org.orgPicture || ""}
-              alt={""}
-              width={150}
-              height={150}
-            />
-          </div>
+            <div id="Image" className="w-32 h-32 bg-neutral-300 rounded-3xl shadow-lg">
+              {org.orgPicture && (
+                <Image
+                  className="rounded-3xl"
+                  src={org.orgPicture}
+                  alt={""}
+                  width={150}
+                  height={150}
+                />
+              )}
+            </div>
           <div id="Content" className="flex flex-col p-3 w-[calc(100%-9rem)] h-32">
             <CardHeader className="m-0 p-0">
               <span id="Category" className="text-sm text-stone-500 overflow-hidden line-clamp-1">
