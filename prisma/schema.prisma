@@ -29,7 +29,6 @@ model Event {
   name        String
   description String
   startTime   DateTime
-  endTime     DateTime
   location    String
   organizer   String
   coverImg    String?
