@@ -37,8 +37,8 @@ export default async function Event({ params }: { params: { id: string } }) {
         </div>
       </div>
       <div>
-        <div className="p-4">
-          <h1 className="text-4xl font-bold pb-3">{event.name}</h1>
+        <div className="flex flex-col py-4 gap-y-4">
+          <h1 className="text-4xl font-bold line-clamp-2">{event.name}</h1>
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <svg
@@ -68,9 +68,7 @@ export default async function Event({ params }: { params: { id: string } }) {
               </span>
             </div>
           </div>
-          <div className="pt-4 pb-4">
-            <p>{event.description}</p>
-          </div>
+          <p className="line-clamp-4 leading-snug">{event.description}</p>
           <div className="flex justify-between w-full h-20 rounded-xl shadow-sm shadow-gray-300 bg-white text-gray-500">
             <h4 className="pl-3 pt-3 text-gray-500">Sample message</h4>
             <h4 className="content-end pb-2 pr-3">--{event.organizer}</h4>
