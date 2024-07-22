@@ -1,7 +1,7 @@
+import { Button } from "@/components/ui/shadcn/button";
 import { Event } from "@prisma/client";
 import { format, formatDistance } from "date-fns";
 import Link from "next/link";
-import { Button } from "./shadcn/button";
 
 
 export function EventCard({ event, small }: { event: Event, small: boolean }) {

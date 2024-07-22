@@ -49,7 +49,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
+  themeColor: "#F5F5F5",
 };
 
 const inter = Inter({
@@ -66,9 +66,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(inter.className, "bg-[#F5F5F5] text-black")}
+      className={cn(
+        inter.className,
+        "bg-[#F5F5F5] text-black"
+      )}
     >
-      <body className="relative self-center h-dvh w-dvw md:h-[667px] md:w-[375px]">
+      <body className="relative self-center h-dvh w-dvw">
         <Analytics />
         <SpeedInsights />
 

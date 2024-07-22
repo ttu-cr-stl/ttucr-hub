@@ -1,7 +1,7 @@
-import { EventCard } from "@/components/ui/EventCard";
 import { getAllEvents } from "@/db/events";
 import { FC } from "react";
 import { Event } from "@prisma/client";
+import { EventCard } from "./EventCard";
 
 interface EventsListProps {
   events?: Event[];
