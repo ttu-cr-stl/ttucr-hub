@@ -80,7 +80,7 @@ export function EventCard({ event, small }:
               )}
 
 
-              <div className="relative m-0.5 w-12 h-8 m-2.5 rounded-lg bg-white ">
+              <div className="relative w-12 h-8 m-2.5 rounded-lg bg-white ">
                 <h1 className="absolute my-0.5 mx-2.5">
                   <svg width="194px" height="194px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="grey" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(45)" className="size-7">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
