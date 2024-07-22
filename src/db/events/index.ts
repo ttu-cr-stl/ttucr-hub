@@ -2,7 +2,7 @@
 import prisma from "@/db/prisma";
 
 export async function getAllEvents() {
-  const events = await prisma.event.findMany();
+  const events = await prisma.event.findMany({include: {users: {select: {profilePic: true}}}});
 
   return events;
 }

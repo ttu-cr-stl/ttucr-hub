@@ -1,10 +1,24 @@
 import { getAllEvents } from "@/db/events";
 import { FC } from "react";
-import { Event } from "@prisma/client";
+import { Event, User } from "@prisma/client";
 import { EventCard } from "./EventCard";
 
 interface EventsListProps {
-  events?: Event[];
+  events?: ({
+    users: {
+        profilePic: string | null;
+    }[];
+    } & {
+      id: string;
+      name: string;
+      description: string;
+      startTime: Date;
+      location: string;
+      organizer: string;
+      coverImg: string | null;
+      createdAt: Date;
+      updatedAt: Date | null;
+    })[];
   small: boolean;
 }
 

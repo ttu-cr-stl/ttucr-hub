@@ -6,7 +6,6 @@ export default function Home() {
     <div className="flex flex-col pt-12 px-8 space-y-8">
       <Welcome />
       <EventsList small={false}/>
-      {/* <EventsList small={false} /> */}
     </div>
   );
 }
