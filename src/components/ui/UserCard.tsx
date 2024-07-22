@@ -82,9 +82,9 @@ function UserCard({ user, orgs }: UserCardProps) {
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center w-16 h-11 rounded-xl bg-red-500 text-white text-lg">
+{/*         <div className="flex justify-center items-center w-16 h-11 rounded-xl bg-red-500 text-white text-lg">
           30k
-        </div>
+        </div> */}
       </div>
     </Link>
   );
