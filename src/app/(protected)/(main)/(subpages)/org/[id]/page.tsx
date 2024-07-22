@@ -55,20 +55,20 @@ export default async function Org({ params }: { params: { id: string } }) {
 
   return (
     <div className="flex flex-col items-center">
-      <Avatar className="w-20 h-20 rounded-none">
-        <AvatarImage src={org.orgPicture ?? ""} alt="" />
-        <AvatarFallback>{orgInitials}</AvatarFallback>
+      <Avatar className="w-24 h-24 rounded-none">
+        <AvatarImage className="w-full h-full rounded-3xl" src={org.orgPicture ?? ""} alt="" />
+        <AvatarFallback className="w-full h-full bg-gray-300 rounded-3xl"></AvatarFallback>
       </Avatar>
 
-      <span className="mt-1 text-3xl text-gray-800">{org.name}</span>
-      <span className="text-md text-gray-500">Established: {format(org.createdAt, "MMM do, yyyy")}</span>
+      <span className="mt-1 text-3xl text-black-800">{org.name}</span>
+      <span className="text-sm text-gray-500">Established: {format(org.createdAt, "MMM do, yyyy")}</span>
 
       <div className="mt-2 flex flex-wrap gap-2 justify-center text-center">
         {(
           officersWithPics as unknown as { position: string; username: string; profilePic: string }[]
         ).map((member, index) => (
           <Link key={member.position} href={`/user/${member.username}`} className="min-w-[calc(33.33%-1rem)]">
-            <div className="text-xs text-gray-700">
+            <div className="text-xs text-black-800">
               <span className="block text-[10px]">{member.position}</span>
               <div
                 className="rounded-full px-2 py-1 mt-1 inline-flex items-center justify-center"
@@ -76,7 +76,7 @@ export default async function Org({ params }: { params: { id: string } }) {
               >
                 <Avatar className="w-5 h-5 mr-1">
                   <AvatarImage src={member.profilePic ?? ""} alt={`${member.username}`} />
-                  <AvatarFallback>{member?.username?.charAt(0).toUpperCase() ?? ""}</AvatarFallback>
+                  <AvatarFallback></AvatarFallback>
                 </Avatar>
                 <span className="block font-semibold text-[10px]" style={{ color: isLight ? 'gray' : '#fff' }}>@{member.username}</span>
               </div>
@@ -85,10 +85,7 @@ export default async function Org({ params }: { params: { id: string } }) {
         ))}
       </div>
 
-
-
-
-      <span className="ml-6 mr-6 mt-6 text-md text-gray-800 text-justify">
+      <span className="ml-6 mr-6 mt-6 text-xs text-gray-800 text-justify">
         {org.description}
       </span>
     </div>
