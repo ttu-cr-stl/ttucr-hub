@@ -1,36 +1,80 @@
-import { Button } from "@/components/ui/shadcn/button";
-import { getEventById } from "@/db/events";
-import { format, formatDistance } from "date-fns";
+import AvatarCircles from "@/components/magicui/avatar-circles";
+import { getEventByIdWithUserPics } from "@/db/events";
+import { format } from "date-fns";
+import Link from "next/link";
 
 export default async function Event({ params }: { params: { id: string } }) {
-  const event = await getEventById(params.id);
+  const event = await getEventByIdWithUserPics(params.id);
 
   if (!event)
     return (
       <div className="text-red-500 font-bold text-xl p-5">Event not found</div>
     );
 
+  //(position) (display) (align & justify) (width) (height) (margin) (padding) (tailwind-spacing)
+  //(animate) (border & rounded) (shadow) (color) (text & font)
+
   return (
-    <div className="w-full mx-auto my-8">
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="p-5">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            {event.name}
-          </h1>
-          <h2 className="text-xl font-medium text-gray-600 mb-4">
-            {event.description}
-          </h2>
-          <div className="flex flex-col gap-2 mb-4">
-            <h4 className="text-lg text-gray-700">
-              Start:
-              <span className="font-medium">
-                {format(event.startTime, "dd/mm/yyyy")}
+    <div className="w-full overflow-x-visible">
+      <div
+        className="flex justify-between items-end h-48 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 bg-sky-400 bg-cover"
+        style={{ backgroundImage: event.coverImg || "" }}
+      >
+        <Link href={`/event/${event.id}/users`}>
+          {event.users.length !== 0 && (
+            <AvatarCircles
+              className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
+              numPeople={event.users.length}
+              avatarUrls={event.users
+                .slice(0, 3)
+                .map((user) => user.profilePic || "/TTULogo.png")}
+            />
+          )}
+        </Link>
+
+        <div className="flex items-center text-center size-20 rounded-2xl bg-stone-100">
+          <h3 className="text-3xl">{format(event.startTime, "MMM dd")}</h3>
+        </div>
+      </div>
+      <div>
+        <div className="p-4">
+          <h1 className="text-4xl font-bold pb-3">{event.name}</h1>
+          <div className="flex justify-between">
+            <div className="flex items-center gap-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="grey"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                />
+              </svg>
+              <h2 className="text-gray-500 font-bold">{event.location}</h2>
+            </div>
+            <div className="flex justify-center items-center px-2 py-1 rounded-2xl bg-gray-300">
+              <span className="text-xs leading-none text-center">
+                {format(event.startTime, "K:mm aa")}
               </span>
-            </h4>
+            </div>
           </div>
-          <Button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">
-            Register
-          </Button>
+          <div className="pt-4 pb-4">
+            <p>{event.description}</p>
+          </div>
+          <div className="flex justify-between w-full h-20 rounded-xl shadow-sm shadow-gray-300 bg-white text-gray-500">
+            <h4 className="pl-3 pt-3 text-gray-500">Sample message</h4>
+            <h4 className="content-end pb-2 pr-3">--{event.organizer}</h4>
+          </div>
         </div>
       </div>
     </div>
