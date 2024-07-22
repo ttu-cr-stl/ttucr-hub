@@ -8,7 +8,7 @@ export default function Home() {
       <span className="text-sm font-light mt-6 mb-2">
         {"What's happening on Campus..."}
       </span>
-      <EventsList />
+      <EventsList small={false}/>
     </div>
   );
 }
