@@ -22,9 +22,9 @@ export default function OrgCard({ org }: { org: Org }) {
             </div>
           <div id="Content" className="flex flex-col p-3 w-[calc(100%-9rem)] h-32">
             <CardHeader className="m-0 p-0">
-              <span id="Category" className="text-sm text-stone-500 overflow-hidden line-clamp-1">
+{/*               <span id="Category" className="text-sm text-stone-500 overflow-hidden line-clamp-1">
                 {org.category ? org.category : "Other"}
-              </span>
+              </span> */}
               <CardTitle className="text-lg overflow-hidden line-clamp-2">
                 {org.name}
               </CardTitle>
