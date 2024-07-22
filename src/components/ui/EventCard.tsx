@@ -1,22 +1,11 @@
 import { Event } from "@prisma/client";
 import { format, formatDistance } from "date-fns";
 import Link from "next/link";
-import { Badge } from "./shadcn/badge";
 import { Button } from "./shadcn/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./shadcn/card";
 
 
 export function EventCard({ event, small }: { event: Event, small: boolean }) {
   if (small) {
-    // ASK IF THIS NEEDS TO BE CLICKABLE, SHOW MODIFICATIONS IN HOME PAGE AND EVENT LIST
-    // ASK IF IT'S OK TO NOT USE CARD FROM SHADCN
     return (
       <div className="relative flex flex-row w-full h-24 rounded-2xl shadow-sm shadow-gray-300 bg-white">
         <div className="basis-24 h-full rounded-2xl shadow-md bg-sky-400"></div>
@@ -41,11 +30,11 @@ export function EventCard({ event, small }: { event: Event, small: boolean }) {
               {format(event.startTime, "MMMM dd")}
             </h1>
             
-            <h1 className="w-10 h-4 rounded-2xl border border-red-500 ">
+            {/* <h1 className="w-10 h-4 rounded-2xl border border-red-500 ">
               <h2 className=" m-0.5 tracking-tighter text-[8px] text-center text-red-500 font-medium">
-                +500
+                +500 
               </h2>
-            </h1>
+            </h1> */}
           </div>
           
         </div>
