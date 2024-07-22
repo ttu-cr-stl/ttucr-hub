@@ -63,27 +63,30 @@ export default async function Org({ params }: { params: { id: string } }) {
       <span className="mt-1 text-3xl text-gray-800">{org.name}</span>
       <span className="text-md text-gray-500">Established: {format(org.createdAt, "MMM do, yyyy")}</span>
 
-      <div className={`mt-2 grid ${org.officers.length <= 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-4 text-center`}>
+      <div className="mt-2 flex flex-wrap gap-2 justify-center text-center">
         {(
           officersWithPics as unknown as { position: string; username: string; profilePic: string }[]
-        ).map((member) => (
-          <Link key={member.position} href={`/user/${member.username}`}>
-            <div className="text-sm text-gray-700">
-              <span className="block">{member.position}</span>
+        ).map((member, index) => (
+          <Link key={member.position} href={`/user/${member.username}`} className="min-w-[calc(33.33%-1rem)]">
+            <div className="text-xs text-gray-700">
+              <span className="block text-[10px]">{member.position}</span>
               <div
-                className="rounded-full px-2 py-1 mt-1 flex items-center ml-1"
+                className="rounded-full px-2 py-1 mt-1 inline-flex items-center justify-center"
                 style={{ backgroundColor: org.color ?? 'gray', color: '#fff' }}
               >
-                <Avatar className="w-6 h-6 mr-2">
+                <Avatar className="w-5 h-5 mr-1">
                   <AvatarImage src={member.profilePic ?? ""} alt={`${member.username}`} />
                   <AvatarFallback>{member?.username?.charAt(0).toUpperCase() ?? ""}</AvatarFallback>
                 </Avatar>
-                <span className="block font-semibold" style={{ color: isLight ? 'gray' : '#fff' }}>@{member.username}</span>
+                <span className="block font-semibold text-[10px]" style={{ color: isLight ? 'gray' : '#fff' }}>@{member.username}</span>
               </div>
             </div>
           </Link>
         ))}
       </div>
+
+
+
 
       <span className="ml-6 mr-6 mt-6 text-md text-gray-800 text-justify">
         {org.description}
