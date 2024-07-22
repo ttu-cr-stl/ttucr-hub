@@ -68,7 +68,7 @@ export function EventCard({ event, small }:
       <div className="relative w-full h-60 rounded-2xl shadow-sm shadow-gray-300 bg-white ">
 
         <div className="relative inset-x-0 top-0 w-full h-36 rounded-2xl shadow-md shadow-gray-400 bg-sky-400">
-            <div className="absolute inset-x-0 bottom-0 flex justify-between items-end h-16">
+            <div className="absolute inset-x-0 bottom-0 flex justify-end items-end h-16">
               {event.users.length !== 0 && (
                 <AvatarCircles
                   className=" m-3 -space-x-6 *:bg-white *:text-black *:shadow-lg "
@@ -80,7 +80,7 @@ export function EventCard({ event, small }:
               )}
 
 
-              <div className="relative w-12 h-8 m-2.5 rounded-lg bg-white ">
+              {/* <div className="relative w-12 h-8 m-2.5 rounded-lg bg-white ">
                 <h1 className="absolute my-0.5 mx-2.5">
                   <svg width="194px" height="194px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="grey" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(45)" className="size-7">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -91,7 +91,7 @@ export function EventCard({ event, small }:
                     </g>
                   </svg>
                 </h1>
-              </div>
+              </div> */}
               
 
             </div>
@@ -100,7 +100,7 @@ export function EventCard({ event, small }:
 
         <div className="relative inset-x-0 bottom-0 h-24 flex flex-row items-center">
           
-          <div className="flex flex-col items-center basis-1/3 h-20 pt-4 border-r-2 border-r-black">
+          <div className="flex flex-col items-center justify-center basis-1/3 h-20">
             <h1 className="text-2xl text-center font-normal"> 
               {format(event.startTime, "MMM dd")}
             </h1>
@@ -112,7 +112,7 @@ export function EventCard({ event, small }:
             </div>
           </div>
           
-          <div className="flex flex-col items-left basis-2/3 h-20 pl-2">
+          <div className="flex flex-col items-left basis-2/3 h-20 pl-3 border-l">
             <div className="flex flex-row test-xs font-bold text-gray-500">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="grey" className="size-3.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -124,7 +124,7 @@ export function EventCard({ event, small }:
               </h2>
             </div>
 
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-xl font-bold">
               {event.name}
             </h1>
 
