@@ -1,9 +1,10 @@
 import AvatarCircles from "@/components/magicui/avatar-circles";
-import { getEventById } from "@/db/events";
+import { getEventByIdWithUserPics } from "@/db/events";
 import { format } from "date-fns";
+import Link from "next/link";
 
 export default async function Event({ params }: { params: { id: string } }) {
-  const event = await getEventById(params.id);
+  const event = await getEventByIdWithUserPics(params.id);
 
   if (!event)
     return (
@@ -19,12 +20,17 @@ export default async function Event({ params }: { params: { id: string } }) {
         className="flex justify-between items-end h-48 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 bg-sky-400 bg-cover"
         style={{ backgroundImage: event.coverImg || "" }}
       >
-
-        <AvatarCircles
-          className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
-          numPeople={10}
-          avatarUrls={["/TTULogo.png", "/TTULogo.png", "/TTULogo.png"]}
-        />
+        <Link href={`/event/${event.id}/users`}>
+          {event.users.length !== 0 && (
+            <AvatarCircles
+              className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
+              numPeople={event.users.length}
+              avatarUrls={event.users
+                .slice(0, 3)
+                .map((user) => user.profilePic || "/TTULogo.png")}
+            />
+          )}
+        </Link>
 
         <div className="flex items-center text-center size-20 rounded-2xl bg-stone-100">
           <h3 className="text-3xl">{format(event.startTime, "MMM dd")}</h3>

@@ -8,10 +8,26 @@ export async function getAllEvents() {
 }
 
 export async function getEventById(id: string) {
-  console.log("fetching user by username");
   const user = await prisma.event.findUnique({
     where: {
       id,
+    },
+  });
+
+  return user;
+}
+
+export async function getEventByIdWithUserPics(id: string) {
+  const user = await prisma.event.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      users: {
+        select: {
+          profilePic: true,
+        },
+      },
     },
   });
 
