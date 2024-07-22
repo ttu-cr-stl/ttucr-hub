@@ -1,3 +1,4 @@
+import AvatarCircles from "@/components/magicui/avatar-circles";
 import { getEventById } from "@/db/events";
 import { format } from "date-fns";
 
@@ -15,9 +16,16 @@ export default async function Event({ params }: { params: { id: string } }) {
   return (
     <div className="w-full overflow-x-visible">
       <div
-        className="flex justify-end items-end h-48 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 bg-sky-400 bg-cover"
+        className="flex justify-between items-end h-48 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 bg-sky-400 bg-cover"
         style={{ backgroundImage: event.coverImg || "" }}
       >
+
+        <AvatarCircles
+          className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
+          numPeople={10}
+          avatarUrls={["/TTULogo.png", "/TTULogo.png", "/TTULogo.png"]}
+        />
+
         <div className="flex items-center text-center size-20 rounded-2xl bg-stone-100">
           <h3 className="text-3xl">{format(event.startTime, "MMM dd")}</h3>
         </div>
