@@ -72,7 +72,7 @@ export default async function Event({ params }: { params: { id: string } }) {
             <p>{event.description}</p>
           </div>
           <div className="flex justify-between w-full h-20 rounded-xl shadow-sm shadow-gray-300 bg-white text-gray-500">
-            <h4 className="pl-3 pt-3 text-gray-500">Smaple message</h4>
+            <h4 className="pl-3 pt-3 text-gray-500">Sample message</h4>
             <h4 className="content-end pb-2 pr-3">--{event.organizer}</h4>
           </div>
         </div>
