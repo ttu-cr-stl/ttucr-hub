@@ -15,7 +15,7 @@ const NavBar: FC<NavBarProps> = ({}) => {
     <div
       className={cn(
         "fixed bottom-0 left-0 w-dvw md:w-[375px] border-t flex items-center justify-evenly z-10 bg-white",
-        detectOS() === "iOS" ? "pb-4 h-24" : "h-16"
+        detectOS() === "iOS" ? "pb-4 h-20" : "h-16"
       )}
     >
       <NavIcon pathname={NavPath.HOME} activePath={activePath}>

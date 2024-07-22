@@ -53,7 +53,7 @@ function UserCard({ user, orgs }: UserCardProps) {
             </span>
             <div className="flex flex-row flex-wrap gap-2">
               <Badge
-                className="px-2 text-xs font-normal"
+                className="text-xs font-normal"
                 style={{
                   backgroundColor: userMajor?.color,
                 }}
