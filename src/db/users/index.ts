@@ -15,6 +15,10 @@ export async function getUserByUsername(username: string) {
     where: {
       username,
     },
+    include: {
+      orgs: true,
+      events: true,
+    }
   });
 
   return user;
