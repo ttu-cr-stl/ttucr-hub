@@ -20,6 +20,14 @@ export async function getUserByUsername(username: string) {
   return user;
 }
 
+export async function getAllUsersWithOrgs() {
+  return prisma.user.findMany({
+    include: {
+      orgs: true,
+    },
+  });
+}
+
 export async function createUser(username: string) {
   console.log("creating user");
   const user = await prisma.user.create({
