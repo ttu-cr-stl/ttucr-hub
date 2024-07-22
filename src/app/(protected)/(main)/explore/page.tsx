@@ -3,8 +3,8 @@ import React from "react";
 
 export default function Explore() {
   return (
-    <>
-      <div className="relative mb-6 mt-8 mx-1">
+    <div className="flex flex-col pt-8 gap-y-4">
+      <div className="relative mx-1">
         <span className="absolute inset-y-0 right-0 flex items-center pr-3">
           <svg
             className="h-5 w-5 text-black"
@@ -26,6 +26,6 @@ export default function Explore() {
         />
       </div>
       <OrgsList />
-    </>
+    </div>
   );
 }

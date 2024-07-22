@@ -68,10 +68,10 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(
         inter.className,
-        "md:h-[667px] md:w-[375px] bg-[#F5F5F5] text-black"
+        "bg-[#F5F5F5] text-black"
       )}
     >
-      <body className="relative self-center h-screen w-dvw scrollbar-hide">
+      <body className="relative self-center h-dvh w-dvw">
         <Analytics />
         <SpeedInsights />
 

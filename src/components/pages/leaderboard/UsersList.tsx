@@ -5,7 +5,7 @@ async function UsersList() {
   try {
     const users = await getAllUsersWithOrgs(); // Ensure this fetches orgs for each user
     return (
-      <div className={"flex flex-col space-y-2 scrollbar-hide"}>
+      <div className={"flex flex-col space-y-2"}>
         {users.map((user) => (
           <UserCard key={user.id} user={user} orgs={user.orgs} />
         ))}
