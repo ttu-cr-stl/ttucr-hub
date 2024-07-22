@@ -1,16 +1,15 @@
-import { Event } from "@prisma/client";
-import { format, formatDistance } from "date-fns";
-import Link from "next/link";
-import { Badge } from "./shadcn/badge";
-import { Button } from "./shadcn/button";
+import { Button } from "@/components/ui/shadcn/button";
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
-} from "./shadcn/card";
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/shadcn/card";
+import { Event } from "@prisma/client";
+import { format } from "date-fns";
+import Link from "next/link";
 
 export function EventCard({ event }: { event: Event }) {
   return (

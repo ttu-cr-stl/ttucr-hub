@@ -1,5 +1,5 @@
 import { getAllOrgs } from "@/db/orgs";
-import OrgCard from "@/components/ui/OrgCard";
+import OrgCard from "./OrgCard";
 
 async function OrgsList() {
   try {

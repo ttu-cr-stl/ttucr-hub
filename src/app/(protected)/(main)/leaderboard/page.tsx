@@ -2,8 +2,8 @@ import UsersList from "@/components/pages/leaderboard/UsersList";
 
 export default function Leaderboard() {
   return (
-    <div>
-      <h1 className="mx-2 my-8 text-4xl font-bold">Leaderboard</h1>
+    <div className="flex flex-col pt-8 gap-y-4">
+      <h1 className="text-4xl font-bold px-4">Leaderboard</h1>
       <UsersList />
     </div>
   );

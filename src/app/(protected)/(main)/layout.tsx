@@ -1,10 +1,11 @@
 import NavBar from "@/components/layout/NavBar";
+import { cn } from "@/lib/utils/cn";
 
 export default function AppLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <main className="relative w-full min-h-dvh px-4 pb-20 z-0 overflow-x-visible">
+    <main className="relative w-full h-[calc(100dvh-4rem)] px-4 pb-8 scrollbar-hide overflow-y-scroll z-0">
       {children}
 
       <NavBar />

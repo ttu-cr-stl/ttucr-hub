@@ -4,7 +4,7 @@ import React from "react";
 export default function Explore() {
   return (
     <>
-      <div className="relative m-5">
+      <div className="relative mb-6 mt-8 mx-1">
         <span className="absolute inset-y-0 right-0 flex items-center pr-3">
           <svg
             className="h-5 w-5 text-black"

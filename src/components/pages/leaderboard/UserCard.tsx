@@ -34,7 +34,7 @@ function UserCard({ user, orgs }: UserCardProps) {
   return (
     <Link href={`/user/${user.username}`}>
       <div
-        className={`flex justify-between items-center my-4 mx-2 px-2 py-2 border-2 rounded-2xl bg-white`}
+        className={`flex justify-between items-center mx-2 px-2 py-2 border-2 rounded-2xl bg-white`}
         style={{
           borderColor: userMajor ? userMajor.color : "lightgrey",
         }}
