@@ -26,7 +26,7 @@ export const Welcome: FC<WelcomeProps> = ({}) => {
             backgroundColor: userMajor?.color,
           }}
         >
-          {userMajor?.name} Computer Science
+          {userMajor?.name}
         </Badge>
 
         {userMinor?.name && user?.minor !== "NONE" ? (
