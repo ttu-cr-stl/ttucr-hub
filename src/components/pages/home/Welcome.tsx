@@ -16,20 +16,20 @@ export const Welcome: FC<WelcomeProps> = ({}) => {
   const userMinor = Degree.find((degree) => degree.value === user?.minor);
 
   return (
-    <div className="flex flex-col min-h-24 w-full px-4">
-      <span className="font-light text-lg leading-none">Welcome,</span>
-      <span className="text-4xl font-medium">{user?.firstName} 👋</span>
+    <div className="flex flex-col min-h-24 w-full px-1">
+      <span className="font-light text-lg leading-none px-2">Welcome,</span>
+      <span className="text-5xl font-medium">{user?.firstName}Andres 👋</span>
 
-      {user && <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-light mt-4">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-light mt-4">
         <Badge
           style={{
             backgroundColor: userMajor?.color,
           }}
         >
-          {userMajor?.name}
+          {userMajor?.name} Computer Science
         </Badge>
 
-        {userMinor?.name && user.minor !== "NONE" ? (
+        {userMinor?.name && user?.minor !== "NONE" ? (
           <Badge
             style={{
               backgroundColor: userMinor?.color,
@@ -39,7 +39,7 @@ export const Welcome: FC<WelcomeProps> = ({}) => {
           </Badge>
         ) : null}
 
-        {user.orgs?.map((org) => (
+        {user?.orgs?.map((org) => (
           <Badge
             key={org.id}
             style={{
@@ -49,7 +49,7 @@ export const Welcome: FC<WelcomeProps> = ({}) => {
             {org.name}
           </Badge>
         ))}
-      </div>}
+      </div>
     </div>
   );
 };
