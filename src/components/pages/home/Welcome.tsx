@@ -18,7 +18,7 @@ export const Welcome: FC<WelcomeProps> = ({}) => {
   return (
     <div className="flex flex-col min-h-24 w-full px-1">
       <span className="font-light text-lg leading-none px-2">Welcome,</span>
-      <span className="text-5xl font-medium">{user?.firstName}Andres 👋</span>
+      <span className="text-5xl font-medium">{user?.firstName} 👋</span>
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-light mt-4">
         <Badge
