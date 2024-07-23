@@ -9,7 +9,7 @@ export const GlobalProviders = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (window && detectOS() === "iOS") {
       PullToRefresh.init({
-        mainElement: "html",
+        mainElement: "body",
         onRefresh() {
           window.location.reload();
         },
