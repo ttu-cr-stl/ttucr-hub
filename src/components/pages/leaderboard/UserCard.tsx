@@ -11,7 +11,7 @@ import { Degree } from "@/lib/utils/consts";
 
 interface UserCardProps {
   user: User;
-  orgs: Org[];
+  orgs?: Org[];
 }
 
 function UserCard({ user, orgs }: UserCardProps) {
@@ -69,7 +69,7 @@ function UserCard({ user, orgs }: UserCardProps) {
                   {userMinor?.value}
                 </Badge>
               ) : null}
-              {orgs.map((org) => (
+              {orgs?.map((org) => (
                 <Badge
                   key={org.id}
                   style={{

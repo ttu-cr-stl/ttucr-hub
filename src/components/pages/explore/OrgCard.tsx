@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/shadcn/button";
+import { Badge } from "@/components/ui/shadcn/badge";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/shadcn/card";
 import { Org } from "@prisma/client";
 import Image from "next/image";
@@ -30,7 +32,7 @@ export default function OrgCard({ org }: { org: Org }) {
           </div>
           <div
             id="Content"
-            className="flex flex-col p-3 w-[calc(100%-9rem)] h-32"
+            className="relative flex flex-col p-3 w-[calc(100%-9rem)] h-32"
           >
             <CardHeader className="m-0 p-0">
               {/*               <span id="Category" className="text-sm text-stone-500 overflow-hidden line-clamp-1">
@@ -40,20 +42,17 @@ export default function OrgCard({ org }: { org: Org }) {
                 {org.name}
               </CardTitle>
             </CardHeader>
-            <div
-              id="Body"
-              className="flex my-auto justify-between items-center"
-            >
-              <CardDescription className="text-xs text-gray-700 overflow-hidden line-clamp-2">
-                {org.description}
-              </CardDescription>
-              <Button
+            <CardDescription className="text-xs text-gray-700 overflow-hidden line-clamp-3">
+              {org.description}
+            </CardDescription>
+            <CardFooter>
+              <Badge
                 style={{ backgroundColor: org.color || "black" }}
-                className="ml-1 items-center rounded-full w-12 h-6 text-xs"
+                className="absolute bottom-2 right-1 items-center rounded-full text-xs"
               >
-                Join
-              </Button>
-            </div>
+                <span> Explore </span>
+              </Badge>
+            </CardFooter>
           </div>
         </div>
       </Card>
