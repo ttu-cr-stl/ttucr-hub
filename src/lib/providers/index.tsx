@@ -4,22 +4,18 @@ import PullToRefresh from "pulltorefreshjs";
 import { ReactNode, useEffect } from "react";
 import { detectOS } from "../utils";
 import AuthProvider from "./authProvider";
-import { useRouter } from "next/navigation";
 
 export const GlobalProviders = ({ children }: { children: ReactNode }) => {
-
-  const router = useRouter();
-
   useEffect(() => {
-    if (window && router && detectOS() === "iOS") {
+    if (window && detectOS() === "iOS") {
       PullToRefresh.init({
-        mainElement: "body",
+        mainElement: "main",
         onRefresh() {
-          router.refresh();
+          window.location.reload();
         },
       });
     }
-  }, [router]);
+  }, []);
 
   return (
     <ThemeProvider
