@@ -8,7 +8,7 @@ export function EventCard({
   small,
 }: {
   event: {
-    users: {
+    users?: {
       profilePic: string | null;
     }[];
   } & {
@@ -80,7 +80,7 @@ export function EventCard({
       <div className="flex flex-col gap-y-2 w-full max-h-[19rem] rounded-2xl shadow-sm shadow-gray-300 bg-white ">
         <div className="relative w-full h-44 rounded-2xl shadow-md shadow-gray-400 bg-sky-400">
           <div className="absolute inset-x-0 bottom-0 flex justify-end items-end h-16">
-            {event.users.length !== 0 && (
+            {event.users && event.users.length !== 0 && (
               <AvatarCircles
                 className=" m-3 -space-x-6 *:bg-white *:text-black *:shadow-lg "
                 numPeople={event.users.length}

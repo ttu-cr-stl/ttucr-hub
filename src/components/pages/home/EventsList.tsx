@@ -28,7 +28,7 @@ export const EventsList: FC<EventsListProps> = async ({events, small}) => {
   }
   // console.log(events.map((event) => event.name));
   return (
-    <div className={"flex flex-col space-y-2 font-bold"}>
+    <div className={"flex flex-col space-y-2"}>
       {events.map((event, index) => (
         <EventCard key={index} event={event} small={small}/>
       ))}
