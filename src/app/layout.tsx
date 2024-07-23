@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import PullToRefresh from "@/components/utils/PullToRefresh";
 
 const APP_NAME = "TTU@CR Hub";
 const APP_DEFAULT_TITLE = "TTU@CR Hub";
@@ -66,11 +67,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(
-        inter.className,
-        "bg-[#F5F5F5] text-black"
-      )}
+      className={cn(inter.className, "bg-[#F5F5F5] text-black")}
     >
+      <PullToRefresh />
       <body className="relative self-center h-dvh w-dvw">
         <Analytics />
         <SpeedInsights />

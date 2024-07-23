@@ -1,22 +1,9 @@
 "use client";
 import { ThemeProvider } from "next-themes";
-import PullToRefresh from "pulltorefreshjs";
-import { ReactNode, useEffect } from "react";
-import { detectOS } from "../utils";
+import { ReactNode } from "react";
 import AuthProvider from "./authProvider";
 
 export const GlobalProviders = ({ children }: { children: ReactNode }) => {
-  useEffect(() => {
-    if (window && detectOS() === "iOS") {
-      PullToRefresh.init({
-        mainElement: "body",
-        onRefresh() {
-          window.location.reload();
-        },
-      });
-    }
-  }, []);
-
   return (
     <ThemeProvider
       attribute="class"
