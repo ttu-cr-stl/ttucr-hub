@@ -69,7 +69,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn(inter.className, "bg-[#F5F5F5] text-black")}
     >
-      <PullToRefresh />
+      {/* <PullToRefresh /> */}
       <body className="relative self-center h-dvh w-dvw">
         <Analytics />
         <SpeedInsights />
