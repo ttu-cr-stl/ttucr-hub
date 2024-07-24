@@ -3,8 +3,10 @@ import RegisterBtn from "@/components/pages/(subpages)/event/RegisterBtn";
 import { getEventByIdWithUserPics } from "@/db/events";
 import { format } from "date-fns";
 import Link from "next/link";
+import Loading from "../../../loading";
 
 export default async function Event({ params }: { params: { id: string } }) {
+
   const event = await getEventByIdWithUserPics(params.id);
 
   if (!event)
