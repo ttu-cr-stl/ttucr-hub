@@ -1,6 +1,6 @@
 {
-  "name": "token-web-app",
-  "version": "0.1.0",
+  "name": "ttu-hub",
+  "version": "0.9",
   "private": true,
   "scripts": {
     "dev": "next dev",
