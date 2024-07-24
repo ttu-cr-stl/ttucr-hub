@@ -1,3 +1,4 @@
+'use client';
 import { getUserByUsername, internalUpdateUserByUsername } from "@/db/users";
 import { User, Org, Event } from "@prisma/client";
 import { usePrivy } from "@privy-io/react-auth";

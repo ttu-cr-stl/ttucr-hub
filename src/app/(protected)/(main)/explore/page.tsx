@@ -4,7 +4,8 @@ import React from "react";
 export default function Explore() {
   return (
     <div className="flex flex-col pt-8 gap-y-4">
-      <div className="relative mx-1">
+      <span className="text-3xl font-bold">Student Orgs</span>
+      {/* <div className="relative mx-1">
         <span className="absolute inset-y-0 right-0 flex items-center pr-3">
           <svg
             className="h-5 w-5 text-black"
@@ -24,7 +25,7 @@ export default function Explore() {
           className="w-full h-10 px-5 pr-16 text-sm rounded-3xl shadow-sm bg-white focus:outline-none"
           placeholder="Search TTU@CR"
         />
-      </div>
+      </div> */}
       <OrgsList />
     </div>
   );

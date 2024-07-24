@@ -120,7 +120,7 @@ export function EventCard({
 
           <Separator orientation="vertical" className="h-20" />
 
-          <div className="flex flex-col items-left justify-center w-2/3 h-24 px-3 py-1 gap-y-1">
+          <div className="flex flex-col items-left justify-center w-2/3 h-24 px-3 py-1 gap-y-2">
             <div className="flex flex-row test-xs font-bold text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,29 +1,34 @@
-import { Button } from "@/components/ui/shadcn/button";
+import { SettingsItem } from "@/components/pages/settings/SettingsItem";
 import { LogoutBtn } from "@/components/utils/LogoutBtn";
-import Image from "next/image";
 import Link from "next/link";
+import { ChevronRight, LogOut, Moon } from "react-feather";
 
-export default function Settings() {
+export default function Explore() {
   return (
-    <div className="flex flex-col min-h-dvh w-full space-y-10 px-4 pt-6">
-      <div className="relative flex items-center w-full px-4 h-24">
-        <h1 className="z-10 text-xl text-black font-bold"> Settings </h1>
-        <Image
-          src="/Banner.png"
-          className="absolute top-0 left-0 w-dvw h-full"
-          alt=""
-          fill
-          style={{
-            objectFit: "contain",
-          }}
-        />
+    <div className="flex flex-col pt-8">
+      <span className="text-3xl font-bold mb-6">Settings</span>
+      <div className="flex flex-col gap-y-2">
+        <Link href="/settings/profile">
+          <SettingsItem>
+            <span>Profile</span>
+            <div className="flex items-center justify-center size-10 rounded-xl bg-black text-white">
+              <ChevronRight />
+            </div>
+          </SettingsItem>
+        </Link>
+        <SettingsItem>
+          <span>Dark Mode</span>
+          <div className="flex items-center justify-center size-10 rounded-xl bg-black text-white">
+            <Moon />
+          </div>
+        </SettingsItem>
+        <LogoutBtn />
       </div>
-      
-      {/* <div className="flex flex-col items-center justify-center space-y-2 px-4 pt-10"></div> */}
-      <Link href="/settings/profile">
-        <Button className="w-full max-w-md">Edit Profile</Button>
-      </Link>
-      <LogoutBtn/>
+
+      <div className="flex flex-col gap-y-1 text-xs text-black/50 text-center mt-6">
+        <span> made with ❤ by Students, for Students</span>
+        <span> - The Startup & Tech Lab</span>
+      </div>
     </div>
   );
 }
