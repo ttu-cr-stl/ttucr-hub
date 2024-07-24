@@ -86,7 +86,7 @@ export function EventCard({
                 numPeople={event.users.length}
                 avatarUrls={event.users
                   .slice(0, 3)
-                  .map((user) => user.profilePic || "/TTULogo.png")}
+                  .map((user) => user.profilePic || "")}
               />
             )}
 
