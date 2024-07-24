@@ -1,5 +1,7 @@
 import NavBar from "@/components/layout/NavBar";
-import { cn } from "@/lib/utils/cn";
+
+
+export const revalidate = 3600; // 1 hour
 
 export default function AppLayout({
   children,

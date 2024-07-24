@@ -1,4 +1,5 @@
 import AvatarCircles from "@/components/magicui/avatar-circles";
+import RegisterBtn from "@/components/pages/(subpages)/event/RegisterBtn";
 import { getEventByIdWithUserPics } from "@/db/events";
 import { format } from "date-fns";
 import Link from "next/link";
@@ -32,13 +33,18 @@ export default async function Event({ params }: { params: { id: string } }) {
           )}
         </Link>
 
-        <div className="flex items-center text-center size-20 rounded-2xl bg-stone-100">
-          <h3 className="text-3xl">{format(event.startTime, "MMM dd")}</h3>
+        <div className="flex flex-col items-end gap-y-2">
+          <div className="flex items-center text-center size-20 rounded-2xl bg-stone-100">
+            <h3 className="text-3xl">{format(event.startTime, "MMM dd")}</h3>
+          </div>
+          <RegisterBtn eventId={event.id} registeredIds={event.users.map((u) => u.id)}/>
         </div>
       </div>
       <div>
         <div className="flex flex-col py-4 gap-y-4">
-          <h1 className="text-4xl pb-0.5 font-bold line-clamp-2">{event.name}</h1>
+          <h1 className="text-4xl pb-0.5 font-bold line-clamp-2">
+            {event.name}
+          </h1>
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <svg

@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/db/prisma";
+import { revalidatePath } from "next/cache";
 
 export async function getAllEvents() {
   const events = await prisma.event.findMany({include: {users: {select: {profilePic: true}}}});
@@ -25,6 +26,7 @@ export async function getEventByIdWithUserPics(id: string) {
     include: {
       users: {
         select: {
+          id: true,
           profilePic: true,
         },
       },
@@ -32,4 +34,42 @@ export async function getEventByIdWithUserPics(id: string) {
   });
 
   return user;
+}
+
+export async function toggleUserToEvent(eventId: string, userId: string, alreadyRegistered: boolean) {
+
+  console.log("toggleUserToEvent", eventId, userId, alreadyRegistered);
+
+  if (!alreadyRegistered) {
+    await prisma.event.update({
+      where: {
+        id: eventId,
+      },
+      data: {
+        users: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+  } else {
+    await prisma.event.update({
+      where: {
+        id: eventId,
+      },
+      data: {
+        users: {
+          disconnect: {
+            id: userId,
+          },
+        },
+      },
+    });
+  }
+
+  revalidatePath(`/event/${eventId}`);
+  revalidatePath(`/event/${eventId}/users`);
+
+  return !alreadyRegistered;
 }
