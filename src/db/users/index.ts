@@ -15,9 +15,21 @@ export async function getUserByUsername(username: string) {
     where: {
       username,
     },
+    include: {
+      orgs: true,
+      events: true,
+    }
   });
 
   return user;
+}
+
+export async function getAllUsersWithOrgs() {
+  return prisma.user.findMany({
+    include: {
+      orgs: true,
+    },
+  });
 }
 
 export async function createUser(username: string) {

@@ -3,12 +3,10 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/shadcn/avatar";
+import { Badge } from "@/components/ui/shadcn/badge";
 import { getUserByUsername } from "@/db/users";
-import { getDegreeByKey } from "@/lib/utils";
-
-interface UserProfileProps {
-  username: string;
-}
+import { Degree } from "@/lib/utils/consts";
+import { EventCard } from "@/components/pages/home/EventCard";
 
 export default async function UserPage({
   params,
@@ -18,42 +16,66 @@ export default async function UserPage({
   const user = await getUserByUsername(params.username);
 
   if (!user) return <div>User not found</div>;
-
-  const degree = getDegreeByKey(user.major);
-  const minor = getDegreeByKey(String(user.minor));
+  
+  const userMajor = Degree.find((degree) => degree.value === user?.major);
+  const userMinor = Degree.find((degree) => degree.value === user?.minor);
 
   return (
-    <div className="flex flex-col items-center w-auto h-auto text-center p-3 justify-center">
-      <Avatar className="w-24 h-24">
-        <AvatarImage src="" />
-        <AvatarFallback className="bg-gray-300">
-          {user.firstName[0]}
-          {user.lastName[0]}
-        </AvatarFallback>
-      </Avatar>
-      <div>
-        <h2>
-          {user.firstName} {user.lastName}
-        </h2>
-        <span className="text-gray-500">@{user.username}</span>
-      </div>
-      <div className="flex flex-row gap-2">
-        <div
-          className="text-white w-fit px-2 pt-0.5 pb-1 mt-2 rounded-full border"
-          style={{
-            backgroundColor: degree?.color /* , borderColor: degree?.color */,
-          }}
-        >
-          <span>{degree?.name}</span>
+    <div className="flex flex-col gap-y-6 mt-8">
+      <div className="flex flex-col items-center justify-center w-full gap-y-2">
+        <Avatar className="w-24 h-24">
+          <AvatarImage src={user.profilePic || ""} />
+          <AvatarFallback className="bg-[#D9D9D9]"></AvatarFallback>
+        </Avatar>
+
+        <div className="flex flex-col items-center">
+          <span className="text-2xl leading-snug">
+            {user.firstName} {user.lastName}
+          </span>
+          <span className="text-gray-500 text-sm">@{user.username}</span>
         </div>
-        {user.minor !== "NONE" && (
-          <div
-            className="text-white w-fit px-2 pt-0.5 pb-1 mt-2 rounded-full border"
-            style={{ backgroundColor: minor?.color }}
+
+        <div className="flex flex-wrap items-center justify-center w-full mt-2 gap-x-4 gap-y-2 text-xs font-light">
+          <Badge
+            style={{
+              backgroundColor: userMajor?.color,
+            }}
           >
-            <span>{minor?.name}</span>
+            {userMajor?.name}
+          </Badge>
+
+          {userMinor?.name && user?.minor !== "NONE" ? (
+            <Badge
+              style={{
+                backgroundColor: userMinor?.color,
+              }}
+            >
+              {userMinor?.name}
+            </Badge>
+          ) : null}
+
+          {user.orgs?.map((org) => (
+            <Badge
+              key={org.id}
+              style={{
+                backgroundColor: org.color || undefined,
+              }}
+            >
+              {org.name}
+            </Badge>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col w-full gap-y-2">
+        {user.events.map((event) => (
+          <div key={event.id} className="w-full">
+            <span className="ml-4 text-xs">
+              <span className="font-semibold mr-0.5">@{user.username}</span>
+              <span className="font-light">attended</span>
+            </span>
+            <EventCard small={true} event={event} />
           </div>
-        )}
+        ))}
       </div>
     </div>
   );

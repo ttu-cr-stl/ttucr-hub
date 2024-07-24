@@ -14,6 +14,9 @@ export async function getOrgById(id: string) {
     where: {
       id,
     },
+    include: {
+      members: true,
+    }
   });
 
   return org;

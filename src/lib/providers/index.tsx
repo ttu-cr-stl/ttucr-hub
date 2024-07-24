@@ -1,9 +1,7 @@
 "use client";
-
 import { ThemeProvider } from "next-themes";
 import { ReactNode } from "react";
 import AuthProvider from "./authProvider";
-
 
 export const GlobalProviders = ({ children }: { children: ReactNode }) => {
   return (
@@ -13,9 +11,7 @@ export const GlobalProviders = ({ children }: { children: ReactNode }) => {
       enableSystem
       disableTransitionOnChange
     >
-      <AuthProvider>
-        {children}
-      </AuthProvider>
+      <AuthProvider>{children}</AuthProvider>
     </ThemeProvider>
   );
 };
