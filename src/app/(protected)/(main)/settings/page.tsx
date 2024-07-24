@@ -1,4 +1,5 @@
 import { SettingsItem } from "@/components/pages/settings/SettingsItem";
+import { LogoutBtn } from "@/components/utils/LogoutBtn";
 import Link from "next/link";
 import { ChevronRight, LogOut, Moon } from "react-feather";
 
@@ -21,12 +22,7 @@ export default function Explore() {
             <Moon />
           </div>
         </SettingsItem>
-        <SettingsItem>
-          <span>Log Out</span>
-          <div className="flex items-center justify-center size-10 rounded-xl bg-red-500 text-white">
-            <LogOut />
-          </div>
-        </SettingsItem>
+        <LogoutBtn />
       </div>
 
       <div className="flex flex-col gap-y-1 text-xs text-black/50 text-center mt-6">
