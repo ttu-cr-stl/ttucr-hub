@@ -16,7 +16,7 @@ export default async function UserPage({
   const user = await getUserByUsername(params.username);
 
   if (!user) return <div>User not found</div>;
-
+  
   const userMajor = Degree.find((degree) => degree.value === user?.major);
   const userMinor = Degree.find((degree) => degree.value === user?.minor);
 
