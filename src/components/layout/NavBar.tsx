@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC, ReactNode } from "react";
-import { BarChart, CreditCard, Home, Search, Settings } from "react-feather";
+import { BarChart, CreditCard, Grid, Home, Search, Settings, Users } from "react-feather";
 
 interface NavBarProps {}
 const NavBar: FC<NavBarProps> = ({}) => {
@@ -23,16 +23,18 @@ const NavBar: FC<NavBarProps> = ({}) => {
       </NavIcon>
 
       <NavIcon pathname={NavPath.LEADERBOARD} activePath={activePath}>
-        <BarChart className=" -scale-x-100" />
+        <Users /> 
+        {/* <BarChart className=" -scale-x-100" /> */}
       </NavIcon>
 
       <NavIcon pathname={NavPath.EXPLORE} activePath={activePath}>
-        <Search />
+        <Grid />
+        {/* <Search /> */}
       </NavIcon>
 
-      <NavIcon pathname={NavPath.WALLET} activePath={activePath}>
+      {/* <NavIcon pathname={NavPath.WALLET} activePath={activePath}>
         <CreditCard />
-      </NavIcon>
+      </NavIcon> */}
 
       <NavIcon pathname={NavPath.SETTINGS} activePath={activePath}>
         <Settings />
