@@ -36,6 +36,20 @@ export async function getEventByIdWithUserPics(id: string) {
   return user;
 }
 
+export async function getEventUsers(id: string) {
+  const event = await prisma.event.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      users: true,
+    },
+  });
+
+  return event?.users || [];
+
+}
+
 export async function toggleUserToEvent(eventId: string, userId: string, alreadyRegistered: boolean) {
 
   console.log("toggleUserToEvent", eventId, userId, alreadyRegistered);
