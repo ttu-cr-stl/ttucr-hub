@@ -1,8 +1,9 @@
 "use client";
+import { SettingsItem } from "@/app/(protected)/(main)/settings/page";
 import { User } from "@prisma/client";
 import { usePrivy } from "@privy-io/react-auth";
+import { LogOut } from "lucide-react";
 import { useLocalStorage } from "usehooks-ts";
-import { Button } from "../ui/shadcn/button";
 
 export const LogoutBtn = () => {
   const { logout } = usePrivy();
@@ -10,14 +11,17 @@ export const LogoutBtn = () => {
   const [__, setUser] = useLocalStorage<User | null>("authUser", null);
 
   return (
-    <Button
+    <SettingsItem
       onClick={() => {
         setPrevAuth(false);
         setUser(null);
         logout();
       }}
     >
-      Log out
-    </Button>
+      <span>Log Out</span>
+      <div className="flex items-center justify-center size-10 rounded-xl bg-red-500 text-white">
+        <LogOut />
+      </div>
+    </SettingsItem>
   );
 };
