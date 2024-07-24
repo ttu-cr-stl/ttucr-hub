@@ -67,7 +67,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(inter.className, "bg-[#F5F5F5] text-black")}
+      className={cn(inter.className, "bg-[#F5F5F5] dark:bg-gray-500 text-black")}
     >
       {/* <PullToRefresh /> */}
       <body className="relative self-center h-dvh w-dvw">

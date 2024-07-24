@@ -1,9 +1,11 @@
 import { SettingsItem } from "@/components/pages/settings/SettingsItem";
 import { LogoutBtn } from "@/components/utils/LogoutBtn";
+import { ThemeToggle } from "@/components/utils/ThemeToggle";
 import Link from "next/link";
-import { ChevronRight, LogOut, Moon } from "react-feather";
+import { ChevronRight, Moon } from "react-feather";
 
-export default function Explore() {
+
+export default function Settings() {
   return (
     <div className="flex flex-col pt-8">
       <span className="text-3xl font-bold mb-6">Settings</span>
@@ -16,12 +18,7 @@ export default function Explore() {
             </div>
           </SettingsItem>
         </Link>
-        <SettingsItem>
-          <span>Dark Mode</span>
-          <div className="flex items-center justify-center size-10 rounded-xl bg-black text-white">
-            <Moon />
-          </div>
-        </SettingsItem>
+        <ThemeToggle />
         <LogoutBtn />
       </div>
 
