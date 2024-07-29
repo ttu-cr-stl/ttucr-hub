@@ -23,7 +23,9 @@ export default function Settings() {
       </div>
 
       <div className="flex flex-col gap-y-1 text-xs text-black/50 text-center mt-6">
-        <span> made with ❤ by Students, for Students</span>
+        <span>
+          made with <b>&hearts;</b> by Students, for Students
+        </span>
         <span> - The Startup & Tech Lab</span>
       </div>
     </div>

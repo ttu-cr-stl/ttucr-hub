@@ -1,13 +1,14 @@
-'use client';
+"use client";
 import { getUserByUsername, internalUpdateUserByUsername } from "@/db/users";
-import { User, Org, Event } from "@prisma/client";
+import { Event, Org, User } from "@prisma/client";
 import { usePrivy } from "@privy-io/react-auth";
 import { useEffect, useState } from "react";
-import { useLocalStorage } from "usehooks-ts";
 import { extractUsername } from "../utils";
 
 export const useUser = () => {
-  const [user, setUser] = useLocalStorage<User & {orgs?: Org[], events?: Event[]} | null>("authUser", null);
+  const [user, setUser] = useState<
+    (User & { orgs?: Org[]; events?: Event[] }) | null
+  >(null);
   const [userLoading, setLoading] = useState(false);
   const { user: privyUser } = usePrivy();
 

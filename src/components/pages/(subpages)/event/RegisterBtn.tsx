@@ -32,6 +32,7 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
 
   const handleToggle = async () => {
     setLoading(true);
+    
     await toggleUserToEvent(eventId, user.id, isRegistered)
       .then((registered) => {
         setIsRegistered(registered);
