@@ -3,7 +3,7 @@ import RegisterBtn from "@/components/pages/(subpages)/event/RegisterBtn";
 import { Badge } from "@/components/ui/shadcn/badge";
 import { getEventByIdWithUserPics } from "@/db/events";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";
-import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import Link from "next/link";
 
 export default async function Event({ params }: { params: { id: string } }) {
@@ -42,7 +42,13 @@ export default async function Event({ params }: { params: { id: string } }) {
 
         <div className="flex flex-col items-end gap-y-2">
           <div className="flex items-center text-center size-20 rounded-2xl bg-stone-100">
-            <h3 className="text-3xl">{format(event.startTime, "MMM dd")}</h3>
+            <h3 className="text-3xl">
+              {formatInTimeZone(
+                event.startTime,
+                "America/Costa_Rica",
+                "MMM dd"
+              )}
+            </h3>
           </div>
           <RegisterBtn
             eventId={event.id}
@@ -91,7 +97,11 @@ export default async function Event({ params }: { params: { id: string } }) {
             </div>
             <div className="flex justify-center items-center px-2 py-1 rounded-2xl bg-gray-300">
               <span className="text-xs leading-none text-center">
-                {format(event.startTime, "K:mm aa")}
+                {formatInTimeZone(
+                  event.startTime,
+                  "America/Costa_Rica",
+                  "K:mm aa"
+                )}
               </span>
             </div>
           </div>

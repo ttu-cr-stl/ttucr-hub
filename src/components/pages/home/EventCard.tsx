@@ -2,7 +2,7 @@ import AvatarCircles from "@/components/magicui/avatar-circles";
 import { Badge } from "@/components/ui/shadcn/badge";
 import { Separator } from "@/components/ui/shadcn/separator";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";
-import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import Link from "next/link";
 
 export function EventCard({
@@ -63,7 +63,11 @@ export function EventCard({
 
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-md font-medium">
-                {format(event.startTime, "MMMM dd")}
+                {formatInTimeZone(
+                  event.startTime,
+                  "America/Costa_Rica",
+                  "MMMM dd"
+                )}
               </h1>
 
               {/* <h1 className="w-10 h-4 rounded-2xl border border-red-500 ">
@@ -113,12 +117,20 @@ export function EventCard({
         <div className="flex flex-1 flex-row items-center w-full">
           <div className="flex flex-col items-center justify-center w-1/3 h-full gap-y-2">
             <h1 className="text-2xl text-center font-normal">
-              {format(event.startTime, "MMM dd")}
+              {formatInTimeZone(
+                event.startTime,
+                "America/Costa_Rica",
+                "MMM dd"
+              )}
             </h1>
 
             <div className="flex justify-center items-center px-2 py-1 rounded-2xl bg-gray-300">
               <span className="text-xs leading-none text-center font-normal">
-                {format(event.startTime, "K:mm aa")}
+                {formatInTimeZone(
+                  event.startTime,
+                  "America/Costa_Rica",
+                  "K:mm aa"
+                )}
               </span>
             </div>
           </div>

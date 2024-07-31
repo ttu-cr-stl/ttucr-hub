@@ -5,8 +5,7 @@ import {
   AvatarImage,
 } from "@/components/ui/shadcn/avatar";
 import { getOrgById } from "@/db/orgs";
-import { getUserByUsername } from "@/db/users";
-import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 import Link from "next/link";
 
 interface Officer {
@@ -43,7 +42,7 @@ export default async function Org({ params }: { params: { id: string } }) {
 
       <span className="mt-2 text-2xl">{org.name}</span>
       <span className="text-sm text-gray-500">
-        Established: {format(org.createdAt, "MMM do, yyyy")}
+        Established: {formatInTimeZone(org.createdAt, "America/Costa_Rica", "MMM do, yyyy")}
       </span>
 
       <div className="mt-4 flex flex-wrap gap-x-2 gap-y-4 justify-center text-center">
