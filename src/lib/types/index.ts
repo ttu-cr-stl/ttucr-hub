@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export enum NavPath {
   HOME = "/",
   LEADERBOARD = "/leaderboard",
@@ -39,3 +41,19 @@ export enum OrgCategories {
   TECHNOLOGY = "TECHNOLOGY",
   SERVICE = "SERVICE",
 }
+
+export const formSchema = z.object({
+  firstName: z
+    .string({
+      required_error: "Name is required",
+    })
+    .min(2, "Name is too short"),
+  lastName: z
+    .string({
+      required_error: "Name is required",
+    })
+    .min(2, "Name is too short"),
+  profilePic: z.string(), //.url()
+  major: z.nativeEnum(DegreeKeys),
+  minor: z.nativeEnum(DegreeKeys),
+});

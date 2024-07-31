@@ -13,7 +13,6 @@ model User {
   firstName  String
   lastName   String
   profilePic String?
-  r_number   String
   major      String
   minor      String?
   createdAt  DateTime  @default(now())
@@ -31,6 +30,7 @@ model Event {
   startTime   DateTime
   location    String
   organizer   String
+  category    String?
   coverImg    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt

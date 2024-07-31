@@ -4,22 +4,49 @@ import { Form } from "@/components/ui/shadcn/form";
 import { Spinner } from "@/components/utils/Spinner";
 import { FormRadio } from "@/components/utils/formItems/FormRadio";
 import { FormTextInput } from "@/components/utils/formItems/FormTextInput";
-import { useFormProfile } from "@/lib/hooks/useFormProfile";
-import { NavPath } from "@/lib/types";
+import { internalUpdateUserByUsername } from "@/db/users";
+import { useAuthUser } from "@/lib/hooks/useAuthUser";
+import { DegreeKeys, formSchema, NavPath } from "@/lib/types";
 import { cn } from "@/lib/utils/cn";
 import { Degree } from "@/lib/utils/consts";
+import { zodResolver } from "@hookform/resolvers/zod";
 import useEmblaCarousel from "embla-carousel-react";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useEffect, useState } from "react";
+import { useForm, UseFormReturn } from "react-hook-form";
+import { z } from "zod";
 
 export const CarousselForm: FC = ({}) => {
-  const { profileForm, onSubmit } = useFormProfile();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [showNext, setShowNext] = useState(true);
   const [showPrev, setShowPrev] = useState(false);
 
+  //Form stuff
+  const user = useAuthUser();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      profilePic: user?.profilePic || "",
+      major: user?.major as DegreeKeys,
+      minor: user?.minor as DegreeKeys,
+    },
+  }) as UseFormReturn<z.infer<typeof formSchema>>;
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    if (user)
+      try {
+        internalUpdateUserByUsername(user?.username, values);
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to update user");
+      }
+  }
+
+  // Carousel stuff
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
   }, [emblaApi]);
@@ -38,25 +65,25 @@ export const CarousselForm: FC = ({}) => {
   });
 
   return (
-    <Form {...profileForm}>
+    <Form {...form}>
       <div className="w-full overflow-hidden space-y-6">
         <form
-          id="profileForm"
+          id="form"
           className="flex flex-col"
           ref={emblaRef}
-          onSubmit={profileForm.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="flex items-center">
             <CarouselItem>
               <div className="flex flex-col space-y-2">
                 <FormTextInput
-                  control={profileForm.control}
+                  control={form.control}
                   name="firstName"
                   label="First Name"
                   placeholder="First Name"
                 />
                 <FormTextInput
-                  control={profileForm.control}
+                  control={form.control}
                   name="lastName"
                   label="Last Name"
                   placeholder="Last Name"
@@ -65,24 +92,9 @@ export const CarousselForm: FC = ({}) => {
             </CarouselItem>
 
             <CarouselItem>
-              <FormTextInput
-                control={profileForm.control}
-                name="r_number"
-                label="R#"
-                placeholder="XXXXXXXX"
-                extraProps={{
-                  maxlength: 8,
-                  type: "text",
-                  inputmode: "numeric",
-                  pattern: "[0-9]*",
-                }}
-              />
-            </CarouselItem>
-
-            <CarouselItem>
               <FormRadio
                 label="Major"
-                control={profileForm.control}
+                control={form.control}
                 name="major"
                 placeholder="Choose a major"
                 options={Degree}
@@ -92,7 +104,7 @@ export const CarousselForm: FC = ({}) => {
             <CarouselItem>
               <FormRadio
                 label="Minor"
-                control={profileForm.control}
+                control={form.control}
                 name="minor"
                 placeholder="Choose a minor"
                 options={Degree}
@@ -117,7 +129,7 @@ export const CarousselForm: FC = ({}) => {
                   : () => {
                       setLoading(true);
                       const form = document.getElementById(
-                        "profileForm"
+                        "form"
                       ) as HTMLFormElement;
                       if (form) {
                         try {

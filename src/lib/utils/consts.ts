@@ -47,3 +47,42 @@ export const Degree: SelectOption[] = [
     color: "#000000",
   },
 ];
+
+export const EVENT_CATEGORIES = [
+  {
+    name: "Red Raider Orientation",
+    color: "#FF0000",
+  },
+  {
+    name: "Welcome Week",
+    color: "#FFA500",
+  },
+  {
+    name: "Sustainability Week",
+    color: "#FFFF00",
+  },
+  {
+    name: "Management Week",
+    color: "#008000",
+  },
+  {
+    name: "Engineering Week",
+    color: "#0000FF",
+  },
+  {
+    name: "Halloween",
+    color: "#800080",
+  },
+  {
+    name: "End of Year",
+    color: "#FF00FF",
+  },
+  {
+    name: "Career Week",
+    color: "#000080",
+  },
+  {
+    name: "Other",
+    color: "#000000",
+  },
+];

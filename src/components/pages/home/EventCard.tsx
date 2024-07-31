@@ -1,5 +1,7 @@
 import AvatarCircles from "@/components/magicui/avatar-circles";
+import { Badge } from "@/components/ui/shadcn/badge";
 import { Separator } from "@/components/ui/shadcn/separator";
+import { EVENT_CATEGORIES } from "@/lib/utils/consts";
 import { format } from "date-fns";
 import Link from "next/link";
 
@@ -21,6 +23,7 @@ export function EventCard({
     coverImg: string | null;
     createdAt: Date;
     updatedAt: Date | null;
+    category: string;
   };
   small: boolean;
 }) {
@@ -77,32 +80,34 @@ export function EventCard({
 
   return (
     <Link prefetch={true} href={`/event/${event.id}`}>
-      <div className="flex flex-col gap-y-2 w-full max-h-[19rem] rounded-2xl shadow-sm shadow-gray-300 bg-white ">
-        <div className="relative w-full h-44 rounded-2xl shadow-md shadow-gray-400 bg-sky-400">
-          <div className="absolute inset-x-0 bottom-0 flex justify-end items-end h-16">
-            {event.users && event.users.length !== 0 && (
-              <AvatarCircles
-                className=" m-3 -space-x-6 *:bg-white *:text-black *:shadow-lg "
-                numPeople={event.users.length}
-                avatarUrls={event.users
-                  .slice(0, 3)
-                  .map((user) => user.profilePic || "")}
-              />
-            )}
-
-            {/* <div className="relative w-12 h-8 m-2.5 rounded-lg bg-white ">
-                <h1 className="absolute my-0.5 mx-2.5">
-                  <svg width="194px" height="194px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="grey" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" transform="rotate(45)" className="size-7">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                      <line x1="7" y1="17" x2="17" y2="7"></line>
-                      <polyline points="7 7 17 7 17 17"></polyline>
-                    </g>
-                  </svg>
-                </h1>
-              </div> */}
-          </div>
+      <div className="flex flex-col gap-y-2 w-full h-72 rounded-2xl shadow-sm shadow-gray-300 bg-white ">
+        <div
+          className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md shadow-gray-400"
+          style={{
+            backgroundImage: `url(https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?width=320?height=176?quality=50)`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        >
+          <Badge
+            style={{
+              backgroundColor: EVENT_CATEGORIES.find(
+                (cat) => cat.name === event.category
+              )?.color,
+            }}
+          >
+            {event.category}
+          </Badge>
+          {event.users && event.users.length !== 0 && (
+            <AvatarCircles
+              className="-space-x-6 *:bg-white *:text-black *:shadow-lg "
+              numPeople={event.users.length}
+              avatarUrls={event.users
+                .slice(0, 3)
+                .map((user) => user.profilePic || "")}
+            />
+          )}
         </div>
 
         <div className="flex flex-1 flex-row items-center w-full">

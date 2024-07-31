@@ -1,12 +1,12 @@
 import AvatarCircles from "@/components/magicui/avatar-circles";
 import RegisterBtn from "@/components/pages/(subpages)/event/RegisterBtn";
+import { Badge } from "@/components/ui/shadcn/badge";
 import { getEventByIdWithUserPics } from "@/db/events";
+import { EVENT_CATEGORIES } from "@/lib/utils/consts";
 import { format } from "date-fns";
 import Link from "next/link";
-import Loading from "../../../loading";
 
 export default async function Event({ params }: { params: { id: string } }) {
-
   const event = await getEventByIdWithUserPics(params.id);
 
   if (!event)
@@ -21,7 +21,12 @@ export default async function Event({ params }: { params: { id: string } }) {
     <div className="w-full overflow-x-visible">
       <div
         className="flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-3xl shadow-md shadow-gray-400 bg-sky-400 bg-cover"
-        style={{ backgroundImage: event.coverImg || "" }}
+        style={{
+          backgroundImage: `url(https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?width=320?height=176?quality=50)`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
       >
         <Link href={`/event/${event.id}/users`}>
           {event.users.length !== 0 && (
@@ -39,14 +44,28 @@ export default async function Event({ params }: { params: { id: string } }) {
           <div className="flex items-center text-center size-20 rounded-2xl bg-stone-100">
             <h3 className="text-3xl">{format(event.startTime, "MMM dd")}</h3>
           </div>
-          <RegisterBtn eventId={event.id} registeredIds={event.users.map((u) => u.id)}/>
+          <RegisterBtn
+            eventId={event.id}
+            registeredIds={event.users.map((u) => u.id)}
+          />
         </div>
       </div>
       <div>
         <div className="flex flex-col py-4 gap-y-4">
-          <h1 className="text-4xl pb-0.5 font-bold line-clamp-2">
-            {event.name}
-          </h1>
+          <div className="w-full flex items-center justify-between">
+            <h1 className="text-4xl pb-0.5 font-bold line-clamp-2">
+              {event.name}
+            </h1>
+            <Badge
+              style={{
+                backgroundColor: EVENT_CATEGORIES.find(
+                  (cat) => cat.name === event.category
+                )?.color,
+              }}
+            >
+              {event.category}
+            </Badge>
+          </div>
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <svg

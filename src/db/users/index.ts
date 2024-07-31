@@ -10,7 +10,6 @@ export async function getAllUsers() {
 }
 
 export async function getUserByUsername(username: string) {
-  console.log("fetching user by username");
   const user = await prisma.user.findUnique({
     where: {
       username,
@@ -20,7 +19,6 @@ export async function getUserByUsername(username: string) {
       events: true,
     }
   });
-
   return user;
 }
 
@@ -33,12 +31,10 @@ export async function getAllUsersWithOrgs() {
 }
 
 export async function createUser(username: string) {
-  console.log("creating user");
   const user = await prisma.user.create({
     data: {
       firstName: "",
       lastName: "",
-      r_number: "",
       major: "",
       username,
     },

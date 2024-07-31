@@ -1,7 +1,7 @@
 "use client";
 import { Skeleton } from "@/components/ui/shadcn/skeleton";
 import { toggleUserToEvent } from "@/db/events";
-import { useUser } from "@/lib/hooks/useUser";
+import { useAuthUser } from "@/lib/hooks/useAuthUser";
 import { cn } from "@/lib/utils/cn";
 import { CircleCheck, CircleX, Loader2 } from "lucide-react";
 import { FC, useEffect, useState } from "react";
@@ -12,7 +12,7 @@ interface RegisterBtnProps {
 }
 
 const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
-  const { user } = useUser();
+  const user = useAuthUser();
 
   const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
 
   const handleToggle = async () => {
     setLoading(true);
-    
+
     await toggleUserToEvent(eventId, user.id, isRegistered)
       .then((registered) => {
         setIsRegistered(registered);
