@@ -17,6 +17,7 @@ interface EventsListProps {
     coverImg: string | null;
     createdAt: Date;
     updatedAt: Date | null;
+    category: string | null;
   })[];
   small: boolean;
 }

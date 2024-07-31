@@ -23,7 +23,7 @@ export function EventCard({
     coverImg: string | null;
     createdAt: Date;
     updatedAt: Date | null;
-    category: string;
+    category: string | null;
   };
   small: boolean;
 }) {
