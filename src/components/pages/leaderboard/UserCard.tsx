@@ -34,14 +34,14 @@ function UserCard({ user, orgs }: UserCardProps) {
   return (
     <Link href={`/user/${user.username}`}>
       <div
-        className={`flex justify-between items-center mx-2 px-2 py-2 border-2 rounded-2xl bg-white`}
+        className={`flex justify-between items-center px-2 py-2 border-2 rounded-2xl bg-white`}
         style={{
           borderColor: userMajor ? userMajor.color : "lightgrey",
         }}
       >
         <div className="flex items-center">
           <Avatar className="w-10 h-10 mr-2">
-            <AvatarImage src={user.profilePic || ""} />
+            <AvatarImage src={user.profilePic || "users/default.jpg"} />
             <AvatarFallback className="bg-gray-200">
               {/* {user.firstName[0]}
               {user.lastName[0]} */}

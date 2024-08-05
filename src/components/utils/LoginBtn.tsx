@@ -14,13 +14,11 @@ interface LoginBtnProps {}
 const LoginBtn: FC<LoginBtnProps> = ({}) => {
   const { ready, authenticated } = usePrivy();
   const [loading, setLoading] = useState(false);
-  const [_, setPrevAuth] = useLocalStorage("prev-authenticated", false);
   const router = useRouter();
 
   const { login } = useLogin({
     onComplete: async (user, isNewUser) => {
       setLoading(true);
-      setPrevAuth(true);
 
       if (isNewUser && isTTUEmail(user.email?.address!)) {
         try {
@@ -30,7 +28,6 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
         } catch (error) {
           setLoading(false);
           console.log(error);
-          setPrevAuth(false);
           throw new Error("Failed to create user");
         }
       } else {

@@ -6,7 +6,7 @@ export default function Login() {
     <main className="relative h-full w-full flex flex-col items-center justify-center space-y-6">
       <div className="relative w-32 h-32 self-center aspect-auto">
         <Image
-          src="/TTULogo.png"
+          src="general/TTULogo.png"
           alt=""
           fill
           style={{

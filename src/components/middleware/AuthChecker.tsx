@@ -10,17 +10,12 @@ import { SplashScreen } from "../views/SplashScreen";
 const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
   const { ready, authenticated, user: PrivyUser } = usePrivy();
   const router = useRouter();
-  const [prevAuth] = useLocalStorage("prev-authenticated", false);
 
   useEffect(() => {
-    if (!prevAuth || (ready && !authenticated)) {
+    if (ready && !authenticated) {
       router.push("/login");
     }
-  }, [authenticated, prevAuth, ready, router]);
-
-  if (!prevAuth) {
-    return <SplashScreen />;
-  }
+  }, [authenticated, ready, router]);
 
   if (!ready) {
     // Do nothing while the PrivyProvider initializes with updated user state

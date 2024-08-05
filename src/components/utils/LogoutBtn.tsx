@@ -7,13 +7,11 @@ import { SettingsItem } from "../pages/settings/SettingsItem";
 
 export const LogoutBtn = () => {
   const { logout } = usePrivy();
-  const [_, setPrevAuth] = useLocalStorage("prev-authenticated", false);
   const [__, setUser] = useLocalStorage<User | null>("authUser", null);
 
   return (
     <SettingsItem
       onClick={() => {
-        setPrevAuth(false);
         setUser(null);
         logout();
       }}

@@ -1,6 +1,9 @@
 import { Skeleton } from "@/components/ui/shadcn/skeleton";
 
 export default function Loading() {
-  // You can add any UI inside Loading, including a Skeleton.
-  return <Skeleton className="mb-4 mt-6 rounded-lg w-full h-full" />;
+  return (
+    <div className="pb-4 pt-6 w-full h-full">
+      <Skeleton className="rounded-lg w-full h-full" />
+    </div>
+  );
 }

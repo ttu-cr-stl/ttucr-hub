@@ -5,7 +5,7 @@ import { Spinner } from "@/components/utils/Spinner";
 import { FormRadio } from "@/components/utils/formItems/FormRadio";
 import { FormTextInput } from "@/components/utils/formItems/FormTextInput";
 import { internalUpdateUserByUsername } from "@/db/users";
-import { useAuthUser } from "@/lib/hooks/useAuthUser";
+import { useAuthUser } from "@/lib/providers/authProvider";
 import { DegreeKeys, formSchema, NavPath } from "@/lib/types";
 import { cn } from "@/lib/utils/cn";
 import { Degree } from "@/lib/utils/consts";

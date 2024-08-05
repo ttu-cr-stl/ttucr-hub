@@ -6,7 +6,7 @@ export default function Onboarding() {
     <main className="relative h-full w-full flex flex-col py-20 px-6 space-y-12">
       <div className="fixed top-0 right-0 w-20 h-20 self-end aspect-auto">
         <Image
-          src="/TTULogo.png"
+          src="general/TTULogo.png"
           alt=""
           fill
           style={{

@@ -67,7 +67,7 @@ export default async function UserPage({
         </div>
       </div>
       <div className="flex flex-col w-full gap-y-2">
-        {user.events.map((event) => (
+        {user.events.filter((e) => e.startTime < new Date()).map((event) => (
           <div key={event.id} className="w-full">
             <span className="ml-4 text-xs">
               <span className="font-semibold mr-0.5">@{user.username}</span>

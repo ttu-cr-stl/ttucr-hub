@@ -8,6 +8,7 @@ const withPWA = require("@ducanh2912/next-pwa").default({
 
 module.exports = withPWA({
   images: {
-    
+    loader: "custom",
+    loaderFile: "./src/lib/utils/imageLoader.ts",
   },
 });

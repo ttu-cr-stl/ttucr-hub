@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/shadcn/badge";
 import { Separator } from "@/components/ui/shadcn/separator";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";
 import { formatInTimeZone } from "date-fns-tz";
+import Image from "next/image";
 import Link from "next/link";
 
 export function EventCard({
@@ -31,7 +32,13 @@ export function EventCard({
     return (
       <Link prefetch={true} href={`/event/${event.id}`}>
         <div className="relative flex flex-row w-full h-24 rounded-2xl shadow-sm shadow-gray-300 bg-white">
-          <div className="basis-24 h-full rounded-2xl shadow-md bg-sky-400"></div>
+          <Image
+            src={event.coverImg || ""}
+            width={96}
+            height={96}
+            className="rounded-2xl shadow-md object-cover"
+            alt=""
+          />
           <div className="flex flex-col items-left space-y-1 w-40 m-2">
             <div className="flex flex-row">
               <svg
@@ -66,15 +73,9 @@ export function EventCard({
                 {formatInTimeZone(
                   event.startTime,
                   "America/Costa_Rica",
-                  "MMMM dd"
+                  "MMMM d yyyy"
                 )}
               </h1>
-
-              {/* <h1 className="w-10 h-4 rounded-2xl border border-red-500 ">
-                <h2 className=" m-0.5 tracking-tighter text-[8px] text-center text-red-500 font-medium">
-                  +500 
-                </h2>
-              </h1> */}
             </div>
           </div>
         </div>
@@ -86,15 +87,16 @@ export function EventCard({
     <Link prefetch={true} href={`/event/${event.id}`}>
       <div className="flex flex-col gap-y-2 w-full h-72 rounded-2xl shadow-sm shadow-gray-300 bg-white ">
         <div
-          className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md shadow-gray-400"
-          style={{
-            backgroundImage: `url(https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?width=320?height=176?quality=50)`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-          }}
+          className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md shadow-gray-400 overflow-clip"
         >
+          <Image
+            src={event.coverImg || ""}
+            fill
+            alt=""
+            className="absolute top-0 left-0 aspect-auto object-cover"
+          />
           <Badge
+          className="z-10"
             style={{
               backgroundColor: EVENT_CATEGORIES.find(
                 (cat) => cat.name === event.category

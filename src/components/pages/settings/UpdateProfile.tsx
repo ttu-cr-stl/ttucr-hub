@@ -1,18 +1,18 @@
 "use client";
 import { Form } from "@/components/ui/shadcn/form";
 import { Spinner } from "@/components/utils/Spinner";
+import { internalUpdateUserByUsername } from "@/db/users";
+import { DegreeKeys, formSchema } from "@/lib/types";
 import { Degree } from "@/lib/utils/consts";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useForm, UseFormReturn } from "react-hook-form";
+import { z } from "zod";
 import { Button } from "../../ui/shadcn/button";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
 import { ProfilePicInput } from "../../utils/formItems/ProfilePicInput";
-import { internalUpdateUserByUsername } from "@/db/users";
-import { useAuthUser } from "@/lib/hooks/useAuthUser";
-import { formSchema, DegreeKeys } from "@/lib/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, UseFormReturn } from "react-hook-form";
-import { z } from "zod";
+import { useAuthUser } from "@/lib/providers/authProvider";
 
 export const UpdateProfile = () => {
   //Form stuff
@@ -99,9 +99,7 @@ export const UpdateProfile = () => {
           type="button"
           onClick={() => {
             setLoading(true);
-            const form = document.getElementById(
-              "form"
-            ) as HTMLFormElement;
+            const form = document.getElementById("form") as HTMLFormElement;
             if (form) {
               try {
                 form.requestSubmit();

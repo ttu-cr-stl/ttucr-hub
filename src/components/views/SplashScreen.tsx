@@ -5,7 +5,7 @@ export const SplashScreen = () => (
     <div className="relative w-1/2 h-96 aspect-auto">
       <Image
         priority
-        src="/TTULogo.png"
+        src="general/TTULogo.png"
         alt=""
         fill
         style={{

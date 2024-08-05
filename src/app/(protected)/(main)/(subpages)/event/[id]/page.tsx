@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/shadcn/badge";
 import { getEventByIdWithUserPics } from "@/db/events";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";
 import { formatInTimeZone } from "date-fns-tz";
+import Image from "next/image";
 import Link from "next/link";
 
 export default async function Event({ params }: { params: { id: string } }) {
@@ -20,14 +21,15 @@ export default async function Event({ params }: { params: { id: string } }) {
   return (
     <div className="w-full overflow-x-visible">
       <div
-        className="flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-3xl shadow-md shadow-gray-400 bg-sky-400 bg-cover"
-        style={{
-          backgroundImage: `url(https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?width=320?height=176?quality=50)`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-        }}
+        className="relative flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 overflow-clip"
       >
+        <Image
+          src={event.coverImg || ""}
+          fill
+          alt=""
+          className="-z-10 absolute top-0 left-0 object-cover"
+        />
+
         <Link href={`/event/${event.id}/users`}>
           {event.users.length !== 0 && (
             <AvatarCircles
