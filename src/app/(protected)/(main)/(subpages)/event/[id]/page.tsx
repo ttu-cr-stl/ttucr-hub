@@ -21,7 +21,7 @@ export default async function Event({ params }: { params: { id: string } }) {
   return (
     <div className="w-full overflow-x-visible">
       <div
-        className="relative flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 overflow-clip"
+        className="relative flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 bg-sky-400 overflow-clip"
       >
         <Image
           src={event.coverImg || ""}

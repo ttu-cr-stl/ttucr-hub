@@ -36,7 +36,7 @@ export function EventCard({
             src={event.coverImg || ""}
             width={96}
             height={96}
-            className="rounded-2xl shadow-md object-cover"
+            className="rounded-2xl shadow-md object-cover bg-sky-400"
             alt=""
           />
           <div className="flex flex-col items-left space-y-1 w-40 m-2">
@@ -87,7 +87,7 @@ export function EventCard({
     <Link prefetch={true} href={`/event/${event.id}`}>
       <div className="flex flex-col gap-y-2 w-full h-72 rounded-2xl shadow-sm shadow-gray-300 bg-white ">
         <div
-          className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md shadow-gray-400 overflow-clip"
+          className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md shadow-gray-400 bg-sky-400 overflow-clip"
         >
           <Image
             src={event.coverImg || ""}
