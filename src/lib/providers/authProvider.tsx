@@ -1,8 +1,9 @@
 import { getUserByUsername } from "@/db/users";
 import { Event, Org, User } from "@prisma/client";
 import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { extractUsername } from "../utils";
+import { useLocalStorage } from "usehooks-ts";
 
 const privyId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
 
@@ -15,18 +16,20 @@ export const useAuthUser = () => {
 };
 
 const AuthUserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<
+  const [user, setUser] = useLocalStorage<
     (User & { orgs: Org[]; events: Event[] }) | null
-  >(null);
+  >("authUser", null);
   const { user: privyUser } = usePrivy();
 
   useEffect(() => {
     if (privyUser?.email?.address && user === null) {
       getUserByUsername(extractUsername(privyUser?.email?.address)).then(
-        (user) => setUser(user)
+        (u) => {
+          if (u !== user) setUser(u);
+        }
       );
     }
-  }, [privyUser, user]);
+  }, [privyUser, setUser, user]);
 
   return <authContext.Provider value={user}>{children}</authContext.Provider>;
 };
