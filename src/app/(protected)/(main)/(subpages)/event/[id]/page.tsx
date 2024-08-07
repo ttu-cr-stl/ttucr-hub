@@ -20,14 +20,12 @@ export default async function Event({ params }: { params: { id: string } }) {
 
   return (
     <div className="w-full overflow-x-visible">
-      <div
-        className="relative flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 bg-sky-400 overflow-clip"
-      >
+      <div className="relative flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 overflow-clip">
         <Image
           src={event.coverImg || ""}
           fill
           alt=""
-          className="-z-10 absolute top-0 left-0 object-cover"
+          className="-z-10 absolute top-0 left-0 object-cover bg-sky-400"
         />
 
         <Link href={`/event/${event.id}/users`}>

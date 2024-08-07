@@ -86,17 +86,15 @@ export function EventCard({
   return (
     <Link prefetch={true} href={`/event/${event.id}`}>
       <div className="flex flex-col gap-y-2 w-full h-72 rounded-2xl shadow-sm shadow-gray-300 bg-white ">
-        <div
-          className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md shadow-gray-400 bg-sky-400 overflow-clip"
-        >
+        <div className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md shadow-gray-400 overflow-clip">
           <Image
             src={event.coverImg || ""}
             fill
             alt=""
-            className="absolute top-0 left-0 aspect-auto object-cover"
+            className="absolute top-0 left-0 aspect-auto object-cover bg-sky-400"
           />
           <Badge
-          className="z-10"
+            className="z-10"
             style={{
               backgroundColor: EVENT_CATEGORIES.find(
                 (cat) => cat.name === event.category
