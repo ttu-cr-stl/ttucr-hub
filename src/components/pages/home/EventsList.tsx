@@ -3,7 +3,7 @@ import { FC } from "react";
 import { EventCard } from "./EventCard";
 
 interface EventsListProps {
-  events?: ({
+  events: ({
     users: {
       profilePic: string | null;
     }[];
@@ -23,10 +23,6 @@ interface EventsListProps {
 }
 
 export const EventsList: FC<EventsListProps> = async ({ events, small }) => {
-  if (!events) {
-    events = await getAllEvents();
-  }
-  // console.log(events.map((event) => event.name));
   return (
     <div className={"flex flex-col space-y-4"}>
       {events.sort((a, b) => b.startTime.getTime() - a.startTime.getTime()).map((event, index) => (
