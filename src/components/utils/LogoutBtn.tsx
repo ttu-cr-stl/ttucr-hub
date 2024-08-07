@@ -1,9 +1,9 @@
 "use client";
 import { User } from "@prisma/client";
 import { usePrivy } from "@privy-io/react-auth";
-import { LogOut } from "lucide-react";
 import { useLocalStorage } from "usehooks-ts";
 import { SettingsItem } from "../pages/settings/SettingsItem";
+import { LogOut } from "react-feather";
 
 export const LogoutBtn = () => {
   const { logout } = usePrivy();

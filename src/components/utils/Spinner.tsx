@@ -1,3 +1,3 @@
-import { Loader2 } from "lucide-react";
+import { Loader } from "react-feather";
 
-export const Spinner = () => <Loader2 className="animate-spin-slow" />;
+export const Spinner = () => <Loader className="animate-spin-slow" />;

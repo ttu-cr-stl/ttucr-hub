@@ -1,6 +1,6 @@
-'use client'
-import { Loader2 } from "lucide-react";
+"use client";
 import { useRouter } from "next/navigation";
+import { Loader } from "react-feather";
 import { usePullToRefresh } from "use-pull-to-refresh";
 
 const MAXIMUM_PULL_LENGTH = 240;
@@ -29,7 +29,7 @@ export default function PullToRefresh() {
         className={`h-full w-full ${isRefreshing ? "animate-spin" : ""}`}
         style={!isRefreshing ? { transform: `rotate(${pullPosition}deg)` } : {}}
       >
-        <Loader2 size={16} />
+        <Loader size={16} />
       </div>
     </div>
   );

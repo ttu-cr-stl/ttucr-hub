@@ -3,8 +3,8 @@ import { Skeleton } from "@/components/ui/shadcn/skeleton";
 import { toggleUserToEvent } from "@/db/events";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { cn } from "@/lib/utils/cn";
-import { Loader2 } from "lucide-react";
 import { FC, useEffect, useState } from "react";
+import { Loader } from "react-feather";
 
 interface RegisterBtnProps {
   eventId: string;
@@ -48,7 +48,7 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
       )}
     >
       {loading ? (
-        <Loader2 className="animate-spin" />
+        <Loader className="animate-spin" size={16} />
       ) : (
         <span className="text-sm">
           {isRegistered ? "Unregister" : "Register"}
