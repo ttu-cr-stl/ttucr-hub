@@ -67,7 +67,7 @@ export default async function UserPage({
         </div>
       </div>
       <div className="flex flex-col w-full gap-y-2">
-        {user.events?.length === 0 ? (
+        {user.events?.filter((e) => e.startTime < new Date()).length === 0 ? (
           <div className="w-full text-center">No events attended yet</div>
         ) : (
           user.events
