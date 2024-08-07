@@ -12,7 +12,7 @@ interface RegisterBtnProps {
 }
 
 const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
-  const user = useAuthUser();
+  const { user } = useAuthUser();
 
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);

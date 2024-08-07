@@ -1,6 +1,8 @@
 "use server";
 import prisma from "@/db/prisma";
+import { NavPath } from "@/lib/types";
 import { User } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function getAllUsers() {
   console.log("fetching all users");
@@ -17,7 +19,7 @@ export async function getUserByUsername(username: string) {
     include: {
       orgs: true,
       events: true,
-    }
+    },
   });
   return user;
 }
@@ -53,7 +55,12 @@ export async function internalUpdateUserByUsername(
       username,
     },
     data,
+    include: {
+      orgs: true,
+      events: true,
+    }
   });
 
+  revalidatePath(NavPath.LEADERBOARD);
   return user;
 }

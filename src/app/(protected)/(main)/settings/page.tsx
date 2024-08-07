@@ -18,7 +18,7 @@ export default function Settings() {
             </div>
           </SettingsItem>
         </Link>
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
         <LogoutBtn />
       </div>
 

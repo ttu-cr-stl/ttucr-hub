@@ -8,7 +8,7 @@ import { FC } from "react";
 interface WelcomeProps {}
 
 export const Welcome: FC<WelcomeProps> = ({}) => {
-  const user = useAuthUser();
+  const { user } = useAuthUser();
 
   if (!user) return <Skeleton className="h-[110px]" />;
 

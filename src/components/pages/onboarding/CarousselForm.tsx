@@ -24,7 +24,7 @@ export const CarousselForm: FC = ({}) => {
   const [showPrev, setShowPrev] = useState(false);
 
   //Form stuff
-  const user = useAuthUser();
+  const { user } = useAuthUser();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

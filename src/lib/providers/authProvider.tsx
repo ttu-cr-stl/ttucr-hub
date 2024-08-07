@@ -1,15 +1,16 @@
-import { getUserByUsername } from "@/db/users";
+import { getUserByUsername, internalUpdateUserByUsername } from "@/db/users";
 import { Event, Org, User } from "@prisma/client";
 import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
 import { createContext, useContext, useEffect } from "react";
-import { extractUsername } from "../utils";
 import { useLocalStorage } from "usehooks-ts";
+import { extractUsername } from "../utils";
 
 const privyId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
 
-const authContext = createContext<
-  (User & { orgs?: Org[]; events?: Event[] }) | null
->(null);
+const authContext = createContext<{
+  user: (User & { orgs?: Org[]; events?: Event[] }) | null;
+  updateUser: (data: Partial<User>) => Promise<User | null>;
+}>({ user: null, updateUser: () => Promise.resolve(null) });
 
 export const useAuthUser = () => {
   return useContext(authContext);
@@ -17,21 +18,35 @@ export const useAuthUser = () => {
 
 const AuthUserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useLocalStorage<
-    (User & { orgs: Org[]; events: Event[] }) | null
+    ({ orgs: Org[]; events: Event[] } & User) | null
   >("authUser", null);
   const { user: privyUser } = usePrivy();
 
   useEffect(() => {
     if (privyUser?.email?.address && user === null) {
-      getUserByUsername(extractUsername(privyUser?.email?.address)).then(
-        (u) => {
-          if (u !== user) setUser(u);
-        }
+      getUserByUsername(extractUsername(privyUser?.email?.address)).then((u) =>
+        setUser(u)
       );
     }
   }, [privyUser, setUser, user]);
 
-  return <authContext.Provider value={user}>{children}</authContext.Provider>;
+  const updateUser = async (data: Partial<User>) => {
+    if (user) {
+      try {
+        const u = await internalUpdateUserByUsername(user.username, data);
+        setUser(u);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return user;
+  };
+
+  return (
+    <authContext.Provider value={{ user, updateUser }}>
+      {children}
+    </authContext.Provider>
+  );
 };
 
 export default function AuthProvider({
