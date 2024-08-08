@@ -53,7 +53,7 @@ export const formSchema = z.object({
       required_error: "Name is required",
     })
     .min(2, "Name is too short"),
-  profilePic: z.string(), //.url()
+  profilePic: z.any(), //.url()
   major: z.nativeEnum(DegreeKeys),
   minor: z.nativeEnum(DegreeKeys),
 });

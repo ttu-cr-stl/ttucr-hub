@@ -2,6 +2,7 @@
 import { Form } from "@/components/ui/shadcn/form";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { DegreeKeys, formSchema } from "@/lib/types";
+import { uploadProfileImage } from "@/lib/utils";
 import { Degree } from "@/lib/utils/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
@@ -33,12 +34,22 @@ export const UpdateProfile = ({
     },
   }) as UseFormReturn<z.infer<typeof formSchema>>;
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setSaving(true);
+    let imgPath;
     try {
-      updateUser(values).then(_ => {
-        setSaving(false);
-        setEdit(false);
-      });
+      if (values.profilePic instanceof File) {
+        imgPath = await uploadProfileImage(values.profilePic, user.id);
+        updateUser({ ...values, profilePic: imgPath! }).then((_) => {
+          setSaving(false);
+          setEdit(false);
+        });
+      } else {
+        updateUser(values).then((_) => {
+          setSaving(false);
+          setEdit(false);
+        });
+      }
     } catch (error) {
       console.error(error);
       throw new Error("Failed to update user");
