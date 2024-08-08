@@ -36,7 +36,7 @@ export async function generateMetadata(
       images: new ImageResponse(
         (
           <Image
-            src={`https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?quality=75`}
+            src={`https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?width=800&height=600&quality=75`}
             alt=""
             width={800}
             height={600}
@@ -55,7 +55,7 @@ export async function generateMetadata(
       images: new ImageResponse(
         (
           <Image
-            src={`https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?quality=75`}
+            src={`https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?width=800&height=600&quality=75`}
             alt=""
             width={800}
             height={600}
