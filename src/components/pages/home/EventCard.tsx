@@ -36,7 +36,7 @@ export function EventCard({
             src={event.coverImg || ""}
             width={96}
             height={96}
-            className="rounded-2xl shadow-md object-cover bg-sky-400"
+            className="rounded-2xl shadow-md object-cover"
             alt=""
           />
           <div className="flex flex-col items-left space-y-1 w-40 m-2">
@@ -91,7 +91,7 @@ export function EventCard({
             src={event.coverImg || ""}
             fill
             alt=""
-            className="absolute top-0 left-0 aspect-auto object-cover bg-sky-400"
+            className="absolute top-0 left-0 aspect-auto object-cover"
           />
           <Badge
             className="z-10"

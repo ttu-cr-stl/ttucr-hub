@@ -25,7 +25,7 @@ export default async function Event({ params }: { params: { id: string } }) {
           src={event.coverImg || ""}
           fill
           alt=""
-          className="-z-10 absolute top-0 left-0 object-cover bg-sky-400"
+          className="-z-10 absolute top-0 left-0 object-cover"
         />
 
         <Link href={`/event/${event.id}/users`}>
