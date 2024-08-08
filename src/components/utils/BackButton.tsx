@@ -11,7 +11,7 @@ export const BackButton: FC = () => {
   const handleBack = useCallback(() => {
     if (typeof window !== "undefined") {
       const previousPage = document.referrer;
-      const allowedDomains = ["ttu-hub.vercel.app", "localhost:3000"]; // Allow both production and local development
+      const allowedDomains = ["https://ttu-hub.vercel.app", "localhost:3000"]; // Allow both production and local development
       const isAllowedDomain = allowedDomains.some(domain => new URL(previousPage).hostname.includes(domain));
 
       if (
