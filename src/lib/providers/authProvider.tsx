@@ -28,6 +28,9 @@ const AuthUserProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(u)
       );
     }
+    if (privyUser === null && user !== null) {
+      setUser(null);
+    }
   }, [privyUser, setUser, user]);
 
   const updateUser = async (data: Partial<User>) => {

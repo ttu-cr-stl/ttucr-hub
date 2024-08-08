@@ -1,15 +1,19 @@
 "use client";
+import { useAuthUser } from "@/lib/providers/authProvider";
 import { NavPath } from "@/lib/types";
 import { detectOS } from "@/lib/utils";
 import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC, ReactNode } from "react";
-import { BarChart, CreditCard, Grid, Home, Search, Settings, Users } from "react-feather";
+import { Grid, Home, Settings, Users } from "react-feather";
 
 interface NavBarProps {}
 const NavBar: FC<NavBarProps> = ({}) => {
   const activePath = usePathname();
+  const { user } = useAuthUser();
+
+  if (!user) return null;
 
   return (
     <div
@@ -23,7 +27,7 @@ const NavBar: FC<NavBarProps> = ({}) => {
       </NavIcon>
 
       <NavIcon pathname={NavPath.LEADERBOARD} activePath={activePath}>
-        <Users /> 
+        <Users />
         {/* <BarChart className=" -scale-x-100" /> */}
       </NavIcon>
 
@@ -50,9 +54,7 @@ const NavIcon: FC<{
 }> = ({ children, pathname, activePath }) => {
   return (
     <Link href={pathname}>
-      <div
-        className="p-2"
-      >
+      <div className="p-2">
         <div
           className={cn(
             //TODO Find regex that matches for root

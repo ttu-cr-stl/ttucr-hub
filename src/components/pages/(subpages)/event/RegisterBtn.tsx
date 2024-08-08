@@ -3,6 +3,7 @@ import { Skeleton } from "@/components/ui/shadcn/skeleton";
 import { toggleUserToEvent } from "@/db/events";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { cn } from "@/lib/utils/cn";
+import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import { Loader } from "react-feather";
 
@@ -18,10 +19,20 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) setIsRegistered(registeredIds.includes(user.id));
-  }, [user, registeredIds]);
+    if (user && isRegistered === null)
+      setIsRegistered(registeredIds.includes(user.id));
+  }, [user, registeredIds, isRegistered]);
 
-  if (!user || isRegistered === null)
+  if (!user)
+    return (
+      <Link href="/login">
+        <div className="flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer bg-black">
+          <span className="text-sm">Login</span>
+        </div>
+      </Link>
+    );
+
+  if (isRegistered === null)
     return <Skeleton className="w-[100px] h-8 rounded-full bg-white" />;
 
   const handleToggle = async () => {
@@ -42,7 +53,7 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
     <div
       onClick={() => handleToggle()}
       className={cn(
-        "flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white",
+        "flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer",
         isRegistered ? "bg-red-500" : "bg-green-500",
         loading && "bg-stone-300"
       )}
