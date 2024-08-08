@@ -9,6 +9,7 @@ import { formatInTimeZone } from "date-fns-tz";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ImageResponse } from "next/og";
 
 export async function generateMetadata(
   { params }: { params: { id: string } },
@@ -32,21 +33,39 @@ export async function generateMetadata(
     openGraph: {
       title: event.name,
       description: event.description,
-      images: [
-        `https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?quality=75` ||
-          "",
-        ...previousImages,
-      ],
+      images: new ImageResponse(
+        (
+          <Image
+            src={`https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?quality=75`}
+            alt=""
+            width={1200}
+            height={630}
+          />
+        ),
+        {
+          width: 1200,
+          height: 630,
+        }
+      ),
     },
     twitter: {
       card: "summary_large_image",
       title: event.name,
       description: event.description,
-      images: [
-        `https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?quality=75` ||
-          "",
-        ...previousImages,
-      ],
+      images: new ImageResponse(
+        (
+          <Image
+            src={`https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?quality=75`}
+            alt=""
+            width={1200}
+            height={630}
+          />
+        ),
+        {
+          width: 1200,
+          height: 630,
+        }
+      ),
     },
   };
 }
