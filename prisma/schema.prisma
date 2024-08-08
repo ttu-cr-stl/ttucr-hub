@@ -34,6 +34,7 @@ model Event {
   coverImg    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
+  messages    String[]
   users       User[]    @relation("UserToEvent")
 }
 

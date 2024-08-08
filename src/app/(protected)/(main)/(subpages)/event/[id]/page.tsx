@@ -19,7 +19,7 @@ export default async function Event({ params }: { params: { id: string } }) {
   //(animate) (border & rounded) (shadow) (color) (text & font)
 
   return (
-    <div className="w-full overflow-x-visible">
+    <div className="w-full overflow-x-visible pb-2">
       <div className="relative flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 overflow-clip">
         <Image
           src={event.coverImg || ""}
@@ -106,10 +106,11 @@ export default async function Event({ params }: { params: { id: string } }) {
             </div>
           </div>
           <p className="line-clamp-4 leading-snug">{event.description}</p>
-          <div className="flex justify-between w-full h-20 rounded-xl shadow-sm shadow-gray-300 bg-white text-gray-500">
-            <h4 className="pl-3 pt-3 text-gray-500">Sample message</h4>
-            <h4 className="content-end pb-2 pr-3">--{event.organizer}</h4>
-          </div>
+          {event.messages.slice().reverse().map((message, i) => (
+            <div key={i} className="relative flex flex-col w-full rounded-xl shadow-sm shadow-gray-3000 bg-white text-gray-500 px-6 py-4">
+              <div dangerouslySetInnerHTML={{ __html: message }} />
+            </div>
+          ))}
         </div>
       </div>
     </div>
