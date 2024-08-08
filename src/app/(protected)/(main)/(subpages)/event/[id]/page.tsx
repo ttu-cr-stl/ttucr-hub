@@ -4,8 +4,42 @@ import { Badge } from "@/components/ui/shadcn/badge";
 import { getEventByIdWithUserPics } from "@/db/events";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";
 import { formatInTimeZone } from "date-fns-tz";
+import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export async function generateMetadata(
+  { params }: { params: { id: string } },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // Fetch data for the specific page
+  const event = await getEventByIdWithUserPics(params.id);
+
+  if (!event)
+    return {
+      title: "Event not found",
+      description: "Event not found",
+    };
+
+  // Optionally access and extend parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: event.name,
+    description: event.description,
+    openGraph: {
+      title: event.name,
+      description: event.description,
+      images: [event.coverImg || "", ...previousImages],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: event.name,
+      description: event.description,
+      images: [event.coverImg || ""],
+    },
+  };
+}
 
 export default async function Event({ params }: { params: { id: string } }) {
   const event = await getEventByIdWithUserPics(params.id);
@@ -106,11 +140,17 @@ export default async function Event({ params }: { params: { id: string } }) {
             </div>
           </div>
           <p className="line-clamp-4 leading-snug">{event.description}</p>
-          {event.messages.slice().reverse().map((message, i) => (
-            <div key={i} className="relative flex flex-col w-full rounded-xl shadow-sm shadow-gray-3000 bg-white text-gray-500 px-6 py-4">
-              <div dangerouslySetInnerHTML={{ __html: message }} />
-            </div>
-          ))}
+          {event.messages
+            .slice()
+            .reverse()
+            .map((message, i) => (
+              <div
+                key={i}
+                className="relative flex flex-col w-full rounded-xl shadow-sm shadow-gray-3000 bg-white text-gray-500 px-6 py-4"
+              >
+                <div dangerouslySetInnerHTML={{ __html: message }} />
+              </div>
+            ))}
         </div>
       </div>
     </div>
