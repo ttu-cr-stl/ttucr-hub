@@ -38,13 +38,13 @@ export async function generateMetadata(
           <Image
             src={`https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?quality=75`}
             alt=""
-            width={1200}
-            height={630}
+            width={800}
+            height={600}
           />
         ),
         {
-          width: 1200,
-          height: 630,
+          width: 800,
+          height: 600,
         }
       ),
     },
@@ -57,13 +57,13 @@ export async function generateMetadata(
           <Image
             src={`https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?quality=75`}
             alt=""
-            width={1200}
-            height={630}
+            width={800}
+            height={600}
           />
         ),
         {
-          width: 1200,
-          height: 630,
+          width: 800,
+          height: 600,
         }
       ),
     },
