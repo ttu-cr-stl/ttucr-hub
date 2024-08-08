@@ -32,13 +32,21 @@ export async function generateMetadata(
     openGraph: {
       title: event.name,
       description: event.description,
-      images: [event.coverImg || "", ...previousImages],
+      images: [
+        `https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?quality=75` ||
+          "",
+        ...previousImages,
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: event.name,
       description: event.description,
-      images: [event.coverImg || ""],
+      images: [
+        `https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?quality=75` ||
+          "",
+        ...previousImages,
+      ],
     },
   };
 }
