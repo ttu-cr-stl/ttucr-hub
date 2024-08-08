@@ -8,7 +8,7 @@ export default function AppLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <main className="relative w-full h-dvh px-4 scrollbar-hide overflow-y-scroll">
-      <div className="pb-20">{children}</div>
+      <div className="pb-24">{children}</div>
 
       <NavBar />
     </main>
