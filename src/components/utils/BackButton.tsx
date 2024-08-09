@@ -10,18 +10,12 @@ export const BackButton: FC = () => {
 
   const handleBack = useCallback(() => {
     if (typeof window !== "undefined") {
-      const previousPage = document.referrer;
-      const allowedDomains = ["https://ttu-hub.vercel.app", "localhost:3000"]; // Allow both production and local development
-      const isAllowedDomain = allowedDomains.some(domain => new URL(previousPage).hostname.includes(domain));
-
-      if (
-        previousPage &&
-        isAllowedDomain
-      ) {
+      // Check if there's a previous page in the history
+      if (window.history.length > 1) {
         router.back();
       } else {
-        // Fallback action if the previous page is not from the allowed domain
-        router.push("/"); // Or any other default route
+        // If no previous page, push to '/'
+        router.push('/');
       }
     }
   }, [router]);
