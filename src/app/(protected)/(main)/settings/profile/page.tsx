@@ -42,8 +42,6 @@ export default function Profile() {
     }
   };
 
-  console.log("Profile Pic: " + user.profilePic);
-
   return (
     <SubPageLayout>
       <div className="fixed top-0 right-0 pt-6 pr-6 z-50">

@@ -1,5 +1,10 @@
 "use client";
-import { Form, FormLabel } from "@/components/ui/shadcn/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormLabel,
+} from "@/components/ui/shadcn/form";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { DegreeKeys, formSchema } from "@/lib/types";
 import { uploadProfileImage } from "@/lib/utils";
@@ -39,18 +44,12 @@ export const UpdateProfile = ({
     setSaving(true);
     let imgPath;
     try {
-      if (values.profilePic instanceof File) {
-        imgPath = await uploadProfileImage(values.profilePic, user.id);
-        updateUser({ ...values, profilePic: imgPath! }).then((_) => {
-          setSaving(false);
-          setEdit(false);
-        });
-      } else {
-        updateUser(values).then((_) => {
-          setSaving(false);
-          setEdit(false);
-        });
-      }
+      console.log("Hello");
+      imgPath = await uploadProfileImage(values.profilePic, user.id);
+      updateUser({ ...values, profilePic: imgPath! }).then((_) => {
+        setSaving(false);
+        setEdit(false);
+      });
     } catch (error) {
       console.error(error);
       throw new Error("Failed to update user");
@@ -119,14 +118,40 @@ export const UpdateProfile = ({
               )}
             ></FormField> */}
             <div className="flex justify-center items-center flex-col">
-              <FormLabel htmlFor="avatar-upload" className="cursor-pointer">
+              <FormField
+                control={form.control}
+                name="profilePic"
+                render={({ field: { value, onChange, ...fieldProps } }) => (
+                  <FormLabel className="cursor-pointer">
+                    <div
+                      className="w-28 h-28 rounded-full overflow-hidden border-2 border-gray-300"
+                      style={{
+                        backgroundImage: `url(${imageSrc || user.profilePic})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    />
+                    <FormControl>
+                      <Input
+                        {...fieldProps}
+                        className="hidden"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          onChange(e.target.files && e.target.files[0]);
+                          handleImageChange(e);
+                        }}
+                      />
+                    </FormControl>
+                  </FormLabel>
+                )}
+              ></FormField>
+
+              {/* <FormLabel control={form.control} className="cursor-pointer">
                 <div
                   className="w-28 h-28 rounded-full overflow-hidden border-2 border-gray-300"
                   style={{
-                    // the users/default.jpg is not working
-                    backgroundImage: `url(${
-                      imageSrc || user.profilePic || "/users/default.jpg"
-                    })`,
+                    backgroundImage: `url(${imageSrc || user.profilePic})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
@@ -137,8 +162,10 @@ export const UpdateProfile = ({
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={handleImageChange}
-              />
+                onChange={(event) =>
+                  onChange(event.target.files && event.target.files[0])
+                }
+              /> */}
             </div>
           </div>
         </div>
