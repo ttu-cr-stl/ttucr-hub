@@ -123,8 +123,8 @@ export default async function Event({ params }: { params: { id: string } }) {
           </div>
           <div>
             <div className="flex flex-col py-4 gap-y-4">
-              <div className="w-full flex items-center justify-between">
-                <h1 className="text-4xl pb-0.5 font-bold line-clamp-2">
+              <div className="w-full flex items-start justify-between">
+                <h1 className="text-3xl pb-0.5 font-bold line-clamp-2">
                   {event.name}
                 </h1>
                 <Badge
@@ -137,7 +137,7 @@ export default async function Event({ params }: { params: { id: string } }) {
                   {event.category}
                 </Badge>
               </div>
-              <div className="flex justify-between">
+              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -160,15 +160,13 @@ export default async function Event({ params }: { params: { id: string } }) {
                   </svg>
                   <h2 className="text-gray-500 font-bold">{event.location}</h2>
                 </div>
-                <div className="flex justify-center items-center px-2 py-1 rounded-2xl bg-gray-300">
-                  <span className="text-xs leading-none text-center">
-                    {formatInTimeZone(
-                      event.startTime,
+                <Badge className="bg-gray-300 text-black">
+                  {formatInTimeZone(
+                    event.startTime,
                       "America/Costa_Rica",
                       "K:mm aa"
-                    )}
-                  </span>
-                </div>
+                  )}
+                </Badge>
               </div>
               <p className="line-clamp-4 leading-snug">{event.description}</p>
               {event.messages
