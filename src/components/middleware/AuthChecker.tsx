@@ -1,15 +1,16 @@
 "use client";
+import { useAuthUser } from "@/lib/providers/authProvider";
 import { isTTUEmail } from "@/lib/utils";
 import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useEffect } from "react";
-import { useLocalStorage } from "usehooks-ts";
 import { EmailNotTTU } from "../views/EmailNotTTU";
 import { SplashScreen } from "../views/SplashScreen";
 
 const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
   const { ready, authenticated, user: PrivyUser } = usePrivy();
   const router = useRouter();
+  const { user } = useAuthUser();
 
   useEffect(() => {
     if (ready && !authenticated) {
@@ -22,7 +23,8 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
     return <SplashScreen />;
   }
 
-  if (ready && !authenticated) {
+  if (!user && authenticated) {
+    // Do nothing while the AuthProvider initializes with updated user state
     return <SplashScreen />;
   }
 
