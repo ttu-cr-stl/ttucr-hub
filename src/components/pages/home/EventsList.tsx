@@ -25,7 +25,7 @@ interface EventsListProps {
 export const EventsList: FC<EventsListProps> = async ({ events, small }) => {
   return (
     <div className={"flex flex-col space-y-4"}>
-      {events.sort((a, b) => b.startTime.getTime() - a.startTime.getTime()).map((event, index) => (
+      {events.sort((a, b) => a.startTime.getTime() - b.startTime.getTime()).map((event, index) => (
         <EventCard key={index} event={event} small={small} />
       ))}
     </div>
