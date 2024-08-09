@@ -43,8 +43,8 @@ export default function Profile() {
 
   return (
     <SubPageLayout>
-      <div className="fixed top-0 right-0 pt-6 pr-6 z-50">
-        <Button onClick={() => handleEdit()} className="rounded-full">
+      <div className="absolute top-4 right-0 z-50">
+        <Button onClick={() => handleEdit()} className="w-[65px] rounded-full">
           {edit ? (
             saving ? (
               <Loader className="w-4 h-4 animate-spin" />
@@ -104,7 +104,8 @@ export default function Profile() {
             </div>
           </div>
           <div className="flex flex-col w-full gap-y-2">
-            {user.events?.filter((e) => e.startTime < new Date()).length === 0 ? (
+            {user.events?.filter((e) => e.startTime < new Date()).length ===
+            0 ? (
               <div className="w-full text-center">No events attended yet</div>
             ) : (
               user.events

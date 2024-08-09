@@ -4,11 +4,12 @@ import Image from "next/image";
 export default function Onboarding() {
   return (
     <main className="relative h-full w-full flex flex-col py-20 px-6 space-y-12">
-      <div className="fixed top-0 right-0 w-20 h-20 self-end aspect-auto">
+      <div className="absolute top-5 right-5 flex items-center justify-center size-20 bg-white rounded-lg self-end aspect-auto">
         <Image
-          src="general/TTULogo.png"
+          src="general/TTULogo-local.webp"
           alt=""
-          fill
+          width={100}
+          height={100}
           style={{
             objectFit: "contain",
           }}

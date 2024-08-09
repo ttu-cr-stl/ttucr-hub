@@ -23,8 +23,8 @@ export const CarousselForm: FC = ({}) => {
   const [showNext, setShowNext] = useState(true);
   const [showPrev, setShowPrev] = useState(false);
 
-  //Form stuff
-  const { user } = useAuthUser();
+  const { user, updateUser } = useAuthUser();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,13 +37,15 @@ export const CarousselForm: FC = ({}) => {
   }) as UseFormReturn<z.infer<typeof formSchema>>;
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (user)
-      try {
-        internalUpdateUserByUsername(user?.username, values);
-      } catch (error) {
-        console.error(error);
-        throw new Error("Failed to update user");
-      }
+    setLoading(true);
+    try {
+      updateUser(values).then(() => {
+        router.push(NavPath.HOME);
+      });
+    } catch (error) {
+      console.error(error);
+      throw new Error("Failed to update user");
+    }
   }
 
   // Carousel stuff
@@ -71,7 +73,6 @@ export const CarousselForm: FC = ({}) => {
           id="form"
           className="flex flex-col"
           ref={emblaRef}
-          onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="flex items-center">
             <CarouselItem>
@@ -126,21 +127,7 @@ export const CarousselForm: FC = ({}) => {
               onClick={
                 showNext
                   ? scrollNext
-                  : () => {
-                      setLoading(true);
-                      const form = document.getElementById(
-                        "form"
-                      ) as HTMLFormElement;
-                      if (form) {
-                        try {
-                          form.requestSubmit();
-                        } catch (e) {
-                          console.log(e);
-                          setLoading(false);
-                        }
-                      }
-                      router.push(NavPath.HOME);
-                    }
+                  : () => onSubmit(form.getValues())
               }
             >
               {loading ? <Spinner /> : showNext ? "Next" : "Save & Continue"}

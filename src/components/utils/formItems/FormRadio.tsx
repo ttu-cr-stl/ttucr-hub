@@ -36,7 +36,7 @@ export const FormRadio: FC<FormComponentProps> = ({
                   <FormControl>
                     <RadioGroupItem value={option.value}>
                       <div
-                        className={`px-2 pt-0.5 pb-1 mb-2 rounded-full border`}
+                        className={`px-2 pt-0.5 pb-1 mb-2 rounded-full border bg-white`}
                         style={{
                           borderColor: option.color,
                           backgroundColor:
