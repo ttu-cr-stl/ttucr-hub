@@ -9,7 +9,7 @@ import { FC, ReactNode } from "react";
 import { Grid, Home, Settings, Users } from "react-feather";
 
 interface NavBarProps {}
-const NavBar: FC<NavBarProps> = ({}) => {
+const NavBar: FC<NavBarProps> = () => {
   const activePath = usePathname();
   const { user } = useAuthUser();
 
@@ -18,8 +18,9 @@ const NavBar: FC<NavBarProps> = ({}) => {
   return (
     <div
       className={cn(
-        "fixed bottom-0 left-0 w-dvw md:w-[375px] border-t flex items-center justify-evenly z-10 bg-white",
-        detectOS() === "iOS" ? "pb-4 h-20" : "h-16"
+        "fixed bottom-0 left-0 w-full md:w-[375px] border-t flex items-center justify-evenly z-10 bg-white",
+        detectOS() === "iOS" ? "pb-4 h-20" : "h-16",
+        "lg:absolute lg:w-[375px] lg:h-16" // Added for desktop layout
       )}
     >
       <NavIcon pathname={NavPath.HOME} activePath={activePath}>

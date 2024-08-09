@@ -72,12 +72,21 @@ export default function RootLayout({
         "bg-[#F5F5F5] dark:bg-gray-500 text-black"
       )}
     >
-      {/* <PullToRefresh /> */}
-      <body className="relative self-center h-dvh w-dvw md:w-[375px]">
+      <body className="self-center h-dvh w-dvw lg:flex lg:items-center lg:justify-center">
         <Analytics />
         <SpeedInsights />
 
-        <GlobalProviders>{children}</GlobalProviders>
+        <GlobalProviders>
+          <div className="relative lg:w-[375px] lg:h-[812px] lg:overflow-hidden lg:border lg:border-gray-300 lg:rounded-3xl lg:shadow-lg">
+            {children}
+          </div>
+          <div className="hidden lg:block lg:ml-8 lg:max-w-md">
+            <h1 className="text-2xl font-bold mb-4">Welcome to TTU@CR Hub</h1>
+            <p className="text-gray-600">
+              This app is optimized for mobile devices. For the best experience, please visit on your smartphone or use the simulated mobile view on the left.
+            </p>
+          </div>
+        </GlobalProviders>
       </body>
     </html>
   );
