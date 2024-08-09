@@ -1,5 +1,3 @@
-import SubPageLayout from "@/app/(protected)/(main)/(subpages)/layout";
-import AppLayout from "@/app/(protected)/(main)/layout";
 import AvatarCircles from "@/components/magicui/avatar-circles";
 import RegisterBtn from "@/components/pages/(subpages)/event/RegisterBtn";
 import { Badge } from "@/components/ui/shadcn/badge";
@@ -82,108 +80,104 @@ export default async function Event({ params }: { params: { id: string } }) {
   //(animate) (border & rounded) (shadow) (color) (text & font)
 
   return (
-    <AppLayout>
-      <SubPageLayout>
-        <div className="w-full overflow-x-visible pb-2">
-          <div className="relative flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 overflow-clip">
-            <Image
-              src={event.coverImg || ""}
-              fill
-              alt=""
-              className="-z-10 absolute top-0 left-0 object-cover"
+    <div className="w-full overflow-x-visible pb-2">
+      <div className="relative flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 overflow-clip">
+        <Image
+          src={event.coverImg || ""}
+          fill
+          alt=""
+          className="-z-10 absolute top-0 left-0 object-cover"
+        />
+
+        <Link href={`/event/${event.id}/users`}>
+          {event.users.length !== 0 && (
+            <AvatarCircles
+              className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
+              numPeople={event.users.length}
+              avatarUrls={event.users
+                .slice(0, 3)
+                .map((user) => user.profilePic || "")}
             />
+          )}
+        </Link>
 
-            <Link href={`/event/${event.id}/users`}>
-              {event.users.length !== 0 && (
-                <AvatarCircles
-                  className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
-                  numPeople={event.users.length}
-                  avatarUrls={event.users
-                    .slice(0, 3)
-                    .map((user) => user.profilePic || "")}
-                />
+        <div className="flex flex-col items-end gap-y-2">
+          <div className="flex items-center text-center size-20 rounded-2xl bg-stone-100">
+            <h3 className="text-3xl">
+              {formatInTimeZone(
+                event.startTime,
+                "America/Costa_Rica",
+                "MMM dd"
               )}
-            </Link>
-
-            <div className="flex flex-col items-end gap-y-2">
-              <div className="flex items-center text-center size-20 rounded-2xl bg-stone-100">
-                <h3 className="text-3xl">
-                  {formatInTimeZone(
-                    event.startTime,
-                    "America/Costa_Rica",
-                    "MMM dd"
-                  )}
-                </h3>
-              </div>
-              <RegisterBtn
-                eventId={event.id}
-                registeredIds={event.users.map((u) => u.id)}
-              />
-            </div>
+            </h3>
           </div>
-          <div>
-            <div className="flex flex-col py-4 gap-y-4">
-              <div className="w-full flex items-start justify-between">
-                <h1 className="text-3xl pb-0.5 font-bold line-clamp-2">
-                  {event.name}
-                </h1>
-                <Badge
-                  style={{
-                    backgroundColor: EVENT_CATEGORIES.find(
-                      (cat) => cat.name === event.category
-                    )?.color,
-                  }}
-                >
-                  {event.category}
-                </Badge>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="grey"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                    />
-                  </svg>
-                  <h2 className="text-gray-500 font-bold">{event.location}</h2>
-                </div>
-                <Badge className="bg-gray-300 text-black">
-                  {formatInTimeZone(
-                    event.startTime,
-                      "America/Costa_Rica",
-                      "K:mm aa"
-                  )}
-                </Badge>
-              </div>
-              <p className="line-clamp-4 leading-snug">{event.description}</p>
-              {event.messages
-                .slice()
-                .reverse()
-                .map((message, i) => (
-                  <div
-                    key={i}
-                    className="relative flex flex-col w-full rounded-xl shadow-sm shadow-gray-3000 bg-white text-gray-500 px-6 py-4"
-                  >
-                    <div dangerouslySetInnerHTML={{ __html: message }} />
-                  </div>
-                ))}
-            </div>
-          </div>
+          <RegisterBtn
+            eventId={event.id}
+            registeredIds={event.users.map((u) => u.id)}
+          />
         </div>
-      </SubPageLayout>
-    </AppLayout>
+      </div>
+      <div>
+        <div className="flex flex-col py-4 gap-y-4">
+          <div className="w-full flex items-start justify-between">
+            <h1 className="text-3xl pb-0.5 font-bold line-clamp-2">
+              {event.name}
+            </h1>
+            <Badge
+              style={{
+                backgroundColor: EVENT_CATEGORIES.find(
+                  (cat) => cat.name === event.category
+                )?.color,
+              }}
+            >
+              {event.category}
+            </Badge>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="grey"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                />
+              </svg>
+              <h2 className="text-gray-500 font-bold">{event.location}</h2>
+            </div>
+            <Badge className="bg-gray-300 text-black">
+              {formatInTimeZone(
+                event.startTime,
+                "America/Costa_Rica",
+                "K:mm aa"
+              )}
+            </Badge>
+          </div>
+          <p className="line-clamp-4 leading-snug">{event.description}</p>
+          {event.messages
+            .slice()
+            .reverse()
+            .map((message, i) => (
+              <div
+                key={i}
+                className="relative flex flex-col w-full rounded-xl shadow-sm shadow-gray-3000 bg-white text-gray-500 px-6 py-4"
+              >
+                <div dangerouslySetInnerHTML={{ __html: message }} />
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
   );
 }
