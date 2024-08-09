@@ -1,3 +1,4 @@
+import ExpandableDescription from "@/components/utils/ExpandableDescription";
 import AvatarCircles from "@/components/magicui/avatar-circles";
 import RegisterBtn from "@/components/pages/(subpages)/event/RegisterBtn";
 import { Badge } from "@/components/ui/shadcn/badge";
@@ -164,18 +165,20 @@ export default async function Event({ params }: { params: { id: string } }) {
               )}
             </Badge>
           </div>
-          <p className="line-clamp-4 leading-snug">{event.description}</p>
-          {event.messages
-            .slice()
-            .reverse()
-            .map((message, i) => (
-              <div
-                key={i}
-                className="relative flex flex-col w-full rounded-xl shadow-sm shadow-gray-3000 bg-white text-gray-500 px-6 py-4"
-              >
-                <div dangerouslySetInnerHTML={{ __html: message }} />
-              </div>
-            ))}
+          <ExpandableDescription description={(event.description + event.description)} />
+          <div className="flex flex-col gap-y-2 mt-2">
+            {event.messages
+              .slice()
+              .reverse()
+              .map((message, i) => (
+                <div
+                  key={i}
+                  className="relative flex flex-col w-full rounded-xl shadow-sm shadow-gray-3000 bg-white px-6 py-4"
+                >
+                  <div dangerouslySetInnerHTML={{ __html: message }} />
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>
