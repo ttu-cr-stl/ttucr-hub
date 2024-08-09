@@ -13,6 +13,7 @@ import SubPageLayout from "../../(subpages)/layout";
 
 export default function Profile() {
   const { user } = useAuthUser();
+
   const [edit, setEdit] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -40,6 +41,8 @@ export default function Profile() {
       setEdit(true);
     }
   };
+
+  console.log("Profile Pic: " + user.profilePic);
 
   return (
     <SubPageLayout>
@@ -104,7 +107,8 @@ export default function Profile() {
             </div>
           </div>
           <div className="flex flex-col w-full gap-y-2">
-            {user.events?.filter((e) => e.startTime < new Date()).length === 0 ? (
+            {user.events?.filter((e) => e.startTime < new Date()).length ===
+            0 ? (
               <div className="w-full text-center">No events attended yet</div>
             ) : (
               user.events

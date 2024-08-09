@@ -1,16 +1,17 @@
 "use client";
-import { Form } from "@/components/ui/shadcn/form";
+import { Form, FormLabel } from "@/components/ui/shadcn/form";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { DegreeKeys, formSchema } from "@/lib/types";
 import { uploadProfileImage } from "@/lib/utils";
 import { Degree } from "@/lib/utils/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
+import { ChangeEvent, useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import { Input } from "../../ui/shadcn/input";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
-import { ProfilePicInput } from "../../utils/formItems/ProfilePicInput";
 
 export const UpdateProfile = ({
   user,
@@ -56,6 +57,20 @@ export const UpdateProfile = ({
     }
   }
 
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImageSrc(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+      console.log("Profile Pic: ", user.profilePic);
+    }
+  };
+
   return (
     <Form {...form}>
       <form
@@ -65,12 +80,66 @@ export const UpdateProfile = ({
       >
         <div className="flex flex-col items-center space-y-4">
           <div className="flex flex-col space-y-6 items-center">
-            <ProfilePicInput
+            {/* <ProfilePicInput
               control={form.control}
               name="profilePicture"
               label="Profile Picture"
               placeholder="Profile Picture"
-            />
+            /> */}
+
+            {/* <FormField
+              control={form.control}
+              name="profilePic"
+              render={({ field: { value, onChange, ...fieldProps } }) => (
+                <FormItem>
+                  <FormLabel>Profile Picture</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...fieldProps}
+                      className=""
+                      type="file"
+                      accept="image/*"
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        onChange(e.target.files && e.target.files[0])
+                      }
+                    />
+                  </FormControl>
+                  {value && (
+                    <div
+                      className="relative flex items-end justify-between w-80 h-44 p-3 rounded-full shadow-md shadow-gray-400 bg-sky-500"
+                      style={{
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                        backgroundImage: `url(${URL.createObjectURL(value)})`,
+                      }}
+                    />
+                  )}
+                </FormItem>
+              )}
+            ></FormField> */}
+            <div className="flex justify-center items-center flex-col">
+              <FormLabel htmlFor="avatar-upload" className="cursor-pointer">
+                <div
+                  className="w-28 h-28 rounded-full overflow-hidden border-2 border-gray-300"
+                  style={{
+                    // the users/default.jpg is not working
+                    backgroundImage: `url(${
+                      imageSrc || user.profilePic || "/users/default.jpg"
+                    })`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+              </FormLabel>
+              <Input
+                id="avatar-upload"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </div>
           </div>
         </div>
         <div className="flex flex-col space-y-2">
