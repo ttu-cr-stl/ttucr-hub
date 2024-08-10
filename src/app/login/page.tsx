@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Login() {
   return (
-    <main className="relative h-full w-full flex flex-col items-center justify-center space-y-6">
+    <main className="relative h-full w-full flex flex-col items-center justify-center space-y-6 bg-gradient-to-t from-red-300 to-red-500">
       <div className="relative w-32 h-32 self-center aspect-auto">
         {/* <Image
           src="general/TTULogo.png"
@@ -14,9 +14,8 @@ export default function Login() {
           }}
         /> */}
       </div>
-      <span className="text-lg font-bold text-center mb-4">
-        Welcome to <b>TTU@CR HUB,</b> <br />
-        <span className="text-accent">Red Raider</span>!
+      <span className="text-lg font-bold text-center pb-10 mb-4">
+        Welcome to <b>TTU@CR HUB</b> <br />
       </span>
       <LoginBtn />
     </main>
