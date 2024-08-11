@@ -76,9 +76,11 @@ const resizeImage = (file: File): Promise<File> => {
 };
 
 export const uploadProfileImage = async (file: File, userId: string) => {
-  const supabase = createClientComponentClient({
-    supabaseUrl: process.env.DATABASE_DIRECT_URL,
-  });
+  console.log("Uploading profile image");
+
+  const supabase = createClientComponentClient();
+
+  console.log("Supabase");
 
   const bucket = "users";
 

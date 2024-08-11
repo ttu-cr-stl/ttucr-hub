@@ -41,6 +41,7 @@ export const UpdateProfile = ({
   }) as UseFormReturn<z.infer<typeof formSchema>>;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("New profile pic: ", values.profilePic);
     setSaving(true);
     let imgPath;
     try {
