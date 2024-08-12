@@ -92,7 +92,7 @@ export const UpdateProfile = ({
                 name="profilePic"
                 render={({ field: { value, onChange, ...fieldProps } }) => (
                   <FormItem>
-                    <FormLabel className="cursor-pointer">
+                    <FormLabel className="cursor-pointer relative">
                       <Image
                         className="w-28 h-28 rounded-full overflow-hidden border-2 border-gray-300"
                         src={imageSrc || user.profilePic || ""}
@@ -100,6 +100,16 @@ export const UpdateProfile = ({
                         width={112}
                         height={112}
                       />
+                      <div
+                        className="w-6 h-6 rounded-full bg-blue-600 text-xl text-white text-center flex items-center justify-center absolute"
+                        style={{
+                          bottom: 19,
+                          right: 13,
+                          transform: "translate(50%, 50%)",
+                        }}
+                      >
+                        +
+                      </div>
                     </FormLabel>
                     <FormControl>
                       <Input
