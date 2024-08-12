@@ -76,8 +76,6 @@ const resizeImage = (file: File): Promise<File> => {
 };
 
 export const uploadProfileImage = async (file: File, username: string) => {
-  console.log("Uploading profile image");
-
   const supabase = createClientComponentClient();
   const bucket = "users";
 
@@ -88,7 +86,6 @@ export const uploadProfileImage = async (file: File, username: string) => {
     });
 
   if (existingFileError) {
-    console.log(existingFileError);
     throw new Error("Failed to check existing file");
   }
 
@@ -97,8 +94,6 @@ export const uploadProfileImage = async (file: File, username: string) => {
     const { error: deleteError } = await supabase.storage
       .from(bucket)
       .remove([`users/${username}`]);
-
-    console.log("Deleting existing file");
 
     if (deleteError) {
       console.log(deleteError);
@@ -121,7 +116,6 @@ export const uploadProfileImage = async (file: File, username: string) => {
     throw new Error("Failed to delete existing file");
   }
 
-  console.log("Resizing image");
   const resizedFile = await resizeImage(file);
 
   // Upload the resized file
@@ -130,7 +124,6 @@ export const uploadProfileImage = async (file: File, username: string) => {
     .upload(`users/${username}`, resizedFile, {
       upsert: true,
     });
-  console.log("Uploading image");
 
   if (uploadError) {
     console.log(uploadError);

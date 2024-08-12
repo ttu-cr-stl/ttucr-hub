@@ -43,14 +43,11 @@ export const UpdateProfile = ({
   }) as UseFormReturn<z.infer<typeof formSchema>>;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("New profile pic: ", values.profilePic);
     setSaving(true);
     let imgPath;
     try {
-      console.log("Hello");
       imgPath = await uploadProfileImage(values.profilePic, user.username);
       imgPath = `${imgPath}?t=${new Date().getTime()}`;
-      console.log("Image Path: ", imgPath);
       updateUser({ ...values, profilePic: imgPath! })
         .then((_) => {
           setSaving(false);
@@ -77,7 +74,6 @@ export const UpdateProfile = ({
         setImageSrc(e.target?.result as string);
       };
       reader.readAsDataURL(file);
-      console.log("Profile Pic: ", user.profilePic);
     }
   };
 
