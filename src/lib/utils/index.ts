@@ -121,7 +121,7 @@ export const uploadProfileImage = async (file: File, username: string) => {
   // Upload the resized file
   const { data, error: uploadError } = await supabase.storage
     .from(bucket)
-    .upload(`users/${username}`, resizedFile, {
+    .upload(`${username}`, resizedFile, {
       upsert: true,
     });
 
