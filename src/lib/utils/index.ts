@@ -75,28 +75,65 @@ const resizeImage = (file: File): Promise<File> => {
   });
 };
 
-export const uploadProfileImage = async (file: File, userId: string) => {
+export const uploadProfileImage = async (file: File, username: string) => {
   console.log("Uploading profile image");
 
   const supabase = createClientComponentClient();
-
-  console.log("Supabase");
-
   const bucket = "users";
 
-  const resizedFile = await resizeImage(file);
-
-  // Call Storage API to upload file
-  const { data, error } = await supabase.storage
-    .from(bucket)
-    .upload(`users/${userId}`, resizedFile, {
-      upsert: true,
+  // Check if the file already exists
+  const { data: existingFileData, error: existingFileError } =
+    await supabase.storage.from(bucket).list("", {
+      search: `users/${username}`,
     });
 
-  // Handle error if upload failed
-  if (error) {
-    if (error.message.includes("already exists")) return `users/${userId}`;
-    console.log(error);
+  if (existingFileError) {
+    console.log(existingFileError);
+    throw new Error("Failed to check existing file");
+  }
+
+  if (existingFileData && existingFileData.length > 0) {
+    // File exists, delete it
+    const { error: deleteError } = await supabase.storage
+      .from(bucket)
+      .remove([`users/${username}`]);
+
+    console.log("Deleting existing file");
+
+    if (deleteError) {
+      console.log(deleteError);
+      throw new Error("Failed to delete existing file");
+    }
+  }
+
+  const { data: existingFileData2, error: existingFileError2 } =
+    await supabase.storage.from(bucket).list("", {
+      search: `users/${username}`,
+    });
+
+  if (existingFileError) {
+    console.log(existingFileError);
+    throw new Error("Failed to check existing file");
+  }
+
+  if (existingFileData2 && existingFileData2.length > 0) {
+    console.log("Failed to delete existing file");
+    throw new Error("Failed to delete existing file");
+  }
+
+  console.log("Resizing image");
+  const resizedFile = await resizeImage(file);
+
+  // Upload the resized file
+  const { data, error: uploadError } = await supabase.storage
+    .from(bucket)
+    .upload(`users/${username}`, resizedFile, {
+      upsert: true,
+    });
+  console.log("Uploading image");
+
+  if (uploadError) {
+    console.log(uploadError);
     throw new Error("Failed to upload image");
   }
 

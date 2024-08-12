@@ -45,7 +45,11 @@ export default function Profile() {
   return (
     <SubPageLayout>
       <div className="fixed top-0 right-0 pt-6 pr-6 z-50">
-        <Button onClick={() => handleEdit()} className="rounded-full">
+        <Button
+          onClick={() => handleEdit()}
+          className="rounded-full"
+          type="submit"
+        >
           {edit ? (
             saving ? (
               <Loader className="w-4 h-4 animate-spin" />
