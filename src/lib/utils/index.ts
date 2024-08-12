@@ -79,43 +79,6 @@ export const uploadProfileImage = async (file: File, username: string) => {
   const supabase = createClientComponentClient();
   const bucket = "users";
 
-  // Check if the file already exists
-  const { data: existingFileData, error: existingFileError } =
-    await supabase.storage.from(bucket).list("", {
-      search: `users/${username}`,
-    });
-
-  if (existingFileError) {
-    throw new Error("Failed to check existing file");
-  }
-
-  if (existingFileData && existingFileData.length > 0) {
-    // File exists, delete it
-    const { error: deleteError } = await supabase.storage
-      .from(bucket)
-      .remove([`users/${username}`]);
-
-    if (deleteError) {
-      console.log(deleteError);
-      throw new Error("Failed to delete existing file");
-    }
-  }
-
-  const { data: existingFileData2, error: existingFileError2 } =
-    await supabase.storage.from(bucket).list("", {
-      search: `users/${username}`,
-    });
-
-  if (existingFileError) {
-    console.log(existingFileError);
-    throw new Error("Failed to check existing file");
-  }
-
-  if (existingFileData2 && existingFileData2.length > 0) {
-    console.log("Failed to delete existing file");
-    throw new Error("Failed to delete existing file");
-  }
-
   const resizedFile = await resizeImage(file);
 
   // Upload the resized file
