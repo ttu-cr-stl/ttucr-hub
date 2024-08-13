@@ -13,7 +13,6 @@ import { FC } from "react";
 export const FormRadio: FC<FormComponentProps> = ({
   control,
   name,
-  placeholder,
   options = [],
   label,
 }) => {

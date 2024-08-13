@@ -12,11 +12,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePrivy } from "@privy-io/react-auth";
 import useEmblaCarousel from "embla-carousel-react";
 import { useRouter } from "next/navigation";
-import { FC, ReactNode, useCallback, useEffect, useState } from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import {
+  FC,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export const CarousselForm: FC = ({}) => {
+export const CarousselForm: FC = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
@@ -32,47 +39,83 @@ export const CarousselForm: FC = ({}) => {
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
       profilePic: user?.profilePic || "",
-      major: user?.major as DegreeKeys,
-      minor: user?.minor as DegreeKeys,
+      major: (user?.major as DegreeKeys) || DegreeKeys.NONE,
+      minor: (user?.minor as DegreeKeys) || DegreeKeys.NONE,
     },
-  }) as UseFormReturn<z.infer<typeof formSchema>>;
+  });
 
   if (ready && !authenticated) {
     router.push(NavPath.LOGIN);
   }
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    setLoading(true);
-    try {
-      updateUser(values).then(() => {
-        router.push(NavPath.HOME);
-      }).catch((e) => {
-        console.error(e);
-        throw new Error("Failed to update user");
-      });
-    } catch (error) {
-      console.error(error);
-      throw new Error("Failed to update user");
-    }
-  }
-
-  // Carousel stuff
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
   const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+    if (emblaApi) {
+      if (currentSlide === 0) {
+        // Only validate firstName and lastName
+        const isValid = ["firstName", "lastName"].every(
+          (field) =>
+            form.getFieldState(field as "firstName" | "lastName").isDirty &&
+            !form.getFieldState(field as "firstName" | "lastName").error
+        );
+
+        if (isValid) {
+          emblaApi.scrollNext();
+          setCurrentSlide((prev) => prev + 1);
+        } else {
+          // Trigger validation for firstName and lastName
+          form.trigger(["firstName", "lastName"]);
+        }
+      } else {
+        // For major and minor slides, always allow scrolling
+        emblaApi.scrollNext();
+        setCurrentSlide((prev) => prev + 1);
+      }
+    }
+  }, [emblaApi, currentSlide, form]);
 
   useEffect(() => {
     if (emblaApi) {
       emblaApi.on("select", () => {
         setShowPrev(emblaApi.canScrollPrev());
         setShowNext(emblaApi.canScrollNext());
+        setCurrentSlide(emblaApi.selectedScrollSnap());
       });
     }
-  });
+  }, [emblaApi]);
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
+    // Only validate firstName and lastName before submission
+    form.trigger(["firstName", "lastName"]).then((isValid) => {
+      if (isValid) {
+        try {
+          updateUser(values)
+            .then(() => {
+              router.push(NavPath.HOME);
+            })
+            .catch((e) => {
+              console.error(e);
+              setLoading(false);
+              // Handle error (e.g., show error message to user)
+            });
+        } catch (error) {
+          console.error(error);
+          setLoading(false);
+          // Handle error (e.g., show error message to user)
+        }
+      } else {
+        setLoading(false);
+        // Handle invalid form (e.g., show error message to user)
+      }
+    });
+  }
+
+  // Carousel stuff
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
 
   return (
     <Form {...form}>
