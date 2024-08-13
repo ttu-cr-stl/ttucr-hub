@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Login() {
   return (
-    <div className="flex items-center justify-center min-h-screen w-full bg-gradient-to-t from-red-500 from-3% to-white to-15%">
+    <div className="flex items-center justify-center min-h-screen w-full bg-gradient-to-t from-red-500 from-2% to-white to-30%">
       <div className="absolute top-5 right-5">
         <Image
           src="general/stl-black.png"
@@ -24,11 +24,6 @@ export default function Login() {
             }}
           /> 
         </div>
-        
-        {/* <span className="text-lg text-center mb-4 font-light">
-          Welcome to TTU@CR HUB <br />
-        </span> */}
-
         <LoginBtn />
         <div className="flex flex-col gap-y-1 text-xs text-gray-900 text-center mt-6">
           <span>
