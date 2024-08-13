@@ -82,6 +82,7 @@ export async function toggleUserToEvent(eventId: string, userId: string, already
     });
   }
 
+  revalidatePath(`/user/${userId}`);
   revalidatePath(`/event/${eventId}`);
   revalidatePath(`/event/${eventId}/users`);
 

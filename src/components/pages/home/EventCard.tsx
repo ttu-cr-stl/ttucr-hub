@@ -39,44 +39,49 @@ export function EventCard({
             className="rounded-2xl shadow-md object-cover"
             alt=""
           />
-          <div className="flex flex-col items-left space-y-1 w-40 m-2">
-            <div className="flex flex-row">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="3"
-                stroke="grey"
-                className="size-3.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                />
-              </svg>
+          <div className="flex flex-col w-full px-2">
+            <div className="flex flex-row items-center justify-between py-2">
+              <div className="flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="3"
+                  stroke="grey"
+                  className="size-3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                  />
+                </svg>
 
-              <h2 className="pl-0.5 text-[11px] font-bold text-gray-500">
-                {event.location}
-              </h2>
-            </div>
-
-            <h1 className="text-2xl font-bold">{event.name}</h1>
-
-            <div className="flex flex-row justify-between items-center">
-              <h1 className="text-md font-medium">
+                <span className="pl-0.5 text-[10px] font-bold text-gray-500">
+                  {event.location}
+                </span>
+              </div>
+              <span className="text-[10px] font-bold text-gray-500">
                 {formatInTimeZone(
                   event.startTime,
                   "America/Costa_Rica",
-                  "MMMM d yyyy"
+                  "dd MMM yy"
                 )}
-              </h1>
+              </span>
             </div>
+
+            <span className="text-lg font-bold leading-none line-clamp-1">
+              {event.name}
+            </span>
+
+            <span className="mt-1 text-xs font-medium leading-snug line-clamp-2">
+              {event.description}
+            </span>
           </div>
         </div>
       </Link>
@@ -116,13 +121,20 @@ export function EventCard({
 
         <div className="flex flex-1 flex-row items-center w-full">
           <div className="flex flex-col items-center justify-center w-1/3 h-full gap-y-2">
-            <h1 className="text-2xl text-center font-normal">
+            <span className="text-xs text-center font-normal -mb-2">
+              {formatInTimeZone(
+                event.startTime,
+                "America/Costa_Rica",
+                "EEEE"
+              )}
+            </span>
+            <span className="text-2xl text-center font-normal">
               {formatInTimeZone(
                 event.startTime,
                 "America/Costa_Rica",
                 "MMM dd"
               )}
-            </h1>
+            </span>
 
             <div className="flex justify-center items-center px-2 py-1 rounded-2xl bg-gray-300">
               <span className="text-xs leading-none text-center font-normal">

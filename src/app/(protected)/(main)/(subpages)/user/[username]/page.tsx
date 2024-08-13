@@ -1,3 +1,4 @@
+import { EventCard } from "@/components/pages/home/EventCard";
 import {
   Avatar,
   AvatarFallback,
@@ -6,7 +7,6 @@ import {
 import { Badge } from "@/components/ui/shadcn/badge";
 import { getUserByUsername } from "@/db/users";
 import { Degree } from "@/lib/utils/consts";
-import { EventCard } from "@/components/pages/home/EventCard";
 
 export default async function UserPage({
   params,
@@ -16,7 +16,7 @@ export default async function UserPage({
   const user = await getUserByUsername(params.username);
 
   if (!user) return <div>User not found</div>;
-  
+
   const userMajor = Degree.find((degree) => degree.value === user?.major);
   const userMinor = Degree.find((degree) => degree.value === user?.minor);
 
@@ -67,20 +67,22 @@ export default async function UserPage({
         </div>
       </div>
       <div className="flex flex-col w-full gap-y-2">
-        {user.events?.filter((e) => e.startTime < new Date()).length === 0 ? (
+        {user.events?.length === 0 ? (
           <div className="w-full text-center">No events attended yet</div>
         ) : (
           user.events
-            ?.filter((e) => e.startTime < new Date())
+            .sort((a, b) => b.startTime.getTime() - a.startTime.getTime())
             .map((event) => (
               <div key={event.id} className="w-full">
-                <span className="ml-4 text-xs">
-                  <span className="font-semibold mr-0.5">@{user.username}</span>
-                  <span className="font-light">attended</span>
+                <div className="ml-2 mb-2 text-xs">
+                <span className="font-semibold mr-0.5">@{user.username}</span>
+                <span className="font-light">
+                  {event.startTime < new Date() ? "went to" : "is going to"}
                 </span>
-                <EventCard small={true} event={event} />
               </div>
-            ))
+              <EventCard small={true} event={event} />
+            </div>
+          ))
         )}
       </div>
     </div>

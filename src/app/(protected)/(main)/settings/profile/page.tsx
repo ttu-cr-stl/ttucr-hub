@@ -103,20 +103,23 @@ export default function Profile() {
             </div>
           </div>
           <div className="flex flex-col w-full gap-y-2">
-            {user.events?.filter((e) => e.startTime < new Date()).length ===
-            0 ? (
+            {user.events?.length === 0 ? (
               <div className="w-full text-center">No events attended yet</div>
             ) : (
               user.events
-                ?.filter((e) => e.startTime < new Date())
+                ?.sort((a, b) => b.startTime.getTime() - a.startTime.getTime())
                 .map((event) => (
                   <div key={event.id} className="w-full">
-                    <span className="ml-4 text-xs">
+                    <div className="ml-2 mb-2 text-xs">
                       <span className="font-semibold mr-0.5">
                         @{user.username}
                       </span>
-                      <span className="font-light">attended</span>
-                    </span>
+                      <span className="font-light">
+                        {event.startTime < new Date()
+                          ? "went to"
+                          : "is going to"}
+                      </span>
+                    </div>
                     <EventCard small={true} event={event} />
                   </div>
                 ))

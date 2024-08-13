@@ -90,14 +90,28 @@ export default async function Event({ params }: { params: { id: string } }) {
         </Link>
 
         <div className="flex flex-col items-end gap-y-2">
-          <div className="flex items-center text-center size-20 rounded-2xl bg-stone-100">
-            <h3 className="text-3xl">
+          <div className="flex flex-col items-center justify-center text-center size-[80px] rounded-2xl bg-stone-100">
+            <span className="text-xs -mb-1">
               {formatInTimeZone(
                 event.startTime,
                 "America/Costa_Rica",
-                "MMM dd"
+                "EEEE"
               )}
-            </h3>
+            </span>
+            <span className="text-2xl">
+              {formatInTimeZone(
+                event.startTime,
+                "America/Costa_Rica",
+                "MMM"
+              )}
+            </span>
+            <span className="text-2xl -mt-1">
+              {formatInTimeZone(
+                event.startTime,
+                "America/Costa_Rica",
+                "dd"
+              )}
+            </span>
           </div>
           <RegisterBtn
             eventId={event.id}
