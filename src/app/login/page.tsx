@@ -3,22 +3,35 @@ import Image from "next/image";
 
 export default function Login() {
   return (
-    <main className="relative h-full w-full flex flex-col items-center justify-center space-y-6">
-      <div className="relative w-32 h-32 self-center aspect-auto">
-        {/* <Image
-          src="general/TTULogo.png"
+    <div className="flex items-center justify-center min-h-screen w-full bg-gradient-to-t from-red-500 from-2% to-white to-30%">
+      <div className="absolute top-5 right-5">
+        <Image
+          src="general/stl-black.png"
           alt=""
-          fill
-          style={{
-            objectFit: "contain",
-          }}
-        /> */}
+          width={60}
+          height={60}
+          className="rounded-lg"
+        />
       </div>
-      <span className="text-lg font-bold text-center mb-4">
-        Welcome to <b>TTU@CR HUB,</b> <br />
-        <span className="text-accent">Red Raider</span>!
-      </span>
-      <LoginBtn />
-    </main>
+      <main className="relative h-full w-full flex flex-col items-center justify-center space-y-6 ">
+        <div className="relative w-64 h-32 self-center aspect-auto">
+          <Image
+            src="general/TTULogoBig.png"
+            alt=""
+            fill
+            style={{
+              objectFit: "contain",
+            }}
+          /> 
+        </div>
+        <LoginBtn />
+        <div className="flex flex-col gap-y-1 text-xs text-gray-900 text-center mt-6">
+          <span>
+            made with <b>&hearts;</b> by Students, for Students
+          </span>
+          <span> - The Startup & Tech Lab</span>
+        </div>
+      </main>
+    </div>
   );
 }
