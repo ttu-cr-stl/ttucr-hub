@@ -1,13 +1,13 @@
-import React from "react";
-import { User, Org } from "@prisma/client";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/shadcn/avatar";
-import Link from "next/link";
 import { Badge } from "@/components/ui/shadcn/badge";
+import StucoTitle from "@/components/utils/StucoTitle";
 import { Degree } from "@/lib/utils/consts";
+import { Org, User } from "@prisma/client";
+import Link from "next/link";
 
 interface UserCardProps {
   user: User;
@@ -52,6 +52,7 @@ function UserCard({ user, orgs }: UserCardProps) {
               {user.firstName} {user.lastName}
             </span>
             <div className="flex flex-row flex-wrap gap-2">
+              <StucoTitle username={user.username} />
               <Badge
                 className="text-xs font-normal"
                 style={{
@@ -82,7 +83,7 @@ function UserCard({ user, orgs }: UserCardProps) {
             </div>
           </div>
         </div>
-{/*         <div className="flex justify-center items-center w-16 h-11 rounded-xl bg-red-500 text-white text-lg">
+        {/*         <div className="flex justify-center items-center w-16 h-11 rounded-xl bg-red-500 text-white text-lg">
           30k
         </div> */}
       </div>

@@ -5,6 +5,7 @@ import {
   AvatarImage,
 } from "@/components/ui/shadcn/avatar";
 import { Badge } from "@/components/ui/shadcn/badge";
+import StucoTitle from "@/components/utils/StucoTitle";
 import { getUserByUsername } from "@/db/users";
 import { Degree } from "@/lib/utils/consts";
 
@@ -36,6 +37,9 @@ export default async function UserPage({
         </div>
 
         <div className="flex flex-wrap items-center justify-center w-full mt-2 gap-x-4 gap-y-2 text-xs font-light">
+          
+          <StucoTitle username={user.username} />
+
           <Badge
             style={{
               backgroundColor: userMajor?.color,
@@ -75,14 +79,14 @@ export default async function UserPage({
             .map((event) => (
               <div key={event.id} className="w-full">
                 <div className="ml-2 mb-2 text-xs">
-                <span className="font-semibold mr-0.5">@{user.username}</span>
-                <span className="font-light">
-                  {event.startTime < new Date() ? "went to" : "is going to"}
-                </span>
+                  <span className="font-semibold mr-0.5">@{user.username}</span>
+                  <span className="font-light">
+                    {event.startTime < new Date() ? "went to" : "is going to"}
+                  </span>
+                </div>
+                <EventCard small={true} event={event} />
               </div>
-              <EventCard small={true} event={event} />
-            </div>
-          ))
+            ))
         )}
       </div>
     </div>

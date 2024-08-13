@@ -86,3 +86,26 @@ export const EVENT_CATEGORIES = [
     color: "#000000",
   },
 ];
+
+export const STUCO = [
+  {
+    name: "PRESI",
+    username: "andres.aguilar",
+  },
+  {
+    name: "VICE-PRESI",
+    username: "sabarcab",
+  },
+  {
+    name: "TREASURER",
+    username: "bryng",
+  },
+  {
+    name: "SECRETARY",
+    username: "pborasch",
+  },
+  {
+    name: "VOCAL",
+    username: "isabella.esquivel",
+  },
+];
