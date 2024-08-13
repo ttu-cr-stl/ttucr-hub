@@ -1,7 +1,7 @@
 "use client";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { NavPath } from "@/lib/types";
-import { detectOS } from "@/lib/utils";
+import { detectOS, isPWA } from "@/lib/utils";
 import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,7 +19,7 @@ const NavBar: FC<NavBarProps> = () => {
     <div
       className={cn(
         "fixed bottom-0 left-0 w-full md:w-[375px] border-t flex items-center justify-evenly z-10 bg-white",
-        detectOS() === "iOS" ? "pb-4 h-20" : "h-16",
+        (isPWA() && detectOS() === "iOS") ? "pb-4 h-20" : "h-16",
         "lg:absolute lg:w-[375px] lg:h-16" // Added for desktop layout
       )}
     >

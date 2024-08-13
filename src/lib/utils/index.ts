@@ -29,3 +29,9 @@ export const detectOS = () => {
 
   return os;
 };
+
+export const isPWA = () => {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         ('standalone' in window.navigator && window.navigator.standalone) ||
+         document.referrer.includes('android-app://');
+};
