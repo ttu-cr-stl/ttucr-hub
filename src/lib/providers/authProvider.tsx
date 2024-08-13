@@ -33,9 +33,12 @@ const AuthUserProvider = ({ children }: { children: React.ReactNode }) => {
   }, [privyUser, setUser, user]);
 
   const updateUser = async (data: Partial<User>) => {
-    if (user) {
+    if (privyUser?.email?.address) {
       try {
-        const u = await internalUpdateUserByUsername(user.username, data);
+        const u = await internalUpdateUserByUsername(
+          extractUsername(privyUser.email.address),
+          data
+        );
         setUser(u);
       } catch (e) {
         console.error(e);

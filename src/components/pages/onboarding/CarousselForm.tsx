@@ -4,12 +4,12 @@ import { Form } from "@/components/ui/shadcn/form";
 import { Spinner } from "@/components/utils/Spinner";
 import { FormRadio } from "@/components/utils/formItems/FormRadio";
 import { FormTextInput } from "@/components/utils/formItems/FormTextInput";
-import { internalUpdateUserByUsername } from "@/db/users";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { DegreeKeys, formSchema, NavPath } from "@/lib/types";
 import { cn } from "@/lib/utils/cn";
 import { Degree } from "@/lib/utils/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePrivy } from "@privy-io/react-auth";
 import useEmblaCarousel from "embla-carousel-react";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useEffect, useState } from "react";
@@ -24,6 +24,7 @@ export const CarousselForm: FC = ({}) => {
   const [showPrev, setShowPrev] = useState(false);
 
   const { user, updateUser } = useAuthUser();
+  const { ready, authenticated } = usePrivy();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,11 +37,18 @@ export const CarousselForm: FC = ({}) => {
     },
   }) as UseFormReturn<z.infer<typeof formSchema>>;
 
+  if (ready && !authenticated) {
+    router.push(NavPath.LOGIN);
+  }
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     try {
       updateUser(values).then(() => {
         router.push(NavPath.HOME);
+      }).catch((e) => {
+        console.error(e);
+        throw new Error("Failed to update user");
       });
     } catch (error) {
       console.error(error);
@@ -69,11 +77,7 @@ export const CarousselForm: FC = ({}) => {
   return (
     <Form {...form}>
       <div className="w-full overflow-hidden space-y-6">
-        <form
-          id="form"
-          className="flex flex-col"
-          ref={emblaRef}
-        >
+        <form id="form" className="flex flex-col" ref={emblaRef}>
           <div className="flex items-center">
             <CarouselItem>
               <div className="flex flex-col space-y-2">
@@ -124,11 +128,7 @@ export const CarousselForm: FC = ({}) => {
             <Button
               type="button"
               className={cn(!showNext && "w-36")}
-              onClick={
-                showNext
-                  ? scrollNext
-                  : () => onSubmit(form.getValues())
-              }
+              onClick={showNext ? scrollNext : () => onSubmit(form.getValues())}
             >
               {loading ? <Spinner /> : showNext ? "Next" : "Save & Continue"}
             </Button>

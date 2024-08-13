@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { FC, ReactNode, useEffect } from "react";
 import { EmailNotTTU } from "../views/EmailNotTTU";
 import { SplashScreen } from "../views/SplashScreen";
+import { NavPath } from "@/lib/types";
 
 const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
   const { ready, authenticated, user: PrivyUser } = usePrivy();
@@ -14,9 +15,11 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     if (ready && !authenticated) {
-      router.push("/login");
+      router.push(NavPath.LOGIN);
     }
   }, [authenticated, ready, router]);
+
+  console.log(user)
 
   if (!ready) {
     // Do nothing while the PrivyProvider initializes with updated user state

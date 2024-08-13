@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Login() {
   return (
-    <div className="flex items-center justify-center min-h-screen w-full bg-gradient-to-t from-red-500 from-2% to-white to-30%">
+    <div className="flex items-center justify-center h-full w-full bg-gradient-to-t from-red-300 from-0% via-red-100 to-transparent to-45%">
       <div className="absolute top-5 right-5">
         <Image
           src="general/stl-black.png"

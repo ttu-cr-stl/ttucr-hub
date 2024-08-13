@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col pt-8">
       <Welcome />
-      <span className="text-sm font-light my-2">
+      <span className="text-sm font-light mt-4 mb-2">
         {"What's happening on Campus..."}
       </span>
       <EventsList events={events} small={false} />

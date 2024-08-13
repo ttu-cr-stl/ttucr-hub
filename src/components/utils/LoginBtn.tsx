@@ -5,7 +5,6 @@ import { extractUsername, isTTUEmail } from "@/lib/utils";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { FC, useState } from "react";
-import { useLocalStorage } from "usehooks-ts";
 import { Button } from "../ui/shadcn/button";
 import { Spinner } from "./Spinner";
 
@@ -41,7 +40,11 @@ const LoginBtn: FC<LoginBtnProps> = ({}) => {
   });
 
   return (
-    <Button className="w-60 bg-gray-900" disabled={!ready || authenticated} onClick={login}>
+    <Button
+      className="w-60 bg-gray-900"
+      disabled={!ready || authenticated}
+      onClick={login}
+    >
       {ready && !loading ? "Login" : <Spinner />}
     </Button>
   );

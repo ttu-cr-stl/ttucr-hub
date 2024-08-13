@@ -2,6 +2,7 @@
 import { Skeleton } from "@/components/ui/shadcn/skeleton";
 import { toggleUserToEvent } from "@/db/events";
 import { useAuthUser } from "@/lib/providers/authProvider";
+import { NavPath } from "@/lib/types";
 import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
@@ -25,7 +26,7 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
 
   if (!user)
     return (
-      <Link href="/login">
+      <Link href={NavPath.LOGIN}>
         <div className="flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer bg-black">
           <span className="text-sm">Login</span>
         </div>
