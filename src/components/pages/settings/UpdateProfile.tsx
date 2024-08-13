@@ -94,7 +94,7 @@ export const UpdateProfile = ({
                   <FormItem>
                     <FormLabel className="cursor-pointer relative">
                       <Image
-                        className="w-28 h-28 rounded-full overflow-hidden border-2 border-gray-300"
+                        className="w-24 h-24 rounded-full overflow-hidden"
                         src={imageSrc || user.profilePic || ""}
                         alt="profile-pic"
                         width={112}
