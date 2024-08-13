@@ -23,7 +23,6 @@ export default function Profile() {
 
   const handleEdit = () => {
     if (edit) {
-      setSaving(true);
       const form = document.getElementById(
         "profile-update-form"
       ) as HTMLFormElement;
@@ -43,7 +42,7 @@ export default function Profile() {
 
   return (
     <SubPageLayout>
-      <div className="absolute top-4 right-0 z-50">
+      <div className="sticky top-4 right-0 w-fit h-12 ml-auto z-50">
         <Button onClick={() => handleEdit()} className="w-[65px] rounded-full">
           {edit ? (
             saving ? (

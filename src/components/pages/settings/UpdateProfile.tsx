@@ -35,6 +35,7 @@ export const UpdateProfile = ({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      setSaving(true);
       updateUser(values).then(_ => {
         setSaving(false);
         setEdit(false);
