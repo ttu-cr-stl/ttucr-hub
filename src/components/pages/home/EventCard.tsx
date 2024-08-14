@@ -39,7 +39,7 @@ export function EventCard({
             className="rounded-2xl shadow-md object-cover"
             alt=""
           />
-          <div className="flex flex-col w-full px-2">
+          <div className="flex flex-col w-[calc(100%-96px)] px-2">
             <div className="flex flex-row items-center justify-between py-2">
               <div className="flex items-center">
                 <svg
