@@ -100,14 +100,7 @@ export const UpdateProfile = ({
                         width={112}
                         height={112}
                       />
-                      <div
-                        className="w-6 h-6 rounded-full bg-blue-600 text-xl text-white text-center flex items-center justify-center absolute"
-                        style={{
-                          bottom: 19,
-                          right: 13,
-                          transform: "translate(50%, 50%)",
-                        }}
-                      >
+                      <div className="w-6 h-6 rounded-full bg-blue-600 text-xl text-white text-center flex items-center justify-center absolute bottom-2 right-0">
                         +
                       </div>
                     </FormLabel>
