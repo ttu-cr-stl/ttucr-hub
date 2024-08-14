@@ -1,5 +1,5 @@
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Degree } from "./consts";
-
 export const isTTUEmail = (email: string) => /@ttu\.edu/.test(email);
 
 export const extractUsername = (email: string) => email.split("@")[0];
@@ -31,7 +31,74 @@ export const detectOS = () => {
 };
 
 export const isPWA = () => {
-  return window.matchMedia('(display-mode: standalone)').matches ||
-         ('standalone' in window.navigator && window.navigator.standalone) ||
-         document.referrer.includes('android-app://');
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    ("standalone" in window.navigator && window.navigator.standalone) ||
+    document.referrer.includes("android-app://")
+  );
+};
+
+const resizeImage = (file: File): Promise<File> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const maxWidth = 1024;
+    const maxHeight = 1024;
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      let width = img.width;
+      let height = img.height;
+
+      if (width > maxWidth || height > maxHeight) {
+        const aspectRatio = width / height;
+        if (aspectRatio > 1) {
+          width = maxWidth;
+          height = maxWidth / aspectRatio;
+        } else {
+          height = maxHeight;
+          width = maxHeight * aspectRatio;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d");
+      ctx?.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const resizedFile = new File([blob], file.name, {
+            type: file.type,
+            lastModified: Date.now(),
+          });
+          resolve(resizedFile);
+        } else {
+          reject(new Error("Canvas to Blob conversion failed"));
+        }
+      }, file.type);
+    };
+    img.onerror = (error) => reject(error);
+    img.src = URL.createObjectURL(file);
+  });
+};
+
+export const uploadProfileImage = async (file: File, username: string) => {
+  const supabase = createClientComponentClient();
+  const bucket = "users";
+
+  const resizedFile = await resizeImage(file);
+
+  // Upload the resized file
+  const { data, error: uploadError } = await supabase.storage
+    .from(bucket)
+    .upload(`${username}`, resizedFile, {
+      upsert: true,
+    });
+
+  if (uploadError) {
+    console.log(uploadError);
+    throw new Error("Failed to upload image");
+  }
+
+  return data.fullPath;
 };

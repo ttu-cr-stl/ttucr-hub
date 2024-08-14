@@ -7,7 +7,6 @@ export enum NavPath {
   WALLET = "/wallet",
   SETTINGS = "/settings",
   ONBOARDING = "/onboarding",
-  LOGIN = "/login",
 }
 
 export enum DegreeKeys {
@@ -46,19 +45,15 @@ export enum OrgCategories {
 export const formSchema = z.object({
   firstName: z
     .string({
-      required_error: "First name is required",
+      required_error: "Name is required",
     })
-    .min(2, "First name is too short"),
+    .min(2, "Name is too short"),
   lastName: z
     .string({
-      required_error: "Last name is required",
+      required_error: "Name is required",
     })
-    .min(2, "Last name is too short"),
-  profilePic: z.string().optional(), //.url()
-  major: z.nativeEnum(DegreeKeys, {
-    errorMap: () => ({ message: "Please select a major" }),
-  }),
-  minor: z.nativeEnum(DegreeKeys, {
-    errorMap: () => ({ message: "Please select a minor" }),
-  }),
+    .min(2, "Name is too short"),
+  profilePic: z.any(), //.url()
+  major: z.nativeEnum(DegreeKeys),
+  minor: z.nativeEnum(DegreeKeys),
 });

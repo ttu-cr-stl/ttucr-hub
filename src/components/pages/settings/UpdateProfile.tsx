@@ -1,15 +1,24 @@
 "use client";
-import { Form } from "@/components/ui/shadcn/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/shadcn/form";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { DegreeKeys, formSchema } from "@/lib/types";
+import { uploadProfileImage } from "@/lib/utils";
 import { Degree } from "@/lib/utils/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
+import Image from "next/image";
+import { ChangeEvent, useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import { Input } from "../../ui/shadcn/input";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
-import { ProfilePicInput } from "../../utils/formItems/ProfilePicInput";
 
 export const UpdateProfile = ({
   user,
@@ -33,18 +42,40 @@ export const UpdateProfile = ({
     },
   }) as UseFormReturn<z.infer<typeof formSchema>>;
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setSaving(true);
+    let imgPath;
     try {
-      setSaving(true);
-      updateUser(values).then(_ => {
-        setSaving(false);
-        setEdit(false);
-      });
+      imgPath = await uploadProfileImage(values.profilePic, user.username);
+      imgPath = `${imgPath}?t=${new Date().getTime()}`;
+      updateUser({ ...values, profilePic: imgPath! })
+        .then((_) => {
+          setSaving(false);
+          setEdit(false);
+        })
+        .catch((e) => {
+          console.error(e);
+          setSaving(false);
+          setEdit(false);
+        });
     } catch (error) {
       console.error(error);
       throw new Error("Failed to update user");
     }
   }
+
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImageSrc(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <Form {...form}>
@@ -55,12 +86,40 @@ export const UpdateProfile = ({
       >
         <div className="flex flex-col items-center space-y-4">
           <div className="flex flex-col space-y-6 items-center">
-            <ProfilePicInput
-              control={form.control}
-              name="profilePicture"
-              label="Profile Picture"
-              placeholder="Profile Picture"
-            />
+            <div className="flex justify-center items-center flex-col">
+              <FormField
+                control={form.control}
+                name="profilePic"
+                render={({ field: { value, onChange, ...fieldProps } }) => (
+                  <FormItem>
+                    <FormLabel className="cursor-pointer relative">
+                      <Image
+                        className="w-24 h-24 rounded-full overflow-hidden"
+                        src={imageSrc || user.profilePic || ""}
+                        alt="profile-pic"
+                        width={112}
+                        height={112}
+                      />
+                      <div className="w-6 h-6 rounded-full bg-blue-600 text-xl text-white text-center flex items-center justify-center absolute bottom-2 right-0">
+                        +
+                      </div>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        {...fieldProps}
+                        className="hidden"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          onChange(e.target.files && e.target.files[0]);
+                          handleImageChange(e);
+                        }}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              ></FormField>
+            </div>
           </div>
         </div>
         <div className="flex flex-col space-y-2">
