@@ -16,7 +16,7 @@ const Settings = () => {
       <div className="flex flex-col gap-y-2">
         <Link href="/settings/profile">
           <SettingsItem>
-            <span>Profile</span>
+            <span>My Profile</span>
             <div className="flex items-center justify-center size-10 rounded-xl bg-black text-white">
               <ChevronRight />
             </div>

@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
+import { Plus } from "react-feather";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../../ui/shadcn/input";
@@ -36,7 +37,6 @@ export const UpdateProfile = ({
     defaultValues: {
       firstName: user.firstName || "",
       lastName: user.lastName || "",
-      profilePic: user.profilePic || "",
       major: user.major as DegreeKeys,
       minor: user.minor as DegreeKeys,
     },
@@ -44,10 +44,12 @@ export const UpdateProfile = ({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setSaving(true);
-    let imgPath;
+    let imgPath = user.profilePic;
     try {
-      imgPath = await uploadProfileImage(values.profilePic, user.username);
-      imgPath = `${imgPath}?t=${new Date().getTime()}`;
+      if (values.profilePic) {
+        imgPath = await uploadProfileImage(values.profilePic, user.username);
+        imgPath = `${imgPath}?t=${new Date().getTime()}`;
+      }
       updateUser({ ...values, profilePic: imgPath! })
         .then((_) => {
           setSaving(false);
@@ -101,7 +103,7 @@ export const UpdateProfile = ({
                         height={112}
                       />
                       <div className="w-6 h-6 rounded-full bg-blue-600 text-xl text-white text-center flex items-center justify-center absolute bottom-2 right-0">
-                        +
+                        <Plus className="w-4 h-4" />
                       </div>
                     </FormLabel>
                     <FormControl>
@@ -118,7 +120,7 @@ export const UpdateProfile = ({
                     </FormControl>
                   </FormItem>
                 )}
-              ></FormField>
+              />
             </div>
           </div>
         </div>

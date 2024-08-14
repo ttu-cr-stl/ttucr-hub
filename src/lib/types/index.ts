@@ -7,6 +7,7 @@ export enum NavPath {
   WALLET = "/wallet",
   SETTINGS = "/settings",
   ONBOARDING = "/onboarding",
+  LOGIN = "/login",
 }
 
 export enum DegreeKeys {

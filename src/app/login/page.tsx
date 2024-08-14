@@ -8,7 +8,7 @@ export default function Login() {
   const { isInstallable, handleAddToHomeScreen } = useAddToHomeScreen();
 
   return (
-    <div className="flex items-center justify-center h-dvh w-dvw bg-gradient-to-t from-red-300 from-0% via-red-100 to-transparent to-45%">
+    <div className="flex items-center justify-center h-full w-full bg-gradient-to-t from-red-300 from-0% via-red-100 to-transparent to-45%">
       {isInstallable && (
         <div onClick={handleAddToHomeScreen} className="absolute bottom-2 flex items-center mx-auto gap-x-1 p-2 bg-white/10 backdrop-blur-sm border border-white rounded-md text-sm cursor-pointer z-10">
           <span className="text-white">Add to Home</span>   

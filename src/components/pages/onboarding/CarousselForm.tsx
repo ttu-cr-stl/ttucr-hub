@@ -1,6 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/shadcn/button";
-import { Form } from "@/components/ui/shadcn/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/shadcn/form";
 import { Spinner } from "@/components/utils/Spinner";
 import { FormRadio } from "@/components/utils/formItems/FormRadio";
 import { FormTextInput } from "@/components/utils/formItems/FormTextInput";
@@ -12,16 +18,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePrivy } from "@privy-io/react-auth";
 import useEmblaCarousel from "embla-carousel-react";
 import { useRouter } from "next/navigation";
-import {
-  FC,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { ChangeEvent, FC, ReactNode, useCallback, useEffect, useState } from "react";
+import { Plus } from "react-feather";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Image from "next/image";
+import { Input } from "@/components/ui/shadcn/input";
+import { extractUsername, uploadProfileImage } from "@/lib/utils";
 
 export const CarousselForm: FC = () => {
   const [loading, setLoading] = useState(false);
@@ -29,16 +32,16 @@ export const CarousselForm: FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [showNext, setShowNext] = useState(true);
   const [showPrev, setShowPrev] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string>("users/default.jpg");
 
   const { user, updateUser } = useAuthUser();
-  const { ready, authenticated } = usePrivy();
+  const { ready, authenticated, user: privyUser } = usePrivy();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
-      profilePic: user?.profilePic || "",
       major: (user?.major as DegreeKeys) || DegreeKeys.NONE,
       minor: (user?.minor as DegreeKeys) || DegreeKeys.NONE,
     },
@@ -49,7 +52,7 @@ export const CarousselForm: FC = () => {
   }
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
   const scrollNext = useCallback(() => {
     if (emblaApi) {
       if (currentSlide === 0) {
@@ -85,13 +88,32 @@ export const CarousselForm: FC = () => {
     }
   }, [emblaApi]);
 
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImageSrc(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
+    let imgPath = user?.profilePic;
     // Only validate firstName and lastName before submission
-    form.trigger(["firstName", "lastName"]).then((isValid) => {
+    form.trigger(["firstName", "lastName"]).then(async (isValid) => {
       if (isValid) {
         try {
-          updateUser(values)
+          if (values.profilePic) {
+            imgPath = await uploadProfileImage(
+              values.profilePic,
+              extractUsername(privyUser?.email?.address || "")
+            );
+            imgPath = `${imgPath}?t=${new Date().getTime()}`;
+          }
+          updateUser({ ...values, profilePic: imgPath })
             .then(() => {
               router.push(NavPath.HOME);
             })
@@ -137,6 +159,41 @@ export const CarousselForm: FC = () => {
                   placeholder="Last Name"
                 />
               </div>
+            </CarouselItem>
+
+            <CarouselItem>
+              <FormField
+                control={form.control}
+                name="profilePic"
+                render={({ field: { value, onChange, ...fieldProps } }) => (
+                  <FormItem className="flex flex-col items-center">
+                    <FormLabel className="cursor-pointer relative">
+                      <Image
+                        className="w-24 h-24 rounded-full overflow-hidden"
+                        src={imageSrc || user?.profilePic || ""}
+                        alt="profile-pic"
+                        width={112}
+                        height={112}
+                      />
+                      <div className="w-6 h-6 rounded-full bg-blue-600 text-xl text-white text-center flex items-center justify-center absolute bottom-2 right-0">
+                        <Plus className="w-4 h-4" />
+                      </div>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        {...fieldProps}
+                        className="hidden"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          onChange(e.target.files && e.target.files[0]);
+                          handleImageChange(e);
+                        }}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
             </CarouselItem>
 
             <CarouselItem>
