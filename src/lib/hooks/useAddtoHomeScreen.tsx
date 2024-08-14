@@ -42,19 +42,13 @@ export const useAddToHomeScreen = () => {
         setIsInstallable(false)
       }
     } else if (isIOS) {
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: 'Install TTU@CR Hub',
-            text: 'Install our app to your home screen for easy access!',
-            url: window.location.href,
-          })
-        } catch (error) {
-          console.error('Error sharing:', error)
-        }
-      } else {
-        alert('To add this app to your home screen, tap the share button in your browser and then "Add to Home Screen".')
-      }
+      // Show an alert with instructions for iOS users
+      alert(
+        'To add this app to your home screen:\n\n' +
+        '1. Tap the Share button in your browser.\n' +
+        '2. Scroll down and tap "Add to Home Screen".\n' +
+        '3. Tap "Add" to confirm.'
+      )
     }
   }
 
