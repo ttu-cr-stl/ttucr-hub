@@ -41,8 +41,8 @@ export const isPWA = () => {
 const resizeImage = (file: File): Promise<File> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    const maxWidth = 1024;
-    const maxHeight = 1024;
+    const maxWidth = 600;
+    const maxHeight = 600;
     img.onload = () => {
       const canvas = document.createElement("canvas");
       let width = img.width;
