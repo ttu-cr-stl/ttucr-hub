@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { Loader } from "react-feather";
 import { usePullToRefresh } from "use-pull-to-refresh";
 

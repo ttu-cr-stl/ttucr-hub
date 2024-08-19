@@ -7,24 +7,31 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/shadcn/form";
+import { Input } from "@/components/ui/shadcn/input";
 import { Spinner } from "@/components/utils/Spinner";
 import { FormRadio } from "@/components/utils/formItems/FormRadio";
 import { FormTextInput } from "@/components/utils/formItems/FormTextInput";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { DegreeKeys, formSchema, NavPath } from "@/lib/types";
+import { extractUsername, uploadProfileImage } from "@/lib/utils";
 import { cn } from "@/lib/utils/cn";
 import { Degree } from "@/lib/utils/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePrivy } from "@privy-io/react-auth";
 import useEmblaCarousel from "embla-carousel-react";
-import { useRouter } from "next/navigation";
-import { ChangeEvent, FC, ReactNode, useCallback, useEffect, useState } from "react";
+import { useRouter } from "next-nprogress-bar";
+import Image from "next/image";
+import {
+  ChangeEvent,
+  FC,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Plus } from "react-feather";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import Image from "next/image";
-import { Input } from "@/components/ui/shadcn/input";
-import { extractUsername, uploadProfileImage } from "@/lib/utils";
 
 export const CarousselForm: FC = () => {
   const [loading, setLoading] = useState(false);

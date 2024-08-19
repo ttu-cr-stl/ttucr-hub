@@ -1,6 +1,6 @@
 "use client";
 import { useAuthUser } from "@/lib/providers/authProvider";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { FC, useCallback } from "react";
 import { ChevronLeft } from "react-feather";
 
@@ -15,7 +15,7 @@ export const BackButton: FC = () => {
         router.back();
       } else {
         // If no previous page, push to '/'
-        router.push('/');
+        router.push("/");
       }
     }
   }, [router]);

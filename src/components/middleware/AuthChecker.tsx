@@ -1,12 +1,12 @@
 "use client";
 import { useAuthUser } from "@/lib/providers/authProvider";
+import { NavPath } from "@/lib/types";
 import { isTTUEmail } from "@/lib/utils";
 import { usePrivy } from "@privy-io/react-auth";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { FC, ReactNode, useEffect } from "react";
 import { EmailNotTTU } from "../views/EmailNotTTU";
 import { SplashScreen } from "../views/SplashScreen";
-import { NavPath } from "@/lib/types";
 
 const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
   const { ready, authenticated, user: PrivyUser } = usePrivy();
@@ -19,7 +19,7 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
     }
   }, [authenticated, ready, router]);
 
-  console.log(user)
+  console.log(user);
 
   if (!ready) {
     // Do nothing while the PrivyProvider initializes with updated user state
