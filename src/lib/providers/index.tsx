@@ -13,7 +13,7 @@ export const GlobalProviders = ({ children }: { children: ReactNode }) => {
       disableTransitionOnChange
     >
       <ProgressBar
-        height="2px"
+        height="4px"
         color="#9C4544"
         options={{ showSpinner: false }}
         shallowRouting
