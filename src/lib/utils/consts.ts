@@ -89,23 +89,23 @@ export const EVENT_CATEGORIES = [
 
 export const STUCO = [
   {
-    name: "PRESI",
+    name: "PRESIDENT",
     username: "andres.aguilar",
   },
   {
-    name: "VICE-PRESI",
+    name: "VICE-PRESIDENT",
     username: "sabarcab",
   },
   {
     name: "TREASURER",
-    username: "bryng",
-  },
-  {
-    name: "SECRETARY",
     username: "pborasch",
   },
   {
     name: "VOCAL",
+    username: "bryng",
+  },
+  {
+    name: "SECRETARY",
     username: "isabella.esquivel",
   },
 ];
