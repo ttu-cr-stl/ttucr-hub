@@ -1,8 +1,6 @@
 import NavBar from "@/components/layout/NavBar";
 
 
-export const revalidate = 1200; // 20 minutes
-
 export default function AppLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
