@@ -54,7 +54,7 @@ const NavIcon: FC<{
   activePath: string;
 }> = ({ children, pathname, activePath }) => {
   return (
-    <Link href={pathname}>
+    <Link href={pathname} prefetch={true}>
       <div className="p-2">
         <div
           className={cn(
