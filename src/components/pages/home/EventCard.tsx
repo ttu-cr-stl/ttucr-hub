@@ -39,8 +39,8 @@ export function EventCard({
             className="rounded-2xl shadow-md object-cover"
             alt=""
           />
-          <div className="flex flex-col w-[calc(100%-96px)] px-2">
-            <div className="flex flex-row items-center justify-between py-2">
+          <div className="flex flex-col justify-evenly w-[calc(100%-96px)] px-2 py-1">
+            <div className="flex flex-row items-center justify-between">
               <div className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +62,7 @@ export function EventCard({
                   />
                 </svg>
 
-                <span className="pl-0.5 text-[10px] font-bold text-gray-500">
+                <span className="pl-0.5 text-[10px] font-bold text-gray-500 line-clamp-1">
                   {event.location}
                 </span>
               </div>
@@ -75,11 +75,11 @@ export function EventCard({
               </span>
             </div>
 
-            <span className="text-lg font-bold leading-none line-clamp-1">
+            <span className="text-lg font-bold leading-tight line-clamp-1">
               {event.name}
             </span>
 
-            <span className="mt-1 text-xs font-medium leading-snug line-clamp-2">
+            <span className="my-0.5 text-xs font-medium leading-snug line-clamp-2">
               {event.description}
             </span>
           </div>
@@ -149,7 +149,7 @@ export function EventCard({
 
           <Separator orientation="vertical" className="h-20" />
 
-          <div className="flex flex-col items-left justify-center w-2/3 h-full px-3 py-1 space-y-2">
+          <div className="flex flex-col items-left justify-evenly w-2/3 h-full px-3 py-1">
             <div className="flex flex-row test-xs font-bold text-gray-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -171,16 +171,16 @@ export function EventCard({
                 />
               </svg>
 
-              <span className="pl-0.5 text-xs font-bold text-gray-500 -mb-0.5">
+              <span className="pl-0.5 text-xs font-bold text-gray-500 line-clamp-1">
                 {event.location}
               </span>
             </div>
 
-            <span className="text-lg font-bold leading-none line-clamp-2">
+            <span className="text-lg font-bold leading-tight line-clamp-2">
               {event.name}
             </span>
 
-            <p className="text-xs font-medium text-slate-800 leading-tight line-clamp-2 pb-0.5">
+            <p className="text-xs font-medium text-slate-800 line-clamp-2 mb-1">
               {event.description}
             </p>
           </div>

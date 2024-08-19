@@ -92,25 +92,13 @@ export default async function Event({ params }: { params: { id: string } }) {
         <div className="flex flex-col items-end gap-y-2">
           <div className="flex flex-col items-center justify-center text-center size-[80px] rounded-2xl bg-stone-100">
             <span className="text-xs -mb-1">
-              {formatInTimeZone(
-                event.startTime,
-                "America/Costa_Rica",
-                "EEEE"
-              )}
+              {formatInTimeZone(event.startTime, "America/Costa_Rica", "EEEE")}
             </span>
             <span className="text-2xl">
-              {formatInTimeZone(
-                event.startTime,
-                "America/Costa_Rica",
-                "MMM"
-              )}
+              {formatInTimeZone(event.startTime, "America/Costa_Rica", "MMM")}
             </span>
             <span className="text-2xl -mt-1">
-              {formatInTimeZone(
-                event.startTime,
-                "America/Costa_Rica",
-                "dd"
-              )}
+              {formatInTimeZone(event.startTime, "America/Costa_Rica", "dd")}
             </span>
           </div>
           <RegisterBtn
@@ -121,20 +109,21 @@ export default async function Event({ params }: { params: { id: string } }) {
       </div>
       <div className="flex flex-col pt-4 gap-y-4">
         <div className="w-full flex items-start justify-between">
-          <h1 className="text-3xl pb-0.5 font-bold line-clamp-2">
+          <span className="w-[calc(100%-130px)] text-2xl pb-0.5 font-bold">
             {event.name}
-          </h1>
+          </span>
           <Badge
+            className="text-center whitespace-nowrap max-w-[120px] mt-1"
             style={{
               backgroundColor: EVENT_CATEGORIES.find(
                 (cat) => cat.name === event.category
               )?.color,
             }}
           >
-            {event.category}
+            <span className="whitespace-nowrap">{event.category}</span>
           </Badge>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between items-center">
           <div className="flex items-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -157,9 +146,15 @@ export default async function Event({ params }: { params: { id: string } }) {
             </svg>
             <h2 className="text-gray-500 font-bold">{event.location}</h2>
           </div>
-          <Badge className="bg-gray-300 text-black">
-            {formatInTimeZone(event.startTime, "America/Costa_Rica", "K:mm aa")}
-          </Badge>
+          <div className="flex items-center text-center justify-center h-[22px] max-w-[80px] ml-1 px-2.5 py-0.5 text-xs bg-gray-300 text-black rounded-full">
+            <span className="whitespace-nowrap">
+              {formatInTimeZone(
+                event.startTime,
+                "America/Costa_Rica",
+                "K:mm aa"
+              )}
+            </span>
+          </div>
         </div>
         <ExpandableDescription description={event.description} />
         <div className="flex flex-col gap-y-2 mt-2">
