@@ -30,7 +30,7 @@ export function EventCard({
 }) {
   if (small) {
     return (
-      <Link prefetch={true} href={`/event/${event.id}`}>
+      <Link href={`/event/${event.id}`}>
         <div className="relative flex flex-row w-full h-24 rounded-2xl shadow-sm shadow-gray-300 bg-white">
           <Image
             src={event.coverImg || ""}
@@ -89,7 +89,7 @@ export function EventCard({
   }
 
   return (
-    <Link prefetch={true} href={`/event/${event.id}`}>
+    <Link href={`/event/${event.id}`}>
       <div className="flex flex-col gap-y-1 w-full h-[290px] rounded-2xl shadow-sm shadow-gray-300 bg-white ">
         <div className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md shadow-gray-400 overflow-clip">
           <Image
