@@ -9,7 +9,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-export const revalidate = 60 * 30; // 30 minutes
+export const revalidate = 0; // 30 minutes
 
 export async function generateMetadata({
   params,

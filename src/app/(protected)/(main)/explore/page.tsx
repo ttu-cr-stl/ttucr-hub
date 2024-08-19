@@ -1,6 +1,8 @@
 import OrgsList from "@/components/pages/explore/OrgsList";
 import React from "react";
 
+export const revalidate = 60 * 60 * 12; // 12 hour
+
 export default function Explore() {
   return (
     <div className="flex flex-col pt-8 gap-y-4">

@@ -1,5 +1,7 @@
 import UsersList from "@/components/pages/leaderboard/UsersList";
 
+export const revalidate = 60 * 60 * 12; // 12 hour
+
 export default function Leaderboard() {
   return (
     <div className="flex flex-col mt-8 gap-y-4">

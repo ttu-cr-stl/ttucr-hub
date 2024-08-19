@@ -9,6 +9,8 @@ import StucoTitle from "@/components/utils/StucoTitle";
 import { getUserByUsername } from "@/db/users";
 import { Degree } from "@/lib/utils/consts";
 
+export const revalidate = 0
+
 export default async function UserPage({
   params,
 }: {

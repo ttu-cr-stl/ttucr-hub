@@ -2,6 +2,8 @@ import { EventsList } from "@/components/pages/home/EventsList";
 import { Welcome } from "@/components/pages/home/Welcome";
 import { getAllEvents } from "@/db/events";
 
+export const revalidate = 0;
+
 export default async function Home() {
   const events = await getAllEvents();
 

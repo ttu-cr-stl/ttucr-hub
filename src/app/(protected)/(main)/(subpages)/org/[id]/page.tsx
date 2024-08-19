@@ -8,6 +8,8 @@ import { getOrgById } from "@/db/orgs";
 import { formatInTimeZone } from "date-fns-tz";
 import Link from "next/link";
 
+export const revalidate = 0;
+
 interface Officer {
   username: string;
   position: string;
