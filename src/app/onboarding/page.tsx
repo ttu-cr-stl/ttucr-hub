@@ -10,9 +10,7 @@ export default function Onboarding() {
           alt=""
           width={100}
           height={100}
-          style={{
-            objectFit: "contain",
-          }}
+          className="object-contain"
         />
       </div>
       <span className="text-xl">

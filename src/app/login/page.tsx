@@ -10,8 +10,11 @@ export default function Login() {
   return (
     <div className="flex items-center justify-center h-dvh w-dvw lg:h-full lg:w-full bg-gradient-to-t from-red-300 from-0% via-red-100 to-transparent to-45%">
       {isInstallable && (
-        <div onClick={handleAddToHomeScreen} className="absolute bottom-2 flex items-center mx-auto gap-x-1 p-2 bg-white/10 backdrop-blur-sm border border-white rounded-md text-sm cursor-pointer z-10">
-          <span className="text-white">Add to Home</span>   
+        <div
+          onClick={handleAddToHomeScreen}
+          className="absolute bottom-2 flex items-center mx-auto gap-x-1 p-2 bg-white/10 backdrop-blur-sm border border-white rounded-md text-sm cursor-pointer z-10"
+        >
+          <span className="text-white">Add to Home</span>
           <div className="size-6 bg-white rounded-md flex items-center justify-center">
             <Plus className="text-red-300" size={16} />
           </div>
@@ -32,9 +35,8 @@ export default function Login() {
             src="general/TTULogoBig.png"
             alt=""
             fill
-            style={{
-              objectFit: "contain",
-            }}
+            className="object-contain"
+            sizes="(max-width: 375px) 100vw, (max-width: 768px) 375px, 800px"
           />
         </div>
         <LoginBtn />

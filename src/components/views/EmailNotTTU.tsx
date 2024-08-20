@@ -8,6 +8,7 @@ export const EmailNotTTU = () => (
         src="/LogoSTL.png"
         alt=""
         fill
+        sizes="(max-width: 375px) 100vw, (max-width: 768px) 375px, 800px"
         style={{
           objectFit: "contain",
         }}

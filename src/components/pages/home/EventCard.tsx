@@ -101,6 +101,7 @@ export function EventCard({
             <Image
               src={event.coverImg}
               fill
+              sizes="(max-width: 375px) 100vw, (max-width: 768px) 375px, 800px"
               alt="_"
               className="absolute top-0 left-0 aspect-auto object-cover"
             />

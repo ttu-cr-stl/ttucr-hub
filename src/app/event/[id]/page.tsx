@@ -73,6 +73,7 @@ export default async function Event({ params }: { params: { id: string } }) {
         <Image
           src={event.coverImg || ""}
           fill
+          sizes="(max-width: 375px) 100vw, (max-width: 768px) 375px, 800px"
           alt="_"
           className="-z-10 absolute top-0 left-0 object-cover bg-gray-200"
         />
