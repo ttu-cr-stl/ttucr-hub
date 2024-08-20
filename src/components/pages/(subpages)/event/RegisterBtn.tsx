@@ -27,14 +27,14 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
   if (!user)
     return (
       <Link href={NavPath.LOGIN}>
-        <div className="flex items-center justify-center w-[90px] h-[28px] gap-x-1 rounded-full text-white cursor-pointer bg-black">
+        <div className="flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer bg-black">
           <span className="text-sm">Login</span>
         </div>
       </Link>
     );
 
   if (isRegistered === null)
-    return <Skeleton className="w-[90px] h-[28px] rounded-full bg-white" />;
+    return <Skeleton className="w-[100px] h-8 rounded-full bg-white" />;
 
   const handleToggle = async () => {
     setLoading(true);
@@ -54,7 +54,7 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
     <div
       onClick={() => handleToggle()}
       className={cn(
-        "flex items-center justify-center w-[90px] h-[28px] gap-x-1 rounded-full text-white cursor-pointer",
+        "flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer",
         isRegistered ? "bg-red-500" : "bg-green-500",
         loading && "bg-stone-300"
       )}
