@@ -20,7 +20,7 @@ const NavBar: FC<NavBarProps> = () => {
       className={cn(
         "fixed bottom-0 left-0 w-full md:w-[375px] border-t flex items-center justify-evenly z-10 bg-white",
         (isPWA() && detectOS() === "iOS") ? "pb-4 h-20" : "h-16",
-        "lg:absolute lg:w-[375px] lg:h-16" // Added for desktop layout
+        "md:absolute md:w-[375px] md:h-16" // Added for desktop layout
       )}
     >
       <NavIcon pathname={NavPath.HOME} activePath={activePath}>

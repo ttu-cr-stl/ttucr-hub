@@ -28,9 +28,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/favicon.ico" },
     ],
     apple: [
       { url: "/apple-touch-icon.png" },
@@ -89,15 +87,15 @@ export default function RootLayout({
         "bg-[#F5F5F5] dark:bg-gray-500 text-black"
       )}
     >
-      <body className="self-center h-dvh w-dvw lg:flex lg:items-center lg:justify-center">
+      <body className="self-center h-dvh w-dvw md:flex md:items-center md:justify-center">
         <Analytics />
         <SpeedInsights />
 
         <GlobalProviders>
-          <div className="relative lg:w-[375px] lg:h-[812px] lg:overflow-hidden lg:border lg:border-gray-300 lg:rounded-3xl lg:shadow-lg">
+          <div className="relative md:w-[375px] md:h-[775px] md:overflow-hidden md:border md:border-gray-300 md:rounded-3xl md:shadow-lg">
             {children}
           </div>
-          <div className="hidden lg:block lg:ml-8 lg:max-w-md">
+          <div className="hidden md:block md:ml-8 md:max-w-md">
             <h1 className="text-2xl font-bold mb-4">Welcome to TTU@CR Hub</h1>
             <p className="text-gray-600">
               This app is optimized for mobile devices. For the best experience,
