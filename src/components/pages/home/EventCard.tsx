@@ -36,7 +36,7 @@ export function EventCard({
             src={event.coverImg || ""}
             width={96}
             height={96}
-            className="rounded-2xl shadow-md object-cover"
+            className="rounded-2xl shadow-md object-cover bg-sky-400"
             alt=""
           />
           <div className="flex flex-col justify-evenly w-[calc(100%-96px)] px-2 py-1">
@@ -91,7 +91,7 @@ export function EventCard({
   return (
     <Link href={`/event/${event.id}`}>
       <div className="flex flex-col gap-y-1 w-full h-[290px] rounded-2xl shadow-sm shadow-gray-300 bg-white ">
-        <div className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md shadow-gray-400 overflow-clip">
+        <div className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md bg-sky-400 shadow-gray-400 overflow-clip">
           <Image
             src={event.coverImg || ""}
             fill
