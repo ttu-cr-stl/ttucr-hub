@@ -1,4 +1,9 @@
 "use client";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/shadcn/avatar";
 import { Button } from "@/components/ui/shadcn/button";
 import {
   Form,
@@ -20,7 +25,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePrivy } from "@privy-io/react-auth";
 import useEmblaCarousel from "embla-carousel-react";
 import { useRouter } from "next-nprogress-bar";
-import Image from "next/image";
 import {
   ChangeEvent,
   FC,
@@ -175,13 +179,10 @@ export const CarousselForm: FC = () => {
                 render={({ field: { value, onChange, ...fieldProps } }) => (
                   <FormItem className="flex flex-col items-center">
                     <FormLabel className="cursor-pointer relative">
-                      <Image
-                        className="w-24 h-24 rounded-full overflow-hidden"
-                        src={imageSrc || user?.profilePic || ""}
-                        alt="profile-pic"
-                        width={112}
-                        height={112}
-                      />
+                      <Avatar className="size-24">
+                        <AvatarImage src={imageSrc || user?.profilePic || ""} />
+                        <AvatarFallback className="bg-[#D9D9D9]"></AvatarFallback>
+                      </Avatar>
                       <div className="w-6 h-6 rounded-full bg-blue-600 text-xl text-white text-center flex items-center justify-center absolute bottom-2 right-0">
                         <Plus className="w-4 h-4" />
                       </div>

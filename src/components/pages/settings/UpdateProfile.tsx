@@ -12,7 +12,6 @@ import { uploadProfileImage } from "@/lib/utils";
 import { Degree } from "@/lib/utils/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
-import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { Plus } from "react-feather";
 import { useForm, UseFormReturn } from "react-hook-form";
@@ -20,6 +19,7 @@ import { z } from "zod";
 import { Input } from "../../ui/shadcn/input";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/shadcn/avatar";
 
 export const UpdateProfile = ({
   user,
@@ -95,13 +95,10 @@ export const UpdateProfile = ({
                 render={({ field: { value, onChange, ...fieldProps } }) => (
                   <FormItem>
                     <FormLabel className="cursor-pointer relative">
-                      <Image
-                        className="w-24 h-24 rounded-full overflow-hidden"
-                        src={imageSrc || user.profilePic || ""}
-                        alt="profile-pic"
-                        width={112}
-                        height={112}
-                      />
+                      <Avatar className="size-24">
+                        <AvatarImage src={imageSrc || user.profilePic || ""} />
+                        <AvatarFallback className="bg-[#D9D9D9]"></AvatarFallback>
+                      </Avatar>
                       <div className="w-6 h-6 rounded-full bg-blue-600 text-xl text-white text-center flex items-center justify-center relative bottom-6 right-0 left-20">
                         <Plus className="w-4 h-4" />
                       </div>
