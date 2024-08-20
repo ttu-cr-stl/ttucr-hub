@@ -33,7 +33,7 @@ export const Degree: SelectOption[] = [
   },
   {
     name: "Business",
-    value: DegreeKeys.BUSINESS,
+    value: DegreeKeys.BUSNS,
     color: "#000080",
   },
   {

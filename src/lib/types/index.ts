@@ -17,7 +17,7 @@ export enum DegreeKeys {
   MATH = "MATH",
   RHIM = "RHIM",
   RETAIL = "RETAIL",
-  BUSINESS = "BUSINESS",
+  BUSNS = "BUSNS",
   STAFF = "STAFF",
   NONE = "NONE",
 }
