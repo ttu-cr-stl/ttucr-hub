@@ -27,47 +27,45 @@ function UserCard({ user, orgs }: UserCardProps) {
     return initials;
   };
 
-  if (user.firstName === "" && user.lastName === "") {
-    return null;
-  }
-
   return (
     <Link href={`/user/${user.username}`}>
       <div
-        className={`flex justify-between items-center px-2 py-2 border-2 rounded-2xl bg-white`}
+        className={`flex justify-between items-center px-2 py-1.5 border-2 rounded-2xl bg-white`}
         style={{
           borderColor: userMajor ? userMajor.color : "lightgrey",
         }}
       >
         <div className="flex items-center">
-          <Avatar className="w-10 h-10 mr-2">
+          <Avatar className="w-10 h-10 mt-0.5 mr-2 self-start">
             <AvatarImage src={user.profilePic || "users/default.jpg"} />
             <AvatarFallback className="bg-gray-200">
               {/* {user.firstName[0]}
               {user.lastName[0]} */}
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center gap-y-0.5">
             <span className="leading-tight">
               {user.firstName} {user.lastName}
             </span>
             <div className="flex flex-row flex-wrap gap-2">
               <StucoTitle username={user.username} />
-              <Badge
-                className="text-xs font-normal"
-                style={{
-                  backgroundColor: userMajor?.color,
-                }}
-              >
-                {userMajor?.value}
-              </Badge>
-              {userMinor?.name && user.minor !== "NONE" ? (
+              {userMajor && user.major !== "NONE" && (
                 <Badge
+                  className="text-xs font-normal"
                   style={{
-                    backgroundColor: userMinor?.color,
+                    backgroundColor: userMajor.color,
                   }}
                 >
-                  {userMinor?.value}
+                  {userMajor.value}
+                </Badge>
+              )}
+              {userMinor && user.minor !== "NONE" ? (
+                <Badge
+                  style={{
+                    backgroundColor: userMinor.color,
+                  }}
+                >
+                  {userMinor.value}
                 </Badge>
               ) : null}
               {orgs?.map((org) => (
