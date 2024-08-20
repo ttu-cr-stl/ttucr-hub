@@ -73,8 +73,8 @@ export default async function Event({ params }: { params: { id: string } }) {
         <Image
           src={event.coverImg || ""}
           fill
-          alt=""
-          className="-z-10 absolute top-0 left-0 object-cover"
+          alt="_"
+          className="-z-10 absolute top-0 left-0 object-cover bg-gray-200"
         />
 
         <Link href={`/event/${event.id}/users`}>

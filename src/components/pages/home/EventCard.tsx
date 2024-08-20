@@ -32,13 +32,17 @@ export function EventCard({
     return (
       <Link href={`/event/${event.id}`}>
         <div className="relative flex flex-row w-full h-24 rounded-2xl shadow-sm shadow-gray-300 bg-white">
-          <Image
-            src={event.coverImg || ""}
-            width={96}
-            height={96}
-            className="rounded-2xl shadow-md object-cover bg-gray-200"
-            alt=""
-          />
+          {event.coverImg ? (
+            <Image
+              src={event.coverImg}
+              width={96}
+              height={96}
+              className="rounded-2xl shadow-md object-cover bg-gray-200"
+              alt=" "
+            />
+          ) : (
+            <div className="rounded-2xl shadow-md bg-gray-200 w-24 h-24"></div>
+          )}
           <div className="relative flex flex-col w-[calc(100%-96px)] justify-evenly px-2 py-2">
             <div className="absolute top-0 right-2 flex items-center pr-1 pt-1">
               <span className="text-[10px] font-bold text-gray-500">
@@ -93,12 +97,16 @@ export function EventCard({
     <Link href={`/event/${event.id}`}>
       <div className="flex flex-col gap-y-1 w-full h-[290px] rounded-2xl shadow-sm shadow-gray-300 bg-white ">
         <div className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md bg-gray-200 shadow-gray-400 overflow-clip">
-          <Image
-            src={event.coverImg || ""}
-            fill
-            alt=""
-            className="absolute top-0 left-0 aspect-auto object-cover"
-          />
+          {event.coverImg ? (
+            <Image
+              src={event.coverImg}
+              fill
+              alt="_"
+              className="absolute top-0 left-0 aspect-auto object-cover"
+            />
+          ) : (
+            <div className="absolute top-0 left-0 bg-gray-200 w-full h-full"></div>
+          )}
           <Badge
             className="z-10"
             style={{
