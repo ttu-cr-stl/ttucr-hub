@@ -39,33 +39,8 @@ export function EventCard({
             className="rounded-2xl shadow-md object-cover bg-gray-200"
             alt=""
           />
-          <div className="flex flex-col justify-evenly w-[calc(100%-96px)] px-2 py-1">
-            <div className="flex flex-row items-center justify-between">
-              <div className="flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="3"
-                  stroke="grey"
-                  className="size-3"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                  />
-                </svg>
-
-                <span className="pl-0.5 text-[10px] font-bold text-gray-500 line-clamp-1">
-                  {event.location}
-                </span>
-              </div>
+          <div className="relative flex flex-col w-[calc(100%-96px)] justify-evenly px-2 py-2">
+            <div className="absolute top-0 right-2 flex items-center pr-1 pt-1">
               <span className="text-[10px] font-bold text-gray-500">
                 {formatInTimeZone(
                   event.startTime,
@@ -75,11 +50,37 @@ export function EventCard({
               </span>
             </div>
 
-            <span className="text-lg font-bold leading-tight line-clamp-1">
+            <span className="text-xl font-bold leading-tight line-clamp-1 mt-2">
               {event.name}
             </span>
 
-            <span className="my-0.5 text-xs font-medium leading-snug line-clamp-2">
+            <div className="flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="3"
+                stroke="grey"
+                className="size-3"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                />
+              </svg>
+
+              <span className="pl-0.5 text-[10px] font-bold text-gray-500 line-clamp-1">
+                {event.location}
+              </span>
+            </div>
+
+            <span className="my-0.5 text-xs font-medium leading-snug line-clamp-1">
               {event.description}
             </span>
           </div>

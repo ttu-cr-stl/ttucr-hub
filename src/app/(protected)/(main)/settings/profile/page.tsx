@@ -106,23 +106,62 @@ export default function Profile() {
             {user.events?.length === 0 ? (
               <div className="w-full text-center">No events attended yet</div>
             ) : (
-              user.events
-                ?.sort((a, b) => b.startTime.getTime() - a.startTime.getTime())
-                .map((event) => (
-                  <div key={event.id} className="w-full">
-                    <div className="ml-2 mb-2 text-xs">
-                      <span className="font-semibold mr-0.5">
-                        @{user.username}
-                      </span>
-                      <span className="font-light">
-                        {event.startTime < new Date()
-                          ? "went to"
-                          : "is going to"}
-                      </span>
-                    </div>
-                    <EventCard small={true} event={event} />
-                  </div>
-                ))
+              <>
+                {(() => {
+                  const now = new Date();
+                  const futureEvents = user.events?.filter(
+                    (event) => event.startTime >= now
+                  ) || [];
+                  const pastEvents = user.events?.filter(
+                    (event) => event.startTime < now
+                  ) || [];
+
+                  return (
+                    <>
+                      {futureEvents.length > 0 && (
+                        <div className="mb-4">
+                          <div className="ml-2 mb-2 text-xs">
+                            <span className="font-semibold mr-0.5">
+                              @{user.username}
+                            </span>
+                            <span className="font-light">is going to</span>
+                          </div>
+                          {futureEvents
+                            .sort(
+                              (a, b) =>
+                                a.startTime.getTime() - b.startTime.getTime()
+                            )
+                            .map((event) => (
+                              <div key={event.id} className="w-full mb-2">
+                                <EventCard small={true} event={event} />
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                      {pastEvents.length > 0 && (
+                        <div>
+                          <div className="ml-2 mb-2 text-xs">
+                            <span className="font-semibold mr-0.5">
+                              @{user.username}
+                            </span>
+                            <span className="font-light">went to</span>
+                          </div>
+                          {pastEvents
+                            .sort(
+                              (a, b) =>
+                                b.startTime.getTime() - a.startTime.getTime()
+                            )
+                            .map((event) => (
+                              <div key={event.id} className="w-full mb-2">
+                                <EventCard small={true} event={event} />
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
+              </>
             )}
           </div>
         </div>
