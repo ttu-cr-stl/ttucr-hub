@@ -95,8 +95,8 @@ export function EventCard({
 
   return (
     <Link href={`/event/${event.id}`}>
-      <div className="flex flex-col gap-y-1 w-full h-[290px] rounded-2xl shadow-sm shadow-gray-300 bg-white ">
-        <div className="relative flex items-end justify-between w-full h-44 p-3 rounded-2xl shadow-md bg-gray-200 shadow-gray-400 overflow-clip">
+      <div className="flex flex-col gap-y-1 w-full h-[315px] rounded-2xl shadow-sm shadow-gray-300 bg-white ">
+        <div className="relative flex items-end justify-between w-full h-[200px] p-3 rounded-2xl shadow-md bg-gray-200 shadow-gray-400 overflow-clip">
           {event.coverImg ? (
             <Image
               src={event.coverImg}
@@ -108,16 +108,18 @@ export function EventCard({
           ) : (
             <div className="absolute top-0 left-0 bg-gray-200 w-full h-full"></div>
           )}
-          <Badge
-            className="z-10"
-            style={{
+          {event.category && (
+            <Badge
+              className="z-10"
+              style={{
               backgroundColor: EVENT_CATEGORIES.find(
                 (cat) => cat.name === event.category
               )?.color,
             }}
           >
-            {event.category}
-          </Badge>
+              {event.category}
+            </Badge>
+          )}
           {event.users && event.users.length !== 0 && (
             <AvatarCircles
               className="-space-x-6 *:bg-white *:text-black *:shadow-lg "
