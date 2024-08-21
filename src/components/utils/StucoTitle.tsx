@@ -6,7 +6,7 @@ const StucoTitle = ({ username }: { username: string }) => {
   if (!badge) return null;
   
   return (
-    <Badge className="bg-blue-500">
+    <Badge className="bg-[#9C4544]">
       {badge.name}
     </Badge>
   );
