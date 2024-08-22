@@ -33,8 +33,10 @@ export async function getAllUsersWithOrgs() {
 }
 
 export async function createUser(username: string) {
-  const user = await prisma.user.create({
-    data: {
+  const user = await prisma.user.upsert({
+    where: { username },
+    update: {},
+    create: {
       firstName: "",
       lastName: "",
       major: "",

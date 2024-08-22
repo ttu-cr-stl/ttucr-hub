@@ -1,10 +1,13 @@
 "use client";
 import { Skeleton } from "@/components/ui/shadcn/skeleton";
 import { toggleUserToEvent } from "@/db/events";
+import { createUser } from "@/db/users";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { NavPath } from "@/lib/types";
+import { extractUsername, isTTUEmail } from "@/lib/utils";
 import { cn } from "@/lib/utils/cn";
-import Link from "next/link";
+import { useLogin, usePrivy } from "@privy-io/react-auth";
+import { useRouter } from "next-nprogress-bar";
 import { FC, useEffect, useState } from "react";
 import { Loader } from "react-feather";
 
@@ -15,9 +18,31 @@ interface RegisterBtnProps {
 
 const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
   const { user } = useAuthUser();
+  const router = useRouter();
+  const { ready } = usePrivy();
 
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const { login } = useLogin({
+    onComplete: async (user, isNewUser) => {
+      if (isNewUser && isTTUEmail(user.email?.address!)) {
+        try {
+          // Create user in DB
+          await createUser(extractUsername(user.email?.address!));
+          router.push(NavPath.ONBOARDING);
+        } catch (error) {
+          setLoading(false);
+          console.log(error);
+          throw new Error("Failed to create user");
+        }
+      }
+    },
+
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   useEffect(() => {
     if (user && isRegistered === null)
@@ -26,11 +51,13 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
 
   if (!user)
     return (
-      <Link href={NavPath.LOGIN}>
-        <div className="flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer bg-black">
-          <span className="text-sm">Login</span>
-        </div>
-      </Link>
+      <button
+        disabled={!ready}
+        onClick={() => login()}
+        className="flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer bg-black"
+      >
+        <span className="text-sm">Login</span>
+      </button>
     );
 
   if (isRegistered === null)

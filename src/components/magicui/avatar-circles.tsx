@@ -1,8 +1,6 @@
 "use client";
 
-import { useAuthUser } from "@/lib/providers/authProvider";
 import { cn } from "@/lib/utils/cn";
-import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/shadcn/avatar";
 
 interface AvatarCirclesProps {
@@ -17,10 +15,6 @@ const AvatarCircles = ({
   avatarUrls,
 }: AvatarCirclesProps) => {
   const displayNum = (numPeople || 0) - avatarUrls.length;
-
-  const { user } = useAuthUser();
-
-  if (!user) return null;
 
   return (
     <div className={cn("z-10 flex -space-x-4 rtl:space-x-reverse", className)}>

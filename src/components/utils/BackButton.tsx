@@ -20,6 +20,8 @@ export const BackButton: FC = () => {
     }
   }, [router]);
 
+  if (!user) return null;
+
   return (
     <div className="flex items-center justify-center w-12 h-12 bg-[#F5F5F5] rounded-lg">
       <ChevronLeft className="w-10 h-10 cursor-pointer" onClick={handleBack} />
