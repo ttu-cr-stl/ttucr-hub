@@ -163,9 +163,10 @@ export default async function Event({ params }: { params: { id: string } }) {
         </div>
         <ExpandableDescription description={event.description} />
         <div className="flex flex-col gap-y-2 mt-2">
-          {event.messages
-            .slice()
-            .reverse()
+          {event.messages.length !== 0 ?
+            event.messages
+              .slice()
+              .reverse()
             .map((message, i) => (
               <div
                 key={i}
@@ -173,7 +174,9 @@ export default async function Event({ params }: { params: { id: string } }) {
               >
                 <div dangerouslySetInnerHTML={{ __html: message }} />
               </div>
-            ))}
+            )) :
+            <div className="text-black/25 text-center text-xs">No messages yet...</div>
+          }
         </div>
       </div>
     </div>
