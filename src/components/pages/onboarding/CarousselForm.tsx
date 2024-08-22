@@ -150,6 +150,12 @@ export const CarousselForm: FC = () => {
     if (emblaApi) emblaApi.scrollPrev();
   }, [emblaApi]);
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+    }
+  };
+
   return (
     <Form {...form}>
       <div className="w-full overflow-hidden space-y-6">
@@ -162,12 +168,14 @@ export const CarousselForm: FC = () => {
                   name="firstName"
                   label="First Name"
                   placeholder="First Name"
+                  onKeyDown={handleKeyDown}
                 />
                 <FormTextInput
                   control={form.control}
                   name="lastName"
                   label="Last Name"
                   placeholder="Last Name"
+                  onKeyDown={handleKeyDown}
                 />
               </div>
             </CarouselItem>
@@ -197,6 +205,7 @@ export const CarousselForm: FC = () => {
                           onChange(e.target.files && e.target.files[0]);
                           handleImageChange(e);
                         }}
+                        onKeyDown={handleKeyDown}
                       />
                     </FormControl>
                   </FormItem>
@@ -211,6 +220,7 @@ export const CarousselForm: FC = () => {
                 name="major"
                 placeholder="Choose a major"
                 options={Degree}
+                onKeyDown={handleKeyDown}
               />
             </CarouselItem>
 
@@ -221,6 +231,7 @@ export const CarousselForm: FC = () => {
                 name="minor"
                 placeholder="Choose a minor"
                 options={Degree}
+                onKeyDown={handleKeyDown}
               />
             </CarouselItem>
           </div>

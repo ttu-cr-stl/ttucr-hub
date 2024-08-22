@@ -9,12 +9,12 @@ import { Input } from "@/components/ui/shadcn/input";
 import { FormComponentProps } from "@/lib/types";
 import { FC } from "react";
 
-export const FormTextInput: FC<FormComponentProps> = ({
+export const FormTextInput: FC<FormComponentProps & { onKeyDown?: (e: React.KeyboardEvent) => void }> = ({
   control,
   name,
   label,
   placeholder,
-  extraProps,
+  onKeyDown,
 }) => {
   return (
     <FormField
@@ -26,9 +26,9 @@ export const FormTextInput: FC<FormComponentProps> = ({
           <FormControl>
             <Input
               className="text-xl"
-              {...extraProps}
-              placeholder={placeholder}
               {...field}
+              placeholder={placeholder}
+              onKeyDown={onKeyDown}
             />
           </FormControl>
           <FormMessage />

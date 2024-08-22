@@ -6,15 +6,24 @@ import {
   FormMessage,
 } from "@/components/ui/shadcn/form";
 import { RadioGroup } from "@/components/ui/shadcn/radio-group";
-import { FormComponentProps } from "@/lib/types";
 import { RadioGroupItem } from "@radix-ui/react-radio-group";
 import { FC } from "react";
+
+interface FormComponentProps {
+  control: any;
+  name: string;
+  options?: { name: string; value: string; color: string }[];
+  label: string;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
+  placeholder?: string;
+}
 
 export const FormRadio: FC<FormComponentProps> = ({
   control,
   name,
   options = [],
   label,
+  onKeyDown,
 }) => {
   return (
     <FormField
@@ -29,6 +38,7 @@ export const FormRadio: FC<FormComponentProps> = ({
               onValueChange={field.onChange}
               defaultValue={field.value}
               className="flex flex-wrap gap-2"
+              onKeyDown={onKeyDown}
             >
               {options.map((option, index) => (
                 <FormItem key={index} className="">
