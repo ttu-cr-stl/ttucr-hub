@@ -113,16 +113,17 @@ export default async function Event({ params }: { params: { id: string } }) {
           <span className="w-[calc(100%-130px)] text-2xl pb-0.5 font-bold">
             {event.name}
           </span>
-          <Badge
-            className="text-center whitespace-nowrap max-w-[120px] mt-1"
-            style={{
+          {event.category && (
+            <Badge
+              className="text-center whitespace-nowrap max-w-[120px] mt-1"
+              style={{
               backgroundColor: EVENT_CATEGORIES.find(
                 (cat) => cat.name === event.category
               )?.color,
-            }}
-          >
-            <span className="whitespace-nowrap">{event.category}</span>
-          </Badge>
+            }}>
+              <span className="whitespace-nowrap">{event.category}</span>
+            </Badge>
+          )}
         </div>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-1">
