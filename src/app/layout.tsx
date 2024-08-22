@@ -1,3 +1,4 @@
+import OrientationLock from "@/lib/hooks/OrientationLock";
 import { GlobalProviders } from "@/lib/providers";
 import "@/lib/styles/globals.css";
 import { cn } from "@/lib/utils/cn";
@@ -27,9 +28,7 @@ export const metadata: Metadata = {
     // startUpImage: [],
   },
   icons: {
-    icon: [
-      { url: "/icons/favicon.ico" },
-    ],
+    icon: [{ url: "/icons/favicon.ico" }],
     apple: [
       { url: "/apple-touch-icon.png" },
       { url: "/apple-touch-icon-57x57.png", sizes: "57x57" },
@@ -89,6 +88,7 @@ export default function RootLayout({
       )}
     >
       <body className="self-center h-dvh w-dvw md:flex md:items-center md:justify-center">
+        <OrientationLock />
         <Analytics />
         <SpeedInsights />
 
