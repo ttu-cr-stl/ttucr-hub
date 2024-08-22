@@ -69,7 +69,7 @@ export default async function Event({ params }: { params: { id: string } }) {
 
   return (
     <div className="w-full overflow-x-visible">
-      <div className="relative flex justify-between items-end h-52 -mt-4 -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 overflow-clip">
+      <div className="relative flex justify-between items-end h-[208px] -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 overflow-clip">
         <Image
           src={event.coverImg || ""}
           fill
@@ -108,6 +108,7 @@ export default async function Event({ params }: { params: { id: string } }) {
           />
         </div>
       </div>
+
       <div className="flex flex-col pt-4 gap-y-4">
         <div className="w-full flex items-start justify-between">
           <span className="w-[calc(100%-130px)] text-2xl pb-0.5 font-bold">
