@@ -30,7 +30,9 @@ export async function generateMetadata({
     event.startTime,
     "America/Costa_Rica",
     "MMM dd"
-  )}* - ${event.description}`;
+  )} ${formatInTimeZone(event.startTime, "America/Costa_Rica", "K:mm aa")}* - ${
+    event.description
+  }`;
 
   return {
     title: event.name,
