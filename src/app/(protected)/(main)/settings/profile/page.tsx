@@ -80,7 +80,7 @@ export default function Profile() {
                 {userMajor?.name}
               </Badge>
 
-              {userMinor?.name && user?.minor !== "NONE" ? (
+              {user?.minor !== "NONE" && user?.minor !== user?.major && (
                 <Badge
                   style={{
                     backgroundColor: userMinor?.color,
@@ -88,7 +88,7 @@ export default function Profile() {
                 >
                   {userMinor?.name}
                 </Badge>
-              ) : null}
+              )}
 
               {user.orgs?.map((org) => (
                 <Badge
@@ -109,12 +109,11 @@ export default function Profile() {
               <>
                 {(() => {
                   const now = new Date();
-                  const futureEvents = user.events?.filter(
-                    (event) => event.startTime >= now
-                  ) || [];
-                  const pastEvents = user.events?.filter(
-                    (event) => event.startTime < now
-                  ) || [];
+                  const futureEvents =
+                    user.events?.filter((event) => event.startTime >= now) ||
+                    [];
+                  const pastEvents =
+                    user.events?.filter((event) => event.startTime < now) || [];
 
                   return (
                     <>

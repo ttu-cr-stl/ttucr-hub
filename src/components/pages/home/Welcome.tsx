@@ -31,7 +31,7 @@ export const Welcome: FC<WelcomeProps> = ({}) => {
           </Badge>
         )}
 
-        {userMinor?.name && user?.minor !== "NONE" ? (
+        {user?.minor !== "NONE" && user?.minor !== user?.major && (
           <Badge
             style={{
               backgroundColor: userMinor?.color,
@@ -39,7 +39,7 @@ export const Welcome: FC<WelcomeProps> = ({}) => {
           >
             {userMinor?.name}
           </Badge>
-        ) : null}
+        )}
 
         {user?.orgs?.map((org) => (
           <Badge

@@ -10,11 +10,10 @@ import { Org, User } from "@prisma/client";
 import Link from "next/link";
 
 interface UserCardProps {
-  user: User;
-  orgs?: Org[];
+  user: User & { orgs: Org[] };
 }
 
-function UserCard({ user, orgs }: UserCardProps) {
+function UserCard({ user }: UserCardProps) {
   const userMajor = Degree.find((degree) => degree.value === user.major);
   const userMinor = Degree.find((degree) => degree.value === user.minor);
 
@@ -59,16 +58,16 @@ function UserCard({ user, orgs }: UserCardProps) {
                   {userMajor.value}
                 </Badge>
               )}
-              {userMinor && user.minor !== "NONE" ? (
+              {user?.minor !== "NONE" && user?.minor !== user?.major && (
                 <Badge
                   style={{
-                    backgroundColor: userMinor.color,
+                    backgroundColor: userMinor?.color,
                   }}
                 >
-                  {userMinor.value}
+                  {userMinor?.name}
                 </Badge>
-              ) : null}
-              {orgs?.map((org) => (
+              )}
+              {user?.orgs?.map((org) => (
                 <Badge
                   key={org.id}
                   style={{
