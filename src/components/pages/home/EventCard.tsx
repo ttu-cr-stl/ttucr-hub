@@ -95,8 +95,8 @@ export function EventCard({
 
   return (
     <Link href={`/event/${event.id}`}>
-      <div className="flex flex-col gap-y-1 w-full h-[315px] rounded-2xl shadow-sm shadow-gray-300 bg-white ">
-        <div className="relative flex items-end justify-between w-full h-[200px] p-3 rounded-2xl shadow-md bg-gray-200 shadow-gray-400 overflow-clip">
+      <div className="flex flex-col gap-y-1 w-full min-h-[315px] aspect-[340/315] rounded-2xl shadow-sm shadow-gray-300 bg-white ">
+        <div className="relative flex items-end justify-between w-full min-h-[208px] aspect-[340/208] p-3 rounded-2xl shadow-md bg-gray-200 shadow-gray-400 overflow-clip">
           {event.coverImg ? (
             <Image
               src={event.coverImg}
