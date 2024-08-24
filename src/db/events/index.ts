@@ -37,7 +37,7 @@ export async function getEventByIdWithUserPics(id: string) {
         include: {
           User: {
             select: {
-              id: true,
+              username: true,
               profilePic: true,
             }
           }
@@ -68,26 +68,26 @@ export async function getEventUsers(id: string) {
   return event?.EventAttendance.map(ea => ea.User) || [];
 }
 
-export async function toggleUserToEvent(eventId: string, userId: string, alreadySignedUp: boolean) {
-  console.log("toggleUserToEvent", eventId, userId, alreadySignedUp);
+export async function toggleUserToEvent(eventId: string, username: string, alreadySignedUp: boolean) {
+  console.log("toggleUserToEvent", eventId, username, alreadySignedUp);
 
   if (!alreadySignedUp) {
     await prisma.eventAttendance.create({
       data: {
-        id: `${userId}-${eventId}`,
-        userId,
+        id: `${username}-${eventId}`,
+        username,
         eventId,
       }
     });
   } else {
     await prisma.eventAttendance.delete({
       where: {
-        id: `${userId}-${eventId}`,
+        id: `${username}-${eventId}`,
       }
     });
   }
 
-  revalidatePath(`/user/${userId}`);
+  revalidatePath(`/user/${username}`);
   revalidatePath(`/event/${eventId}`);
   revalidatePath(`/event/${eventId}/users`);
 

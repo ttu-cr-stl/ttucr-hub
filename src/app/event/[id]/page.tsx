@@ -86,9 +86,9 @@ export default async function Event({ params }: { params: { id: string } }) {
             <AvatarCircles
               className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
               numPeople={event.EventAttendance.length}
-              avatarUrls={event.EventAttendance
-                .slice(0, 3)
-                .map((ea) => ea.User.profilePic || "")}
+              avatarUrls={event.EventAttendance.slice(0, 3).map(
+                (ea) => ea.User.profilePic || ""
+              )}
             />
           )}
         </Link>
@@ -107,8 +107,10 @@ export default async function Event({ params }: { params: { id: string } }) {
           </div>
           <SignUpBtn
             eventId={event.id}
-            signedUpIds={event.EventAttendance.map((ea) => ea.User.id)}
-            attendedIds={event.EventAttendance.filter((ea) => ea.attended).map((ea) => ea.User.id)}
+            signedUpIds={event.EventAttendance.map((ea) => ea.User.username)}
+            attendedIds={event.EventAttendance.filter((ea) => ea.attended).map(
+              (ea) => ea.User.username
+            )}
             datePassed={isAfter(new Date(), event.startTime)}
           />
         </div>

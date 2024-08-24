@@ -50,7 +50,7 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
 
   useEffect(() => {
     if (user && isSignedUp === null)
-      setIsSignedUp(signedUpIds.includes(user.id));
+      setIsSignedUp(signedUpIds.includes(user.username));
   }, [user, signedUpIds, isSignedUp]);
 
   if (!authenticated || !user)
@@ -64,7 +64,7 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
       </button>
     );
   if (datePassed) {
-    const attended = attendedIds.includes(user.id);
+    const attended = attendedIds.includes(user.username);
     return (
       <button
         disabled={true}
@@ -88,7 +88,7 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
     setIsSignedUp(!isSignedUp);
 
     try {
-      const result = await toggleUserToEvent(eventId, user.id, isSignedUp);
+      const result = await toggleUserToEvent(eventId, user.username, isSignedUp);
       // If the server response doesn't match our optimistic update, we revert
       if (result !== !isSignedUp) {
         setIsSignedUp(result);

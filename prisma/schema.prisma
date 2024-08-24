@@ -9,7 +9,6 @@ datasource db {
 }
 
 model User {
-  id              String            @id @default(cuid())
   firstName       String
   lastName        String
   profilePic      String?
@@ -18,7 +17,7 @@ model User {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime?         @updatedAt
   address         String?
-  username        String            @unique
+  username        String            @id @unique
   EventAttendance EventAttendance[]
   orgs            Org[]             @relation("OrgToUser")
 }
@@ -53,12 +52,12 @@ model Org {
 
 model EventAttendance {
   id       String   @id
-  userId   String
   eventId  String
   signedUp DateTime @default(now())
   attended Boolean  @default(false)
+  username String
   Event    Event    @relation(fields: [eventId], references: [id])
-  User     User     @relation(fields: [userId], references: [id])
+  User     User     @relation(fields: [username], references: [username])
 
-  @@unique([userId, eventId])
+  @@unique([username, eventId])
 }

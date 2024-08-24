@@ -10,7 +10,7 @@ export default async function Event({ params }: { params: { id: string } }) {
         Signed Up
       </span>
       {users.map((user) => (
-        <UserCard key={user.id} user={user} />
+        <UserCard key={user.username} user={user} />
       ))}
     </div>
   );
