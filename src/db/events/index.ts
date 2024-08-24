@@ -58,7 +58,11 @@ export async function getEventUsers(id: string) {
     include: {
       EventAttendance: {
         include: {
-          User: true
+          User: {
+            include: {
+              orgs: true
+            }
+          }
         }
       }
     }

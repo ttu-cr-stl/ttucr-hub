@@ -77,7 +77,7 @@ export default async function Org({ params }: { params: { id: string } }) {
       <div className="flex flex-col gap-y-2 w-full mt-4 pb-10">
         <span>Members</span>
         {org.members.map((user) => (
-          <UserCard key={user.id} user={user} />
+          <UserCard key={user.id} user={{...user, orgs: []}} /> // pass in empty org since we don't need to show them here
         ))}
       </div>
     </div>
