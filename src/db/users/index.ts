@@ -13,15 +13,21 @@ export async function getAllUsers() {
 
 export async function getUserByUsername(username: string) {
   const user = await prisma.user.findUnique({
-    where: {
-      username,
-    },
+    where: { username },
     include: {
       orgs: true,
-      events: true,
+      EventAttendance: {
+        include: {
+          Event: true
+        }
+      }
     },
   });
-  return user;
+  
+  return user ? {
+    ...user,
+    events: user.EventAttendance.map(ea => ea.Event)
+  } : null;
 }
 
 export async function getAllUsersWithOrgs() {
@@ -53,16 +59,23 @@ export async function internalUpdateUserByUsername(
 ) {
   console.log("updating user by username");
   const user = await prisma.user.update({
-    where: {
-      username,
-    },
+    where: { username },
     data,
     include: {
       orgs: true,
-      events: true,
+      EventAttendance: {
+        include: {
+          Event: true
+        }
+      }
     }
   });
 
+  const updatedUser = {
+    ...user,
+    events: user.EventAttendance.map(ea => ea.Event)
+  };
+
   revalidatePath(NavPath.LEADERBOARD);
-  return user;
+  return updatedUser;
 }

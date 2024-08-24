@@ -3,82 +3,86 @@ import prisma from "@/db/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function getAllEvents() {
-  const events = await prisma.event.findMany({include: {users: {select: {profilePic: true}}}});
+  const events = await prisma.event.findMany({
+    include: {
+      EventAttendance: {
+        include: {
+          User: {
+            select: { profilePic: true }
+          }
+        }
+      }
+    }
+  });
 
-  return events;
+  return events.map(event => ({
+    ...event,
+    users: event.EventAttendance.map(ea => ea.User)
+  }));
 }
 
 export async function getEventById(id: string) {
-  const user = await prisma.event.findUnique({
-    where: {
-      id,
-    },
+  const event = await prisma.event.findUnique({
+    where: { id },
   });
 
-  return user;
+  return event;
 }
 
 export async function getEventByIdWithUserPics(id: string) {
-  const user = await prisma.event.findUnique({
-    where: {
-      id,
-    },
+  const event = await prisma.event.findUnique({
+    where: { id },
     include: {
-      users: {
-        select: {
-          id: true,
-          profilePic: true,
-        },
-      },
-    },
+      EventAttendance: {
+        include: {
+          User: {
+            select: {
+              id: true,
+              profilePic: true,
+            }
+          }
+        }
+      }
+    }
   });
 
-  return user;
+  return event ? {
+    ...event,
+    users: event.EventAttendance.map(ea => ea.User)
+  } : null;
 }
 
 export async function getEventUsers(id: string) {
   const event = await prisma.event.findUnique({
-    where: {
-      id,
-    },
+    where: { id },
     include: {
-      users: true,
-    },
+      EventAttendance: {
+        include: {
+          User: true
+        }
+      }
+    }
   });
 
-  return event?.users || [];
-
+  return event?.EventAttendance.map(ea => ea.User) || [];
 }
 
 export async function toggleUserToEvent(eventId: string, userId: string, alreadyRegistered: boolean) {
-
   console.log("toggleUserToEvent", eventId, userId, alreadyRegistered);
 
   if (!alreadyRegistered) {
-    await prisma.event.update({
-      where: {
-        id: eventId,
-      },
+    await prisma.eventAttendance.create({
       data: {
-        users: {
-          connect: {
-            id: userId,
-          },
-        },
-      },
+        id: `${userId}-${eventId}`,
+        userId,
+        eventId,
+      }
     });
   } else {
-    await prisma.event.update({
+    await prisma.eventAttendance.delete({
       where: {
-        id: eventId,
-      },
-      data: {
-        users: {
-          disconnect: {
-            id: userId,
-          },
-        },
-      },
+        id: `${userId}-${eventId}`,
+      }
     });
   }
 

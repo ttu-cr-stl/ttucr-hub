@@ -9,33 +9,33 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(cuid())
-  firstName  String
-  lastName   String
-  profilePic String?
-  major      String
-  minor      String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime? @updatedAt
-  address    String?
-  username   String    @unique
-  orgs       Org[]     @relation("OrgToUser")
-  events     Event[]   @relation("UserToEvent")
+  id              String            @id @default(cuid())
+  firstName       String
+  lastName        String
+  profilePic      String?
+  major           String
+  minor           String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime?         @updatedAt
+  address         String?
+  username        String            @unique
+  EventAttendance EventAttendance[]
+  orgs            Org[]             @relation("OrgToUser")
 }
 
 model Event {
-  id          String    @id @default(cuid())
-  name        String
-  description String
-  startTime   DateTime
-  location    String
-  organizer   String
-  category    String?
-  coverImg    String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  messages    String[]
-  users       User[]    @relation("UserToEvent")
+  id              String            @id @default(cuid())
+  name            String
+  description     String
+  startTime       DateTime
+  location        String
+  organizer       String
+  category        String?
+  coverImg        String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime?         @updatedAt
+  messages        String[]
+  EventAttendance EventAttendance[]
 }
 
 model Org {
@@ -49,4 +49,16 @@ model Org {
   officers    Json[]    @default([])
   category    String?
   members     User[]    @relation("OrgToUser")
+}
+
+model EventAttendance {
+  id       String   @id
+  userId   String
+  eventId  String
+  signedUp DateTime @default(now())
+  attended Boolean  @default(false)
+  Event    Event    @relation(fields: [eventId], references: [id])
+  User     User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, eventId])
 }
