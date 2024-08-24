@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/shadcn/badge";
 import ExpandableDescription from "@/components/utils/ExpandableDescription";
 import { getEventById, getEventByIdWithUserPics } from "@/db/events";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";
+import { isAfter } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -81,13 +82,13 @@ export default async function Event({ params }: { params: { id: string } }) {
         />
 
         <Link href={`/event/${event.id}/users`}>
-          {event.users.length !== 0 && (
+          {event.EventAttendance.length !== 0 && (
             <AvatarCircles
               className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
-              numPeople={event.users.length}
-              avatarUrls={event.users
+              numPeople={event.EventAttendance.length}
+              avatarUrls={event.EventAttendance
                 .slice(0, 3)
-                .map((user) => user.profilePic || "")}
+                .map((ea) => ea.User.profilePic || "")}
             />
           )}
         </Link>
@@ -106,7 +107,9 @@ export default async function Event({ params }: { params: { id: string } }) {
           </div>
           <SignUpBtn
             eventId={event.id}
-            signedUpIds={event.users.map((u) => u.id)}
+            signedUpIds={event.EventAttendance.map((ea) => ea.User.id)}
+            attendedIds={event.EventAttendance.filter((ea) => ea.attended).map((ea) => ea.User.id)}
+            datePassed={isAfter(new Date(), event.startTime)}
           />
         </div>
       </div>

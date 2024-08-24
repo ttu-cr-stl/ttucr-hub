@@ -1,5 +1,4 @@
 "use client";
-import { Skeleton } from "@/components/ui/shadcn/skeleton";
 import { toggleUserToEvent } from "@/db/events";
 import { createUser } from "@/db/users";
 import { useAuthUser } from "@/lib/providers/authProvider";
@@ -14,12 +13,19 @@ import { Loader } from "react-feather";
 interface SignUpBtnProps {
   eventId: string;
   signedUpIds: string[];
+  attendedIds: string[];
+  datePassed: boolean;
 }
 
-const SignUpBtn: FC<SignUpBtnProps> = ({ eventId, signedUpIds }) => {
+const SignUpBtn: FC<SignUpBtnProps> = ({
+  eventId,
+  signedUpIds,
+  attendedIds,
+  datePassed,
+}) => {
   const { user } = useAuthUser();
   const router = useRouter();
-  const { ready } = usePrivy();
+  const { ready, authenticated } = usePrivy();
 
   const [isSignedUp, setIsSignedUp] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
@@ -49,22 +55,37 @@ const SignUpBtn: FC<SignUpBtnProps> = ({ eventId, signedUpIds }) => {
       setIsSignedUp(signedUpIds.includes(user.id));
   }, [user, signedUpIds, isSignedUp]);
 
-  if (!user)
+  if (!authenticated || !user)
     return (
       <button
-        disabled={!ready}
+        disabled={!ready || !user}
         onClick={() => login()}
-        className="flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer bg-black"
+        className="flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer bg-black disabled:bg-stone-300"
       >
         <span className="text-sm">Login</span>
       </button>
     );
-
-  if (isSignedUp === null)
-    return <Skeleton className="w-[100px] h-8 rounded-full bg-white" />;
+  if (datePassed) {
+    const attended = attendedIds.includes(user.id);
+    return (
+      <button
+        disabled={true}
+        className={cn(
+          "flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-not-allowed",
+          attended ? "bg-green-500" : "bg-stone-300"
+        )}
+      >
+        <span className={cn("text-sm", !attended && "text-stone-500")}>
+          {attended ? "Attended" : "Missed it!"}
+        </span>
+      </button>
+    );
+  }
 
   const handleToggle = async () => {
     setLoading(true);
+
+    if (!user || isSignedUp === null) return;
 
     await toggleUserToEvent(eventId, user.id, isSignedUp)
       .then((signedUp) => {
@@ -89,9 +110,7 @@ const SignUpBtn: FC<SignUpBtnProps> = ({ eventId, signedUpIds }) => {
       {loading ? (
         <Loader className="animate-spin" size={16} />
       ) : (
-        <span className="text-sm">
-          {isSignedUp ? "Back Out" : "Sign Up"}
-        </span>
+        <span className="text-sm">{isSignedUp ? "Back Out" : "Sign Up"}</span>
       )}
     </div>
   );

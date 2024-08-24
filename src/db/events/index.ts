@@ -46,10 +46,7 @@ export async function getEventByIdWithUserPics(id: string) {
     }
   });
 
-  return event ? {
-    ...event,
-    users: event.EventAttendance.map(ea => ea.User)
-  } : null;
+  return event;
 }
 
 export async function getEventUsers(id: string) {

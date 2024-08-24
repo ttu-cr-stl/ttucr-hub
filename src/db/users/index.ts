@@ -1,9 +1,9 @@
 "use server";
 import prisma from "@/db/prisma";
 import { NavPath } from "@/lib/types";
+import { ExtendedUser } from "@/lib/types/prismaTypes";
 import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { ExtendedUser } from "@/lib/types/prismaTypes";
 
 export async function getAllUsers() {
   console.log("fetching all users");
@@ -23,16 +23,21 @@ export async function getUserByUsername(
         include: {
           Event: true,
         },
+        where: {
+          attended: true,
+        },
       },
     },
   });
 
-  return user
-    ? {
-        ...user,
-        events: user.EventAttendance.map((ea) => ea.Event),
-      }
-    : null;
+  if (user) {
+    return {
+      ...user,
+      events: user.EventAttendance.map((ea) => ea.Event),
+    };
+  }
+
+  return null;
 }
 
 export async function getAllUsersWithOrgs() {
