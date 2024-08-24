@@ -6,9 +6,11 @@ import { extractUsername } from "../utils";
 
 const privyId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
 
+import { ExtendedUser } from "@/lib/types/prismaTypes";
+
 const authContext = createContext<{
-  user: (User & { orgs?: Org[]; events?: Event[] }) | null;
-  updateUser: (data: Partial<User>) => Promise<User | null>;
+  user: ExtendedUser | null;
+  updateUser: (data: Partial<User>) => Promise<ExtendedUser | null>;
 }>({ user: null, updateUser: () => Promise.resolve(null) });
 
 export const useAuthUser = () => {
@@ -17,7 +19,7 @@ export const useAuthUser = () => {
 
 const AuthUserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<
-    ({ orgs: Org[]; events: Event[] } & User) | null
+    ExtendedUser | null
   >(null);
   const { user: privyUser } = usePrivy();
 

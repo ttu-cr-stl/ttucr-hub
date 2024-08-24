@@ -54,7 +54,9 @@ export const formSchema = z.object({
       required_error: "Name is required",
     })
     .min(2, "Name is too short"),
-  profilePic: z.any(), //.url()
+  profilePic: z.instanceof(File).optional(),
   major: z.nativeEnum(DegreeKeys),
-  minor: z.nativeEnum(DegreeKeys),
+  minor: z.nativeEnum(DegreeKeys).optional(),
 });
+
+export type ProfileFormValues = z.infer<typeof formSchema>;

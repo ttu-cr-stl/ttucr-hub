@@ -7,32 +7,31 @@ import {
   FormLabel,
 } from "@/components/ui/shadcn/form";
 import { useAuthUser } from "@/lib/providers/authProvider";
-import { DegreeKeys, formSchema } from "@/lib/types";
+import { DegreeKeys, formSchema, ProfileFormValues } from "@/lib/types";
+import { ExtendedUser } from "@/lib/types/prismaTypes";
 import { uploadProfileImage } from "@/lib/utils";
 import { Degree } from "@/lib/utils/consts";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
 import { ChangeEvent, useState } from "react";
 import { Plus } from "react-feather";
 import { useForm, UseFormReturn } from "react-hook-form";
-import { z } from "zod";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/shadcn/avatar";
 import { Input } from "../../ui/shadcn/input";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/shadcn/avatar";
 
 export const UpdateProfile = ({
   user,
   setSaving,
   setEdit,
 }: {
-  user: User;
+  user: ExtendedUser;
   setSaving: (saving: boolean) => void;
   setEdit: (edit: boolean) => void;
 }) => {
   const { updateUser } = useAuthUser();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<ProfileFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       firstName: user.firstName || "",
@@ -40,9 +39,9 @@ export const UpdateProfile = ({
       major: user.major as DegreeKeys,
       minor: user.minor as DegreeKeys,
     },
-  }) as UseFormReturn<z.infer<typeof formSchema>>;
+  }) as UseFormReturn<ProfileFormValues>;
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: ProfileFormValues) {
     setSaving(true);
     let imgPath = user.profilePic;
     try {
