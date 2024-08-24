@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils/cn";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next-nprogress-bar";
 import { FC, useEffect, useState } from "react";
-import { Loader } from "react-feather";
 
 interface SignUpBtnProps {
   eventId: string;
@@ -28,7 +27,7 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
   const { ready, authenticated } = usePrivy();
 
   const [isSignedUp, setIsSignedUp] = useState<boolean | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const { login } = useLogin({
     onComplete: async (user, isNewUser) => {
@@ -38,7 +37,6 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
           await createUser(extractUsername(user.email?.address!));
           router.push(NavPath.ONBOARDING);
         } catch (error) {
-          setLoading(false);
           console.log(error);
           throw new Error("Failed to create user");
         }
@@ -83,36 +81,45 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
   }
 
   const handleToggle = async () => {
-    setLoading(true);
-
     if (!user || isSignedUp === null) return;
 
-    await toggleUserToEvent(eventId, user.id, isSignedUp)
-      .then((signedUp) => {
-        setIsSignedUp(signedUp);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-        console.log("Failed to toggle user to event");
-      });
+    setIsUpdating(true);
+    // Optimistically update the UI
+    setIsSignedUp(!isSignedUp);
+
+    try {
+      const result = await toggleUserToEvent(eventId, user.id, isSignedUp);
+      // If the server response doesn't match our optimistic update, we revert
+      if (result !== !isSignedUp) {
+        setIsSignedUp(result);
+      }
+    } catch (error) {
+      // If there's an error, revert the optimistic update
+      setIsSignedUp(isSignedUp);
+      console.log("Failed to toggle user to event");
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   return (
-    <div
-      onClick={() => handleToggle()}
+    <button
+      onClick={handleToggle}
+      disabled={isUpdating}
       className={cn(
-        "flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer",
-        isSignedUp ? "bg-red-500" : "bg-green-500",
-        loading && "bg-stone-300"
+        "flex items-center justify-center w-[100px] h-8 rounded-full text-white cursor-pointer transition-all duration-200",
+        isSignedUp
+          ? isUpdating
+            ? "bg-red-300"
+            : "bg-red-500"
+          : isUpdating
+          ? "bg-green-300"
+          : "bg-green-500",
+        isUpdating && "cursor-not-allowed"
       )}
     >
-      {loading ? (
-        <Loader className="animate-spin" size={16} />
-      ) : (
-        <span className="text-sm">{isSignedUp ? "Back Out" : "Sign Up"}</span>
-      )}
-    </div>
+      <span className="text-sm">{isSignedUp ? "Back Out" : "Sign Up"}</span>
+    </button>
   );
 };
 
