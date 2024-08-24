@@ -67,10 +67,10 @@ export async function getEventUsers(id: string) {
   return event?.EventAttendance.map(ea => ea.User) || [];
 }
 
-export async function toggleUserToEvent(eventId: string, userId: string, alreadyRegistered: boolean) {
-  console.log("toggleUserToEvent", eventId, userId, alreadyRegistered);
+export async function toggleUserToEvent(eventId: string, userId: string, alreadySignedUp: boolean) {
+  console.log("toggleUserToEvent", eventId, userId, alreadySignedUp);
 
-  if (!alreadyRegistered) {
+  if (!alreadySignedUp) {
     await prisma.eventAttendance.create({
       data: {
         id: `${userId}-${eventId}`,
@@ -90,5 +90,5 @@ export async function toggleUserToEvent(eventId: string, userId: string, already
   revalidatePath(`/event/${eventId}`);
   revalidatePath(`/event/${eventId}/users`);
 
-  return !alreadyRegistered;
+  return !alreadySignedUp;
 }

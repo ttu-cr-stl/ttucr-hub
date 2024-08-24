@@ -1,5 +1,5 @@
 import AvatarCircles from "@/components/magicui/avatar-circles";
-import RegisterBtn from "@/components/pages/(subpages)/event/RegisterBtn";
+import SignUpBtn from "@/components/pages/(subpages)/event/RegisterBtn";
 import { Badge } from "@/components/ui/shadcn/badge";
 import ExpandableDescription from "@/components/utils/ExpandableDescription";
 import { getEventById, getEventByIdWithUserPics } from "@/db/events";
@@ -104,9 +104,9 @@ export default async function Event({ params }: { params: { id: string } }) {
               {formatInTimeZone(event.startTime, "America/Costa_Rica", "dd")}
             </span>
           </div>
-          <RegisterBtn
+          <SignUpBtn
             eventId={event.id}
-            registeredIds={event.users.map((u) => u.id)}
+            signedUpIds={event.users.map((u) => u.id)}
           />
         </div>
       </div>
@@ -120,10 +120,11 @@ export default async function Event({ params }: { params: { id: string } }) {
             <Badge
               className="text-center whitespace-nowrap max-w-[120px] mt-1"
               style={{
-              backgroundColor: EVENT_CATEGORIES.find(
-                (cat) => cat.name === event.category
-              )?.color,
-            }}>
+                backgroundColor: EVENT_CATEGORIES.find(
+                  (cat) => cat.name === event.category
+                )?.color,
+              }}
+            >
               <span className="whitespace-nowrap">{event.category}</span>
             </Badge>
           )}
@@ -163,20 +164,23 @@ export default async function Event({ params }: { params: { id: string } }) {
         </div>
         <ExpandableDescription description={event.description} />
         <div className="flex flex-col gap-y-2 mt-2">
-          {event.messages.length !== 0 ?
+          {event.messages.length !== 0 ? (
             event.messages
               .slice()
               .reverse()
-            .map((message, i) => (
-              <div
-                key={i}
-                className="relative flex flex-col w-full rounded-xl shadow-sm shadow-gray-3000 bg-white px-6 py-4"
-              >
-                <div dangerouslySetInnerHTML={{ __html: message }} />
-              </div>
-            )) :
-            <div className="text-black/25 text-center text-xs">No messages yet...</div>
-          }
+              .map((message, i) => (
+                <div
+                  key={i}
+                  className="relative flex flex-col w-full rounded-xl shadow-sm shadow-gray-3000 bg-white px-6 py-4"
+                >
+                  <div dangerouslySetInnerHTML={{ __html: message }} />
+                </div>
+              ))
+          ) : (
+            <div className="text-black/25 text-center text-xs">
+              No messages yet...
+            </div>
+          )}
         </div>
       </div>
     </div>

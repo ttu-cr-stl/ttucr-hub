@@ -11,17 +11,17 @@ import { useRouter } from "next-nprogress-bar";
 import { FC, useEffect, useState } from "react";
 import { Loader } from "react-feather";
 
-interface RegisterBtnProps {
+interface SignUpBtnProps {
   eventId: string;
-  registeredIds: string[];
+  signedUpIds: string[];
 }
 
-const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
+const SignUpBtn: FC<SignUpBtnProps> = ({ eventId, signedUpIds }) => {
   const { user } = useAuthUser();
   const router = useRouter();
   const { ready } = usePrivy();
 
-  const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
+  const [isSignedUp, setIsSignedUp] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
 
   const { login } = useLogin({
@@ -45,9 +45,9 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
   });
 
   useEffect(() => {
-    if (user && isRegistered === null)
-      setIsRegistered(registeredIds.includes(user.id));
-  }, [user, registeredIds, isRegistered]);
+    if (user && isSignedUp === null)
+      setIsSignedUp(signedUpIds.includes(user.id));
+  }, [user, signedUpIds, isSignedUp]);
 
   if (!user)
     return (
@@ -60,15 +60,15 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
       </button>
     );
 
-  if (isRegistered === null)
+  if (isSignedUp === null)
     return <Skeleton className="w-[100px] h-8 rounded-full bg-white" />;
 
   const handleToggle = async () => {
     setLoading(true);
 
-    await toggleUserToEvent(eventId, user.id, isRegistered)
-      .then((registered) => {
-        setIsRegistered(registered);
+    await toggleUserToEvent(eventId, user.id, isSignedUp)
+      .then((signedUp) => {
+        setIsSignedUp(signedUp);
         setLoading(false);
       })
       .catch(() => {
@@ -82,7 +82,7 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
       onClick={() => handleToggle()}
       className={cn(
         "flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer",
-        isRegistered ? "bg-red-500" : "bg-green-500",
+        isSignedUp ? "bg-red-500" : "bg-green-500",
         loading && "bg-stone-300"
       )}
     >
@@ -90,11 +90,11 @@ const RegisterBtn: FC<RegisterBtnProps> = ({ eventId, registeredIds }) => {
         <Loader className="animate-spin" size={16} />
       ) : (
         <span className="text-sm">
-          {isRegistered ? "Unregister" : "Register"}
+          {isSignedUp ? "Back Out" : "Sign Up"}
         </span>
       )}
     </div>
   );
 };
 
-export default RegisterBtn;
+export default SignUpBtn;
