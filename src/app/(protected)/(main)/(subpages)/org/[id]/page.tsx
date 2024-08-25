@@ -1,11 +1,9 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/shadcn/avatar";
+import { Badge } from "@/components/ui/shadcn/badge";
 import UserCard from "@/components/pages/leaderboard/UserCard";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/shadcn/avatar";
 import { getOrgById } from "@/db/orgs";
 import { formatInTimeZone } from "date-fns-tz";
+import Image from "next/image";
 import Link from "next/link";
 
 export const revalidate = 0;
@@ -15,71 +13,80 @@ interface Officer {
   position: string;
 }
 
-function isLightColor(color: string) {
-  const hex = color.replace("#", "");
-  const c_r = parseInt(hex.substr(0, 2), 16);
-  const c_g = parseInt(hex.substr(2, 2), 16);
-  const c_b = parseInt(hex.substr(4, 2), 16);
-  const brightness = (c_r * 299 + c_g * 587 + c_b * 114) / 1000;
-  return brightness > 155;
-}
-
-export default async function Org({ params }: { params: { id: string } }) {
+const Org = async ({ params }: { params: { id: string } }) => {
   const org = await getOrgById(params.id);
 
-  if (!org) return <div>Organization not found</div>;
-
-  const isLight = org.color ? isLightColor(org.color) : false;
+  if (!org) return (
+    <div className="text-red-500 font-bold text-xl p-5">Organization not found</div>
+  );
 
   return (
-    <div className="flex flex-col items-center mt-8">
-      <Avatar className="w-24 h-24 rounded-none">
-        <AvatarImage
-          className="w-full h-full rounded-3xl"
-          src={org.orgPicture ?? ""}
-          alt=""
+    <div className="w-full overflow-x-visible">
+      <div className="relative flex justify-end items-end min-h-[208px] aspect-[340/208] -mx-4 p-4 rounded-b-3xl shadow-md shadow-gray-400 overflow-clip">
+        <Image
+          src={org.orgPicture || "/default-cover.jpg"}
+          fill
+          sizes="(max-width: 375px) 100vw, (max-width: 768px) 375px, 800px"
+          alt="_"
+          className="-z-10 absolute top-0 left-0 object-cover bg-gray-200"
         />
-        <AvatarFallback className="w-full h-full bg-gray-300 rounded-3xl"></AvatarFallback>
-      </Avatar>
 
-      <span className="mt-2 text-2xl">{org.name}</span>
-      <span className="text-sm text-gray-500">
-        Established: {formatInTimeZone(org.createdAt, "America/Costa_Rica", "MMM do, yyyy")}
-      </span>
-
-      <div className="mt-4 flex flex-wrap gap-x-2 gap-y-4 justify-center text-center">
-        {(org.officers as unknown as Officer[]).map((member, index) => (
-          <Link
-            key={index}
-            href={`/user/${member.username}`}
-            className="min-w-[calc(33.33%-1rem)]"
-          >
-            <div className="text-xs text-black-800">
-              <span className="block text-[10px]">{member.position}</span>
-              <div
-                className="rounded-full px-2 py-1 mt-1 inline-flex items-center justify-center"
-                style={{ backgroundColor: org.color ?? "gray", color: "#fff" }}
-              >
-                <span
-                  className="block font-semibold text-[10px]"
-                  style={{ color: isLight ? "gray" : "#fff" }}
-                >
-                  @{member.username}
-                </span>
-              </div>
-            </div>
-          </Link>
-        ))}
+        <div className="flex flex-col items-end gap-y-2">
+          <div className="flex flex-col items-center justify-center text-center size-[80px] rounded-2xl bg-stone-100">
+            <span className="text-xs -mb-1">Established</span>
+            <span className="text-2xl">
+              {formatInTimeZone(org.createdAt, "America/Costa_Rica", "MMM")}
+            </span>
+            <span className="text-2xl -mt-1">
+              {formatInTimeZone(org.createdAt, "America/Costa_Rica", "yyyy")}
+            </span>
+          </div>
+        </div>
       </div>
 
-      <p className="mt-6 text-xs text-justify">{org.description}</p>
+      <div className="flex flex-col pt-4 gap-y-4">
+        <div className="w-full flex items-start justify-between">
+          <div className="flex flex-col gap-y-2">
+            <h1 className="text-2xl font-bold">{org.name}</h1>
+          </div>
+        </div>
 
-      <div className="flex flex-col gap-y-2 w-full mt-4 pb-10">
-        <span>Members</span>
-        {org.members.map((user) => (
-          <UserCard key={user.username} user={{...user, orgs: []}} /> // pass in empty org since we don't need to show them here
-        ))}
+        <p className="text-sm text-justify">{org.description}</p>
+
+        <div className="mt-4">
+          <h2 className="text-xl font-semibold mb-2">Officers</h2>
+          <div className="flex flex-wrap gap-4">
+            {(org.officers as unknown as Officer[]).map((member, index) => (
+              <Link
+                key={index}
+                href={`/user/${member.username}`}
+                className="flex flex-col items-center"
+              >
+                <Badge
+                  className="text-xs font-normal mb-1"
+                  style={{ backgroundColor: org.color ?? "gray" }}
+                >
+                  {member.position}
+                </Badge>
+                <span className="text-sm font-semibold">
+                  @{member.username}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 pb-10">
+          <h2 className="text-xl font-semibold mb-4">Members</h2>
+          <div className="space-y-2">
+            {org.members.map((user) => (
+              <UserCard key={user.username} user={{...user, orgs: []}} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Org;
