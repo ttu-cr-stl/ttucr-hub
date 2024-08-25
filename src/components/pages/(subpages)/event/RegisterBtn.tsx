@@ -6,6 +6,7 @@ import { NavPath } from "@/lib/types";
 import { extractUsername, isTTUEmail } from "@/lib/utils";
 import { cn } from "@/lib/utils/cn";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
+import confetti from "canvas-confetti";
 import { useRouter } from "next-nprogress-bar";
 import { FC, useEffect, useState } from "react";
 
@@ -53,6 +54,24 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
       setIsSignedUp(signedUpIds.includes(user.username));
   }, [user, signedUpIds, isSignedUp]);
 
+  useEffect(() => {
+    if (datePassed && attendedIds.includes(user?.username || '')) {
+      const button = document.getElementById("attendanceButton");
+      if (button) {
+        const rect = button.getBoundingClientRect();
+        const x = rect.left / window.innerWidth + rect.width / (2 * window.innerWidth);
+        const y = rect.top / window.innerHeight + rect.height / (2 * window.innerHeight);
+
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { x, y },
+          angle: 110,
+        });
+      }
+    }
+  }, [datePassed, attendedIds, user]);
+
   if (!authenticated || !user)
     return (
       <button
@@ -63,18 +82,21 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
         <span className="text-sm">Login</span>
       </button>
     );
+
   if (datePassed) {
-    const attended = attendedIds.includes(user.username);
+    const attended = attendedIds.includes(user?.username || '');
+
     return (
       <button
+        id="attendanceButton"
         disabled={true}
         className={cn(
           "flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-not-allowed",
-          attended ? "bg-green-500" : "bg-stone-300"
+          attended ? "bg-green-500" : "bg-red-500"
         )}
       >
-        <span className={cn("text-sm", !attended && "text-stone-500")}>
-          {attended ? "Attended" : "Missed it!"}
+        <span className="text-sm">
+          {attended ? "Attended!" : "Missed it!"}
         </span>
       </button>
     );
@@ -88,7 +110,11 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
     setIsSignedUp(!isSignedUp);
 
     try {
-      const result = await toggleUserToEvent(eventId, user.username, isSignedUp);
+      const result = await toggleUserToEvent(
+        eventId,
+        user.username,
+        isSignedUp
+      );
       // If the server response doesn't match our optimistic update, we revert
       if (result !== !isSignedUp) {
         setIsSignedUp(result);
