@@ -15,6 +15,8 @@ interface SignUpBtnProps {
   signedUpIds: string[];
   attendedIds: string[];
   datePassed: boolean;
+  userLimit: number | null;
+  closed: boolean;
 }
 
 const SignUpBtn: FC<SignUpBtnProps> = ({
@@ -22,6 +24,8 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
   signedUpIds,
   attendedIds,
   datePassed,
+  userLimit,
+  closed,
 }) => {
   const { user } = useAuthUser();
   const router = useRouter();
@@ -97,6 +101,20 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
       >
         <span className="text-sm">
           {attended ? "Attended!" : "Missed it!"}
+        </span>
+      </button>
+    );
+  }
+
+  // New check for user limit and closed status
+  if (!datePassed && (closed || (userLimit !== null && signedUpIds.length >= userLimit))) {
+    return (
+      <button
+        disabled={true}
+        className="flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-not-allowed bg-gray-500"
+      >
+        <span className="text-sm">
+          {closed ? "Closed" : "Full"}
         </span>
       </button>
     );

@@ -30,12 +30,15 @@ model Event {
   startTime       DateTime
   location        String
   organizer       String
-  category        String?
+  category        String
   coverImg        String?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime?         @updatedAt
   messages        String[]
   reward          Int               @default(0)
+  closed          Boolean           @default(false)
+  endTime         DateTime?
+  userLimit       Int?
   EventAttendance EventAttendance[]
 }
 

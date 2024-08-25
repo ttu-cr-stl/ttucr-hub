@@ -1,5 +1,5 @@
 import AvatarCircles from "@/components/magicui/avatar-circles";
-import SignUpBtn from "@/components/pages/(subpages)/event/RegisterBtn";
+import SignUpBtn from "@/components/pages/(subpages)/event/SignUpBtn";
 import { Badge } from "@/components/ui/shadcn/badge";
 import ExpandableDescription from "@/components/utils/ExpandableDescription";
 import { getEventById, getEventByIdWithUserPics } from "@/db/events";
@@ -81,17 +81,32 @@ export default async function Event({ params }: { params: { id: string } }) {
           className="-z-10 absolute top-0 left-0 object-cover bg-gray-200"
         />
 
-        <Link href={`/event/${event.id}/users`}>
-          {event.EventAttendance.length !== 0 && (
-            <AvatarCircles
-              className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
-              numPeople={event.EventAttendance.length}
-              avatarUrls={event.EventAttendance.slice(0, 3).map(
-                (ea) => ea.User.profilePic || ""
-              )}
-            />
+        <div className="flex flex-col items-start gap-y-2">
+          {event.userLimit && (
+            <div className="flex items-center bg-white rounded-full px-3 py-1 text-sm">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-4 h-4 mr-1"
+              >
+                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zM6 8a2 2 0 11-4 0 2 2 0 014 0zM1.49 15.326a.78.78 0 01-.358-.442 3 3 0 014.308-3.516 6.484 6.484 0 00-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 01-2.07-.655zM16.44 15.98a4.97 4.97 0 002.07-.654.78.78 0 00.357-.442 3 3 0 00-4.308-3.517 6.484 6.484 0 011.907 3.96 2.32 2.32 0 01-.026.654zM18 8a2 2 0 11-4 0 2 2 0 014 0zM5.304 16.19a.844.844 0 01-.277-.71 5 5 0 019.947 0 .843.843 0 01-.277.71A6.975 6.975 0 0110 18a6.974 6.974 0 01-4.696-1.81z" />
+              </svg>
+              {event.EventAttendance.length}/{event.userLimit}
+            </div>
           )}
-        </Link>
+          <Link href={`/event/${event.id}/users`}>
+            {event.EventAttendance.length !== 0 && (
+              <AvatarCircles
+                className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
+                numPeople={event.EventAttendance.length}
+                avatarUrls={event.EventAttendance.slice(0, 3).map(
+                  (ea) => ea.User.profilePic || ""
+                )}
+              />
+            )}
+          </Link>
+        </div>
 
         <div className="flex flex-col items-end gap-y-2">
           <div className="flex flex-col items-center justify-center text-center size-[80px] rounded-2xl bg-stone-100">
@@ -112,6 +127,8 @@ export default async function Event({ params }: { params: { id: string } }) {
               (ea) => ea.User.username
             )}
             datePassed={isAfter(new Date(), event.startTime)}
+            userLimit={event.userLimit}
+            closed={event.closed}
           />
         </div>
       </div>
@@ -145,14 +162,26 @@ export default async function Event({ params }: { params: { id: string } }) {
               <h2 className="text-gray-500 font-bold">{event.location}</h2>
             </div>
             <div className="mt-1">
-              <div className="flex items-center text-center justify-center h-[22px] max-w-[80px] px-2.5 py-0.5 text-xs bg-gray-300 text-black rounded-full">
+              <div className="flex items-center justify-center w-fit px-3 py-1 text-xs font-medium bg-gray-200 text-gray-800 rounded-full">
                 <span className="whitespace-nowrap">
                   {formatInTimeZone(
                     event.startTime,
                     "America/Costa_Rica",
-                    "K:mm aa"
+                    "h:mm a"
                   )}
                 </span>
+                {event.endTime && (
+                  <>
+                    <span className="mx-1">-</span>
+                    <span className="whitespace-nowrap">
+                      {formatInTimeZone(
+                        event.endTime,
+                        "America/Costa_Rica",
+                        "h:mm a"
+                      )}
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -169,9 +198,11 @@ export default async function Event({ params }: { params: { id: string } }) {
                 <span className="whitespace-nowrap">{event.category}</span>
               </Badge>
             )}
-            <Badge className="text-xs font-normal bg-purple-500 hover:bg-purple-500">
-              {event.reward} pts
-            </Badge>
+            {event.reward > 0 && (
+              <Badge className="text-xs font-normal bg-purple-500 hover:bg-purple-500">
+                {event.reward} pts
+              </Badge>
+            )}
           </div>
         </div>
         <ExpandableDescription description={event.description} />

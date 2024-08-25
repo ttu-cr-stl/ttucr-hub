@@ -108,9 +108,11 @@ export const EventCard: React.FC<EventCardProps> = ({ event, small }) => {
           ) : <div />}
 
           <div className="flex flex-col items-end z-10 gap-y-1">
-            <Badge className="text-xs font-normal bg-purple-500 hover:bg-purple-500">
-              {event.reward} pts
-            </Badge>
+            {event.reward > 0 && (
+              <Badge className="text-xs font-normal bg-purple-500 hover:bg-purple-500">
+                {event.reward} pts
+              </Badge>
+            )}
             {event.category && (
               <Badge
                 className="text-center whitespace-nowrap max-w-[120px]"
