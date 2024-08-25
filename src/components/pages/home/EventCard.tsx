@@ -2,32 +2,20 @@ import AvatarCircles from "@/components/magicui/avatar-circles";
 import { Badge } from "@/components/ui/shadcn/badge";
 import { Separator } from "@/components/ui/shadcn/separator";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";
+import { Event, User } from "@prisma/client";
 import { formatInTimeZone } from "date-fns-tz";
 import Image from "next/image";
 import Link from "next/link";
 
-export function EventCard({
-  event,
-  small,
-}: {
-  event: {
-    users?: {
-      profilePic: string | null;
-    }[];
-  } & {
-    id: string;
-    name: string;
-    description: string;
-    startTime: Date;
-    location: string;
-    organizer: string;
-    coverImg: string | null;
-    createdAt: Date;
-    updatedAt: Date | null;
-    category: string | null;
+type EventCardProps = {
+  event: Event & {
+    users?: Pick<User, "profilePic">[];
+    reward: number;
   };
   small: boolean;
-}) {
+};
+
+export const EventCard: React.FC<EventCardProps> = ({ event, small }) => {
   if (small) {
     return (
       <Link href={`/event/${event.id}`}>
@@ -108,19 +96,8 @@ export function EventCard({
           ) : (
             <div className="absolute top-0 left-0 bg-gray-200 w-full h-full"></div>
           )}
-          {event.category && (
-            <Badge
-              className="z-10"
-              style={{
-              backgroundColor: EVENT_CATEGORIES.find(
-                (cat) => cat.name === event.category
-              )?.color,
-            }}
-          >
-              {event.category}
-            </Badge>
-          )}
-          {event.users && event.users.length !== 0 && (
+
+          {event.users && event.users.length !== 0 ? (
             <AvatarCircles
               className="-space-x-6 *:bg-white *:text-black *:shadow-lg "
               numPeople={event.users.length}
@@ -128,7 +105,25 @@ export function EventCard({
                 .slice(0, 3)
                 .map((user) => user.profilePic || "")}
             />
-          )}
+          ) : <div />}
+
+          <div className="flex flex-col items-end z-10 gap-y-1">
+            <Badge className="text-xs font-normal bg-purple-500 hover:bg-purple-500">
+              {event.reward} pts
+            </Badge>
+            {event.category && (
+              <Badge
+                className="text-center whitespace-nowrap max-w-[120px]"
+                style={{
+                  backgroundColor: EVENT_CATEGORIES.find(
+                    (cat) => cat.name === event.category
+                  )?.color,
+                }}
+              >
+                <span className="whitespace-nowrap">{event.category}</span>
+              </Badge>
+            )}
+          </div>
         </div>
 
         <div className="flex flex-1 flex-row items-center w-full">
@@ -196,4 +191,4 @@ export function EventCard({
       </div>
     </Link>
   );
-}
+};

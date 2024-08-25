@@ -7,9 +7,16 @@ async function UsersList() {
 
     return (
       <div className={"flex flex-col space-y-2 pb-8"}>
-        {users.sort((a, b) => a.lastName > b.lastName ? 1 : -1).map((user) => (
-          <UserCard key={user.username} user={user} />
-        ))}
+        {users
+          .sort((a, b) => {
+            if (b.points !== a.points) {
+              return b.points - a.points; // Sort by points descending
+            }
+            return a.firstName.localeCompare(b.firstName); // Then by first name ascending
+          })
+          .map((user) => (
+            <UserCard key={user.username} user={user} />
+          ))}
       </div>
     );
   } catch (error) {

@@ -118,53 +118,60 @@ export default async function Event({ params }: { params: { id: string } }) {
 
       <div className="flex flex-col pt-4 gap-y-4">
         <div className="w-full flex items-start justify-between">
-          <span className="w-[calc(100%-130px)] text-2xl pb-0.5 font-bold">
-            {event.name}
-          </span>
-          {event.category && (
-            <Badge
-              className="text-center whitespace-nowrap max-w-[120px] mt-1"
-              style={{
-                backgroundColor: EVENT_CATEGORIES.find(
-                  (cat) => cat.name === event.category
-                )?.color,
-              }}
-            >
-              <span className="whitespace-nowrap">{event.category}</span>
-            </Badge>
-          )}
-        </div>
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="grey"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-              />
-            </svg>
-            <h2 className="text-gray-500 font-bold">{event.location}</h2>
+          <div className="flex flex-col gap-y-2">
+            <div className="flex items-start">
+              <span className="text-2xl font-bold">{event.name}</span>
+            </div>
+            <div className="flex items-start w-[110%] gap-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="grey"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                />
+              </svg>
+              <h2 className="text-gray-500 font-bold">{event.location}</h2>
+            </div>
+            <div className="mt-1">
+              <div className="flex items-center text-center justify-center h-[22px] max-w-[80px] px-2.5 py-0.5 text-xs bg-gray-300 text-black rounded-full">
+                <span className="whitespace-nowrap">
+                  {formatInTimeZone(
+                    event.startTime,
+                    "America/Costa_Rica",
+                    "K:mm aa"
+                  )}
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center text-center justify-center h-[22px] max-w-[80px] ml-1 px-2.5 py-0.5 text-xs bg-gray-300 text-black rounded-full">
-            <span className="whitespace-nowrap">
-              {formatInTimeZone(
-                event.startTime,
-                "America/Costa_Rica",
-                "K:mm aa"
-              )}
-            </span>
+          <div className="flex flex-col items-end mt-1 gap-3">
+            {event.category && (
+              <Badge
+                className="text-center whitespace-nowrap max-w-[120px]"
+                style={{
+                  backgroundColor: EVENT_CATEGORIES.find(
+                    (cat) => cat.name === event.category
+                  )?.color,
+                }}
+              >
+                <span className="whitespace-nowrap">{event.category}</span>
+              </Badge>
+            )}
+            <Badge className="text-xs font-normal bg-purple-500 hover:bg-purple-500">
+              {event.reward} pts
+            </Badge>
           </div>
         </div>
         <ExpandableDescription description={event.description} />

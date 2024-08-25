@@ -9,9 +9,16 @@ export default async function Event({ params }: { params: { id: string } }) {
       <span className="ml-10 text-lg font-medium mt-6 pt-0.5 mb-4">
         Signed Up
       </span>
-      {users.map((user) => (
-        <UserCard key={user.username} user={user} />
-      ))}
+      {users
+        .sort((a, b) => {
+          if (b.points !== a.points) {
+            return b.points - a.points; // Sort by points descending
+          }
+          return a.firstName.localeCompare(b.firstName); // Then by first name ascending
+        })
+        .map((user) => (
+          <UserCard key={user.username} user={user} />
+        ))}
     </div>
   );
 }

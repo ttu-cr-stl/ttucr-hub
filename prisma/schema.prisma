@@ -18,6 +18,7 @@ model User {
   updatedAt       DateTime?         @updatedAt
   address         String?
   username        String            @id @unique
+  points          Int               @default(0)
   EventAttendance EventAttendance[]
   orgs            Org[]             @relation("OrgToUser")
 }
@@ -34,6 +35,7 @@ model Event {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime?         @updatedAt
   messages        String[]
+  reward          Int               @default(0)
   EventAttendance EventAttendance[]
 }
 
