@@ -1,33 +1,22 @@
-import { getAllEvents } from "@/db/events";
+import { Event, User } from "@prisma/client";
 import { FC } from "react";
 import { EventCard } from "./EventCard";
 
 interface EventsListProps {
-  events: ({
-    users: {
-      profilePic: string | null;
-    }[];
-  } & {
-    id: string;
-    name: string;
-    description: string;
-    startTime: Date;
-    location: string;
-    organizer: string;
-    coverImg: string | null;
-    createdAt: Date;
-    updatedAt: Date | null;
-    category: string | null;
+  events: (Event & {
+    users: Pick<User, "profilePic">[];
   })[];
   small: boolean;
 }
 
-export const EventsList: FC<EventsListProps> = async ({ events, small }) => {
+export const EventsList: FC<EventsListProps> = ({ events, small }) => {
   return (
-    <div className={"flex flex-col space-y-4"}>
-      {events.sort((a, b) => a.startTime.getTime() - b.startTime.getTime()).map((event, index) => (
-        <EventCard key={index} event={event} small={small} />
-      ))}
+    <div className="flex flex-col space-y-4">
+      {events
+        .sort((a, b) => a.startTime.getTime() - b.startTime.getTime())
+        .map((event) => (
+          <EventCard key={event.id} event={event} small={small} />
+        ))}
     </div>
   );
 };
