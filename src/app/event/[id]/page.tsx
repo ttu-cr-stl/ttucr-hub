@@ -126,7 +126,11 @@ export default async function Event({ params }: { params: { id: string } }) {
             attendedIds={event.EventAttendance.filter((ea) => ea.attended).map(
               (ea) => ea.User.username
             )}
-            datePassed={isAfter(new Date(), event.startTime)}
+            datePassed={
+              event.endTime
+                ? isAfter(new Date(), event.endTime)
+                : isAfter(new Date(), event.startTime)
+            }
             userLimit={event.userLimit}
             closed={event.closed}
           />
