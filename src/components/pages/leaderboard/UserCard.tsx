@@ -26,6 +26,8 @@ function UserCard({ user }: UserCardProps) {
     return initials;
   };
 
+  console.log(user)
+
   return (
     <Link href={`/user/${user.username}`}>
       <div
