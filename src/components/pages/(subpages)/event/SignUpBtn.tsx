@@ -76,10 +76,10 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
     }
   }, [datePassed, attendedIds, user]);
 
-  if (!authenticated || !user)
+  if (!authenticated)
     return (
       <button
-        disabled={!ready || !user}
+        disabled={!ready}
         onClick={() => login()}
         className="flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-pointer bg-black disabled:bg-stone-300"
       >
