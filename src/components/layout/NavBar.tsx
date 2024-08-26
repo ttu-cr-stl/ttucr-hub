@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FC, ReactNode } from "react";
-import { Grid, Home, Settings, Users } from "react-feather";
+import { BarChart, Home, Settings, Award, TrendingUp, Users } from "react-feather";
 
 interface NavBarProps {}
 const NavBar: FC<NavBarProps> = () => {
@@ -19,7 +19,7 @@ const NavBar: FC<NavBarProps> = () => {
     <div
       className={cn(
         "fixed bottom-0 left-0 w-full md:w-[375px] border-t flex items-center justify-evenly z-10 bg-white",
-        (isPWA() && detectOS() === "iOS") ? "pb-4 h-20" : "h-16",
+        isPWA() && detectOS() === "iOS" ? "pb-4 h-20" : "h-16",
         "md:absolute md:w-[375px] md:h-16" // Added for desktop layout
       )}
     >
@@ -29,13 +29,12 @@ const NavBar: FC<NavBarProps> = () => {
 
       <NavIcon pathname={NavPath.LEADERBOARD} activePath={activePath}>
         <Users />
-        {/* <BarChart className=" -scale-x-100" /> */}
       </NavIcon>
 
-      <NavIcon pathname={NavPath.EXPLORE} activePath={activePath}>
+      {/* <NavIcon pathname={NavPath.EXPLORE} activePath={activePath}>
         <Grid />
-        {/* <Search /> */}
-      </NavIcon>
+        <Search />
+      </NavIcon> */}
 
       {/* <NavIcon pathname={NavPath.WALLET} activePath={activePath}>
         <CreditCard />
