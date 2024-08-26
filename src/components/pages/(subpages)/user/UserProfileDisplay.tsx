@@ -74,7 +74,9 @@ const UserProfileDisplay = ({
               const futureEvents =
                 user.EventAttendance?.filter((event) => event.Event.startTime >= now) || [];
               const pastEvents =
-                user.EventAttendance?.filter((event) => event.Event.startTime < now) || [];
+                user.EventAttendance?.filter((event) => 
+                  event.Event.startTime < now && event.attended
+                ) || [];
 
               return (
                 <>

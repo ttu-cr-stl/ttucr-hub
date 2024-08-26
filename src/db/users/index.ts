@@ -23,9 +23,6 @@ export async function getUserByUsername(
         include: {
           Event: true,
         },
-        where: {
-          attended: true,
-        },
       },
     },
   });
