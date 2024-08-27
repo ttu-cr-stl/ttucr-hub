@@ -32,7 +32,7 @@ const UserProfileDisplay = ({
         </Avatar>
 
         <div className="flex flex-col items-center">
-          <span className="text-2xl leading-snug">
+          <span className="text-center text-2xl leading-snug max-w-[2/3]">
             {user.firstName} {user.lastName}
           </span>
           <span className="text-gray-500 text-sm">@{user.username}</span>

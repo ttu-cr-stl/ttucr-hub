@@ -64,7 +64,7 @@ function UserCard({ user }: UserCardProps) {
                     backgroundColor: userMinor?.color,
                   }}
                 >
-                  {userMinor?.name}
+                  {userMinor?.value}
                 </Badge>
               )}
               {user?.orgs?.map((org) => (
