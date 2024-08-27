@@ -90,7 +90,6 @@ export async function toggleUserToEvent(eventId: string, username: string, alrea
   revalidatePath(`/user/${username}`);
   revalidatePath(`/event/${eventId}`);
   revalidatePath(`/event/${eventId}/users`);
-  revalidatePath("/");
 
   return !alreadySignedUp;
 }
