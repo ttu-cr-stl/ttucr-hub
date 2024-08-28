@@ -10,12 +10,7 @@ export default async function Event({ params }: { params: { id: string } }) {
         Signed Up
       </span>
       {users
-        .sort((a, b) => {
-          if (b.points !== a.points) {
-            return b.points - a.points; // Sort by points descending
-          }
-          return a.firstName.localeCompare(b.firstName); // Then by first name ascending
-        })
+        .sort((a, b) =>  a.firstName.localeCompare(b.firstName))
         .map((user) => (
           <UserCard key={user.username} user={user} />
         ))}
