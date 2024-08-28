@@ -19,8 +19,13 @@ const AuthChecker: FC<{ children: ReactNode }> = ({ children }) => {
     }
   }, [authenticated, ready, router]);
 
-  if (!ready || (authenticated && !user)) {
-    // Show splash screen while the PrivyProvider or AuthProvider initializes
+  if (!ready) {
+    // Do nothing while the PrivyProvider initializes with updated user state
+    return <SplashScreen />;
+  }
+
+  if (!user && authenticated) {
+    // Do nothing while the AuthProvider initializes with updated user state
     return <SplashScreen />;
   }
 
