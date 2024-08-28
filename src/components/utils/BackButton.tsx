@@ -1,6 +1,6 @@
 "use client";
 import { useAuthUser } from "@/lib/providers/authProvider";
-import { useRouter } from "next-nprogress-bar";
+import { useRouter } from "next/navigation";
 import { FC, useCallback } from "react";
 import { ChevronLeft } from "react-feather";
 
