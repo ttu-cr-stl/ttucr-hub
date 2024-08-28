@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import Image from "next/image";
 
 const APP_NAME = "TTU@CR Hub";
 const APP_DEFAULT_TITLE = "TTU@CR Hub";
