@@ -1,15 +1,15 @@
 "use server";
 import prisma from "@/db/prisma";
 import { revalidatePath } from "next/cache";
-
 export async function getAllEvents(filter: "future" | "past" | "all" = "future") {
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Set time to start of day
 
-  const events = await prisma.event.findMany({
+  let events = await prisma.event.findMany({
     where: {
-      startTime: filter === "future" ? { gte: today } : undefined,
-      endTime: filter === "past" ? { lt: today } : undefined,
+      startTime: 
+        filter === "future" ? { gte: today } :
+        filter === "past" ? { lt: today } :
+        undefined
     },
     include: {
       EventAttendance: {
@@ -21,6 +21,10 @@ export async function getAllEvents(filter: "future" | "past" | "all" = "future")
       }
     }
   });
+
+  if (filter === "past") {
+    events = events.filter(event => event.endTime && event.endTime < today);
+  }
 
   return events.map(event => ({
     ...event,
