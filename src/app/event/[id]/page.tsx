@@ -12,11 +12,12 @@ import Link from "next/link";
 
 export const revalidate = 0; // 30 minutes
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   // Fetch data for the specific page
   const event = await getEventById(params.id);
 
@@ -59,7 +60,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function Event({ params }: { params: { id: string } }) {
+export default async function Event(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const event = await getEventByIdWithUserPics(params.id);
 
   if (!event)

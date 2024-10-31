@@ -1,7 +1,8 @@
 import UserCard from "@/components/pages/leaderboard/UserCard";
 import { getEventUsers } from "@/db/events";
 
-export default async function Event({ params }: { params: { id: string } }) {
+export default async function Event(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const users = await getEventUsers(params.id);
 
   return (

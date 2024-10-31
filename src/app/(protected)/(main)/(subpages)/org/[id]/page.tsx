@@ -13,7 +13,8 @@ interface Officer {
   position: string;
 }
 
-const Org = async ({ params }: { params: { id: string } }) => {
+const Org = async (props: { params: Promise<{ id: string }> }) => {
+  const params = await props.params;
   const org = await getOrgById(params.id);
 
   if (!org) return (
