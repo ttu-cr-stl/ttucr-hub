@@ -1,18 +1,14 @@
 "use client";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/shadcn/avatar";
-import { Button } from "@/components/ui/shadcn/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/shadcn/form";
-import { Input } from "@/components/ui/shadcn/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/utils/Spinner";
 import { FormRadio } from "@/components/utils/formItems/FormRadio";
 import { FormTextInput } from "@/components/utils/formItems/FormTextInput";
@@ -151,7 +147,7 @@ export const CarousselForm: FC = () => {
   }, [emblaApi]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Tab') {
+    if (e.key === "Tab") {
       e.preventDefault();
     }
   };

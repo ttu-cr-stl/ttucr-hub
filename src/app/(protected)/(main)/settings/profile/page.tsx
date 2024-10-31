@@ -1,16 +1,13 @@
 "use client";
 
-import { EventCard } from "@/components/pages/home/EventCard";
+import UserProfileDisplay from "@/components/pages/(subpages)/user/UserProfileDisplay";
 import { UpdateProfile } from "@/components/pages/settings/UpdateProfile";
-import { Avatar, AvatarImage } from "@/components/ui/shadcn/avatar";
-import { Badge } from "@/components/ui/shadcn/badge";
-import { Button } from "@/components/ui/shadcn/button";
+import { Button } from "@/components/ui/button";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { Degree } from "@/lib/utils/consts";
 import { useState } from "react";
 import { Loader } from "react-feather";
 import SubPageLayout from "../../(subpages)/layout";
-import UserProfileDisplay from "@/components/pages/(subpages)/user/UserProfileDisplay";
 
 export default function Profile() {
   const { user } = useAuthUser();

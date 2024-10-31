@@ -1,6 +1,6 @@
 import AvatarCircles from "@/components/magicui/avatar-circles";
-import { Badge } from "@/components/ui/shadcn/badge";
-import { Separator } from "@/components/ui/shadcn/separator";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";
 import { Event, User } from "@prisma/client";
 import { formatInTimeZone } from "date-fns-tz";
@@ -105,7 +105,9 @@ export const EventCard: React.FC<EventCardProps> = ({ event, small }) => {
                 .slice(0, 3)
                 .map((user) => user.profilePic || "")}
             />
-          ) : <div />}
+          ) : (
+            <div />
+          )}
 
           <div className="flex flex-col items-end z-10 gap-y-1">
             {event.reward > 0 && (

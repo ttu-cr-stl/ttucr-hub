@@ -5,7 +5,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/shadcn/form";
+} from "@/components/ui/form";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { DegreeKeys, formSchema, ProfileFormValues } from "@/lib/types";
 import { ExtendedUser } from "@/lib/types/prismaTypes";
@@ -15,8 +15,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent, useState } from "react";
 import { Plus } from "react-feather";
 import { useForm, UseFormReturn } from "react-hook-form";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/shadcn/avatar";
-import { Input } from "../../ui/shadcn/input";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Input } from "../../ui/input";
 import { FormRadio } from "../../utils/formItems/FormRadio";
 import { FormTextInput } from "../../utils/formItems/FormTextInput";
 

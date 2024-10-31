@@ -1,6 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/shadcn/avatar";
-import { Badge } from "@/components/ui/shadcn/badge";
 import UserCard from "@/components/pages/leaderboard/UserCard";
+import { Badge } from "@/components/ui/badge";
 import { getOrgById } from "@/db/orgs";
 import { formatInTimeZone } from "date-fns-tz";
 import Image from "next/image";
@@ -17,9 +16,12 @@ const Org = async (props: { params: Promise<{ id: string }> }) => {
   const params = await props.params;
   const org = await getOrgById(params.id);
 
-  if (!org) return (
-    <div className="text-red-500 font-bold text-xl p-5">Organization not found</div>
-  );
+  if (!org)
+    return (
+      <div className="text-red-500 font-bold text-xl p-5">
+        Organization not found
+      </div>
+    );
 
   return (
     <div className="w-full overflow-x-visible">
@@ -81,7 +83,7 @@ const Org = async (props: { params: Promise<{ id: string }> }) => {
           <h2 className="text-xl font-semibold mb-4">Members</h2>
           <div className="space-y-2">
             {org.members.map((user) => (
-              <UserCard key={user.username} user={{...user, orgs: []}} />
+              <UserCard key={user.username} user={{ ...user, orgs: [] }} />
             ))}
           </div>
         </div>

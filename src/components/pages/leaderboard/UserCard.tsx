@@ -1,9 +1,5 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/shadcn/avatar";
-import { Badge } from "@/components/ui/shadcn/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import StucoTitle from "@/components/utils/StucoTitle";
 import { Degree } from "@/lib/utils/consts";
 import { Org, User } from "@prisma/client";
