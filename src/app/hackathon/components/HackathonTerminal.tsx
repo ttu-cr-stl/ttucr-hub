@@ -130,7 +130,7 @@ export function HackathonTerminal({
 
   const welcomeText = hasSeenIntro
     ? [
-        `Welcome back, ${user?.firstName || 'user'}`,
+        `Welcome back, display_user`,
         " ",
         hasActiveSession ? "You have an active session." : "",
       ]
@@ -138,7 +138,7 @@ export function HackathonTerminal({
         "INITIALIZING SYSTEM...",
         "ESTABLISHING SECURE CONNECTION...",
         "ACCESS GRANTED.",
-        `Welcome ${user?.firstName || 'user'}`,
+        `Welcome display_user`,
         hasActiveSession ? "You have an active session." : "",
       ];
 
