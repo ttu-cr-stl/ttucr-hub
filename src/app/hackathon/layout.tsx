@@ -59,7 +59,7 @@ export default async function HackathonLayout({ children }: { children: ReactNod
           className="rounded-lg"
         />
       </div>
-      <main className="flex-1 p-6 border-t border-[#4AF626]/20 bg-black/95 p-4 text-[#4AF626]">
+      <main className="flex-1 border-t border-[#4AF626]/20 bg-black/95 p-4 text-[#4AF626]">
         <Rankings />
       </main>
     </div>
