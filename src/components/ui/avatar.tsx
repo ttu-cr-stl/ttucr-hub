@@ -25,7 +25,7 @@ const AvatarImage = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
 >(({ className, ...props }, ref) => {
-  const { width: _, height: _, ...imageProps } = props;
+  const { width: _width, height: _height, ...imageProps } = props;
   
   return (
     <Image
