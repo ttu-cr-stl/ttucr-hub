@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createSubmissionAction, getSubmissionAction } from "../actions/judge0";
 import { Challenge, ExecutionResult, TestCase } from "../types";
 import { SUPPORTED_LANGUAGES } from "../types/languages";
 
@@ -54,23 +53,27 @@ export function useCodeExecution() {
     aiDetectionResult: AIDetectionResult
   ): Promise<ExecutionResult> => {
     try {
-      const token = await createSubmissionAction({
-        source_code: code,
-        language_id: SUPPORTED_LANGUAGES[language].id,
-        stdin: testCase.input,
-        expected_output: testCase.expectedOutput,
+      const response = await fetch('/api/code-execution', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          source_code: code,
+          language_id: SUPPORTED_LANGUAGES[language].id,
+          stdin: testCase.input,
+          expected_output: testCase.expectedOutput,
+        }),
       });
 
-      const result = await pollSubmissionResult(token);
-
-      let actualOutput = result.stdout?.trim() || "";
-      if (
-        language === "python" &&
-        (actualOutput === "True" || actualOutput === "False")
-      ) {
-        actualOutput = actualOutput;
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.details || error.error || 'Execution failed');
       }
 
+      const result = await response.json();
+      
+      let actualOutput = result.stdout?.trim() || "";
       const passed = actualOutput === testCase.expectedOutput;
 
       return {
@@ -87,29 +90,10 @@ export function useCodeExecution() {
         passed: false,
         actualOutput: "Execution error",
         expectedOutput: testCase.expectedOutput,
-        error: "Failed to execute code",
+        error: error instanceof Error ? error.message : "Failed to execute code",
         executionTime: 0,
       };
     }
-  };
-
-  const pollSubmissionResult = async (
-    token: string,
-    retries = 10
-  ): Promise<any> => {
-    for (let i = 0; i < retries; i++) {
-      try {
-        const result = await getSubmissionAction(token);
-        if (result.status.id >= 3) {
-          return result;
-        }
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (error) {
-        console.error("Polling error:", error);
-        throw error;
-      }
-    }
-    throw new Error("Submission timeout");
   };
 
   return {

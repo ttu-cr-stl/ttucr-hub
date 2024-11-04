@@ -11,7 +11,7 @@ Given a list of integers \`nums\`, return the sum of all numbers in the list.`,
     starterCode: `def sum_numbers(nums):
     # Your code here
     return 0
-
+|
 # Do not modify below this line
 if __name__ == "__main__":
     nums = list(map(int, input().strip()[1:-1].split(",")))

@@ -52,14 +52,14 @@ export default async function HackathonLayout({ children }: { children: ReactNod
     >
       <div className="absolute top-5 right-5">
         <Image
-          src="general/stl-black.png"
+          src="general/STLblack.png"
           alt=""
-          width={60}
-          height={60}
+          width={64}
+          height={64}
           className="rounded-lg"
         />
       </div>
-      <main className="flex-1 border-t border-[#4AF626]/20 bg-black/95 p-4 text-[#4AF626]">
+      <main className="flex-1 p-4 border-t border-[#4AF626]/20 bg-black/95 text-[#4AF626]">
         <Rankings />
       </main>
     </div>
