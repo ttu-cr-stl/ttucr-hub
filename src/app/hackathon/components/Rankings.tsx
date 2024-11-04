@@ -12,37 +12,24 @@ import { sampleChallenges } from "../data/challenges";
 import { useRealTimeUpdates } from "../hooks/useRealTimeUpdates";
 import { calculateScore } from "../utils/scoring";
 import { AsyncStateWrapper } from "./AsyncStateWrapper";
+import { ScoreDisplay } from "./ScoreDisplay";
 
 interface RankingsProps {
   className?: string;
 }
 
-function formatCompletionTime(timestamp: number | null): string {
-  if (!timestamp) return "";
+interface HackathonSubmission {
+  challengeId: string;
+  score: number;
+  completionTime: number;
+  completed: boolean;
+}
 
-  const now = Date.now();
-  const diff = now - timestamp;
-
-  // Less than a minute
-  if (diff < 60000) {
-    return "just now";
-  }
-
-  // Less than an hour
-  if (diff < 3600000) {
-    const minutes = Math.floor(diff / 60000);
-    return `${minutes}m ago`;
-  }
-
-  // Less than a day
-  if (diff < 86400000) {
-    const hours = Math.floor(diff / 3600000);
-    return `${hours}h ago`;
-  }
-
-  // More than a day
-  const days = Math.floor(diff / 86400000);
-  return `${days}d ago`;
+function formatCompletionTime(seconds: number): string {
+  if (seconds < 60) return `${seconds}s`;
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}m ${remainingSeconds}s`;
 }
 
 function triggerConfetti() {
@@ -94,26 +81,25 @@ export function Rankings({ className }: RankingsProps) {
     // If there is an active session, calculate the total score
     if (activeSession) {
       activeSession.totalScore = activeSession.submissions.reduce(
-        (
-          total: number,
-          submission: {
-            completed: boolean;
-            challengeId: string;
-            executionTime: number;
-          }
-        ) => {
+        (total: number, submission: { completed: boolean; challengeId: string; completionTime: number }) => {
           if (!submission.completed) return total;
-          const challenge = sampleChallenges.find(
-            (c) => c.id === submission.challengeId
-          );
+          
+          const challenge = sampleChallenges.find(c => c.id === submission.challengeId);
           if (!challenge) return total;
-          return (
-            total +
-            calculateScore({
-              executionTime: submission.executionTime,
-              difficulty: challenge.difficulty,
-            })
-          );
+          
+          const score = calculateScore({
+            completionTime: submission.completionTime,
+            difficulty: challenge.difficulty,
+          });
+          
+          console.log('Calculated score for submission:', {
+            challengeId: submission.challengeId,
+            completionTime: submission.completionTime,
+            difficulty: challenge.difficulty,
+            score
+          });
+          
+          return total + score;
         },
         0
       );
@@ -128,7 +114,7 @@ export function Rankings({ className }: RankingsProps) {
           submission: {
             completed: boolean;
             challengeId: string;
-            executionTime: number;
+            completionTime: number;
           }
         ) => {
           if (!submission.completed) return total;
@@ -139,7 +125,7 @@ export function Rankings({ className }: RankingsProps) {
           return (
             total +
             calculateScore({
-              executionTime: submission.executionTime,
+              completionTime: submission.completionTime,
               difficulty: challenge.difficulty,
             })
           );
@@ -297,15 +283,17 @@ export function Rankings({ className }: RankingsProps) {
                         </div>
 
                         <div className="text-right">
-                          <div className="text-base font-bold text-[#4AF626]">
-                            {bestSession?.totalScore ?? 0} pts
-                          </div>
+                          <ScoreDisplay score={bestSession?.totalScore ?? 0} />
                           <div className="text-[10px] text-[#4AF626]/70">
-                            {bestSession?.endTime && !bestSession.isActive && (
+                            {bestSession && (
                               <span className="ml-1">
-                                •{" "}
+                                {bestSession.isActive ? "Time: " : "Completed in "}
                                 {formatCompletionTime(
-                                  new Date(bestSession.endTime).getTime()
+                                  bestSession.submissions.reduce(
+                                    (total: number, submission: HackathonSubmission) => 
+                                      submission.completed ? total + submission.completionTime : total,
+                                    0
+                                  )
                                 )}
                               </span>
                             )}
@@ -334,7 +322,7 @@ export function Rankings({ className }: RankingsProps) {
                         <div className="grid grid-cols-3 gap-1.5 pt-1.5 border-t border-[#4AF626]/10">
                           {sampleChallenges.map((challenge) => {
                             const submission = bestSession.submissions?.find(
-                              (s: any) => s.challengeId === challenge.id
+                              (s: HackathonSubmission) => s.challengeId === challenge.id
                             );
 
                             return (
@@ -357,9 +345,9 @@ export function Rankings({ className }: RankingsProps) {
                                     </Badge>
                                   )}
                                 </div>
-                                {submission && (
+                                {submission?.completed && (
                                   <div className="text-[#4AF626]/50">
-                                    {submission.executionTime.toFixed(2)}ms
+                                    {formatCompletionTime(submission.completionTime)}
                                   </div>
                                 )}
                               </div>

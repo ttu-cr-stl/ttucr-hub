@@ -6,7 +6,7 @@ import { getHackathonRankings } from "@/db/hackathon";
 interface HackathonSubmission {
   challengeId: string;
   score: number;
-  executionTime: number;
+  completionTime: number; // in seconds
   completed: boolean;
   updatedAt: Date;
   sessionId: string;

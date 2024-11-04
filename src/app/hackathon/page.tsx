@@ -108,7 +108,7 @@ export default function Hackathon() {
 
         const currentChallenge = sampleChallenges[selectedIndex];
         const score = calculateScore({
-          executionTime,
+          completionTime: executionTime,
           difficulty: currentChallenge.difficulty
         });
 
@@ -223,7 +223,7 @@ export default function Hackathon() {
               <TimeUpCompletion
                 completedChallenges={progress.completedChallenges}
                 totalScore={progress.totalScore}
-                timeElapsed={TIME_LIMIT * 60 * 1000}
+                timeElapsed={finalState?.timeElapsed || 0}
                 onRestart={handleStartNewSession}
                 onViewRankings={handleViewRankings}
                 endType={finalState?.endType || "timeout"}
@@ -279,10 +279,10 @@ export default function Hackathon() {
                 {showCelebration && hackathonState.startTime && (
                   <ChallengeCelebration
                     score={calculateScore({
-                      executionTime: lastExecutionTime,
+                      completionTime: lastExecutionTime,
                       difficulty: sampleChallenges[selectedIndex].difficulty
                     })}
-                    executionTime={lastExecutionTime}
+                    completionTime={lastExecutionTime}
                     difficulty={sampleChallenges[selectedIndex].difficulty}
                     onNext={handleNextChallenge}
                     isLastChallenge={selectedIndex === sampleChallenges.length - 1}

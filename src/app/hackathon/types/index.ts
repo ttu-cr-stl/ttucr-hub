@@ -64,3 +64,15 @@ export interface UserProgress {
   completedChallenges: ChallengeProgress[];
   totalScore: number;
 }
+
+interface HackathonSubmission {
+  id: string;
+  username: string;
+  challengeId: string;
+  score: number;
+  completionTime: number; // in seconds
+  completed: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  sessionId: string;
+}

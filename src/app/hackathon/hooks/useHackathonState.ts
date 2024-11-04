@@ -88,7 +88,7 @@ export function useHackathonState(): UseHackathonStateReturn {
         if (!challengeDetails || !challenge.bestTime) return total;
         
         return total + calculateScore({
-          executionTime: challenge.bestTime,
+          completionTime: challenge.bestTime,
           difficulty: challengeDetails.difficulty
         });
       }, 0);

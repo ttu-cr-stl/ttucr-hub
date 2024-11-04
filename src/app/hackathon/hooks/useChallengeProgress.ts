@@ -43,14 +43,14 @@ export function useChallengeProgress(challenges: Challenge[]) {
 
   const markChallengeComplete = (
     challengeId: string,
-    executionTime: number
+    completionTime: number
   ) => {
     setProgress((prev) => {
       const challenge = challenges.find(c => c.id === challengeId);
       if (!challenge) return prev;
 
       const score = calculateScore({
-        executionTime,
+        completionTime,
         difficulty: challenge.difficulty
       });
 
@@ -65,7 +65,7 @@ export function useChallengeProgress(challenges: Challenge[]) {
                   id: challengeId,
                   completed: true,
                   attempts: p.attempts + 1,
-                  bestTime: p.bestTime ? Math.min(executionTime, p.bestTime) : executionTime,
+                  bestTime: p.bestTime ? Math.min(completionTime, p.bestTime) : completionTime,
                   lastAttempt: new Date(),
                   score: score
                 }
@@ -77,7 +77,7 @@ export function useChallengeProgress(challenges: Challenge[]) {
               id: challengeId,
               completed: true,
               attempts: 1,
-              bestTime: executionTime,
+              bestTime: completionTime,
               lastAttempt: new Date(),
               score: score
             },

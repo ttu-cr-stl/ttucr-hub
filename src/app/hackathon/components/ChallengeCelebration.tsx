@@ -5,12 +5,10 @@ import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
 import React from "react";
 import { ChevronRight } from "react-feather";
-import { AsyncStateWrapper } from './AsyncStateWrapper';
-import { calculateScore } from "../utils/scoring";
 
 interface ChallengeCelebrationProps {
   score: number;
-  executionTime: number;
+  completionTime: number;
   difficulty: 'Easy' | 'Medium' | 'Hard';
   onNext: () => void;
   isLastChallenge?: boolean;
@@ -18,23 +16,27 @@ interface ChallengeCelebrationProps {
 
 export function ChallengeCelebration({
   score,
-  executionTime,
+  completionTime,
   onNext,
 }: ChallengeCelebrationProps) {
   
   const validScore = typeof score === 'number' && !isNaN(score) ? score : 0;
-  console.log('Validated score:', validScore);
-
-  const validExecutionTime = isFinite(executionTime) ? executionTime : 0;
+  const validCompletionTime = isFinite(completionTime) ? completionTime : 0;
 
   React.useEffect(() => {
-    // Trigger confetti
     confetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
     });
   }, []);
+
+  const formatCompletionTime = (seconds: number): string => {
+    if (seconds < 60) return `${seconds}s`;
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}m ${remainingSeconds}s`;
+  };
 
   return (
     <motion.div
@@ -61,9 +63,9 @@ export function ChallengeCelebration({
             <span className="text-[#4AF626] text-xl">{validScore} points</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-[#4AF626]/70">Execution Time:</span>
+            <span className="text-[#4AF626]/70">Completion Time:</span>
             <span className="text-[#4AF626]">
-              {validExecutionTime.toFixed(4)}ms
+              {formatCompletionTime(validCompletionTime)}
             </span>
           </div>
         </div>

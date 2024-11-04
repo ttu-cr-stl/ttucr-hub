@@ -42,10 +42,18 @@ export const Challenge = ({
   // Add state for showing warning
   const [showAIWarning, setShowAIWarning] = useState(false);
 
+  const [startTime, setStartTime] = useState<number | null>(null);
+
   useEffect(() => {
     setCode(challenge.starterCode);
     setLanguage("python");
   }, [challenge.starterCode]);
+
+  useEffect(() => {
+    if (!startTime) {
+      setStartTime(Date.now());
+    }
+  }, [startTime]);
 
   const handleEditorChange = (value: string | undefined) => {
     const newCode = value || "";
@@ -119,30 +127,35 @@ export const Challenge = ({
       }
 
       if (executionResults.every((r) => r.passed)) {
-        const totalExecutionTime = executionResults.reduce((sum, result) => {
-          return sum + (result.executionTime || 0);
-        }, 0);
-
-        const averageExecutionTime =
-          totalExecutionTime / executionResults.length;
+        const completionTime = Math.floor((Date.now() - (startTime || Date.now())) / 1000);
 
         try {
+          // Calculate score first
           const score = calculateScore({
-            executionTime: averageExecutionTime,
+            completionTime,
             difficulty: challenge.difficulty,
           });
 
-          await updateHackathonSubmission(
+          console.log('Calculated score:', {
+            completionTime,
+            difficulty: challenge.difficulty,
+            score
+          });
+
+          // Update submission in database
+          const submission = await updateHackathonSubmission(
             user.username,
             challenge.id,
             score,
-            averageExecutionTime,
+            completionTime,
             true
           );
 
-          onSetLastExecutionTime(averageExecutionTime);
+          console.log('Submission updated:', submission);
+
+          onSetLastExecutionTime(completionTime);
           onShowCelebration(true);
-          onMarkChallengeComplete(challenge.id, averageExecutionTime);
+          onMarkChallengeComplete(challenge.id, completionTime);
         } catch (error) {
           console.error("Error updating challenge completion:", error);
           toast({

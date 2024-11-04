@@ -73,11 +73,11 @@ model HackathonSubmission {
   id            String           @id @default(cuid())
   username      String
   challengeId   String
-  score         Int              @default(0)
-  executionTime Float
-  completed     Boolean          @default(false)
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
+  score         Int             @default(0)
+  completionTime Int            // Time in seconds
+  completed     Boolean         @default(false)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
   sessionId     String
   session       HackathonSession @relation(fields: [sessionId], references: [id])
   user          User             @relation(fields: [username], references: [username])

@@ -69,7 +69,7 @@ export async function endHackathonSession(username: string, totalScore: number) 
     if (!challenge) return total;
 
     return total + calculateScore({
-      executionTime: submission.executionTime,
+      completionTime: submission.completionTime,
       difficulty: challenge.difficulty,
     });
   }, 0);
@@ -88,7 +88,7 @@ export async function updateHackathonSubmission(
   username: string,
   challengeId: string,
   score: number,
-  executionTime: number,
+  completionTime: number,
   completed: boolean
 ) {
   const activeSession = await prisma.hackathonSession.findFirst({
@@ -105,8 +105,16 @@ export async function updateHackathonSubmission(
 
   // Recalculate score to ensure consistency
   const validatedScore = calculateScore({
-    executionTime,
+    completionTime,
     difficulty: challenge.difficulty,
+  });
+
+  console.log('Updating submission with score:', {
+    username,
+    challengeId,
+    calculatedScore: validatedScore,
+    completionTime,
+    sessionId: activeSession.id
   });
 
   // Try to find existing submission first
@@ -119,26 +127,24 @@ export async function updateHackathonSubmission(
   });
 
   if (existingSubmission) {
-    // Update existing submission
     return prisma.hackathonSubmission.update({
       where: {
         id: existingSubmission.id
       },
       data: {
         score: validatedScore,
-        executionTime,
+        completionTime,
         completed,
       },
     });
   } else {
-    // Create new submission
     return prisma.hackathonSubmission.create({
       data: {
         username,
         challengeId,
         sessionId: activeSession.id,
         score: validatedScore,
-        executionTime,
+        completionTime,
         completed,
       },
     });
@@ -164,7 +170,7 @@ export async function getHackathonRankings() {
               select: {
                 challengeId: true,
                 score: true,
-                executionTime: true,
+                completionTime: true,
                 completed: true,
                 updatedAt: true,
               },
@@ -196,7 +202,7 @@ export async function getUserHackathonProgress(username: string) {
           select: {
             challengeId: true,
             score: true,
-            executionTime: true,
+            completionTime: true,
             completed: true,
             updatedAt: true,
           },

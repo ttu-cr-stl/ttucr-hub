@@ -22,8 +22,9 @@ export function TimeUpCompletion({
   onViewRankings,
   endType,
 }: TimeUpCompletionProps) {
-  const minutes = Math.floor(timeElapsed / (1000 * 60));
-  const seconds = Math.floor((timeElapsed % (1000 * 60)) / 1000);
+  // Convert milliseconds to minutes and seconds
+  const minutes = Math.floor((timeElapsed / 1000) / 60);
+  const seconds = Math.floor((timeElapsed / 1000) % 60);
 
   return (
     <motion.div
@@ -90,7 +91,7 @@ export function TimeUpCompletion({
           <p>Time Elapsed: {minutes}m {seconds}s</p>
           <p>Challenges Attempted: {completedChallenges.length}</p>
           <p>Average Time per Challenge: {completedChallenges.length > 0 
-            ? `${(completedChallenges.reduce((acc, curr) => acc + (curr.bestTime || 0), 0) / completedChallenges.length).toFixed(2)}ms`
+            ? `${(completedChallenges.reduce((acc, curr) => acc + (curr.bestTime || 0), 0) / completedChallenges.length).toFixed(2)}s`
             : 'N/A'
           }</p>
         </div>

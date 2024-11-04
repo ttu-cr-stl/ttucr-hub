@@ -1,19 +1,17 @@
-export const calculateScore = ({
-  executionTime,
-  difficulty
-}: {
-  executionTime: number;
+interface ScoreParams {
+  completionTime: number; // in seconds
   difficulty: 'Easy' | 'Medium' | 'Hard';
-}): number => {
-  // Base score by difficulty
+}
+
+export function calculateScore({ completionTime, difficulty }: ScoreParams): number {
   const baseScore = {
-    Easy: 100,
-    Medium: 200,
-    Hard: 300
+    'Easy': 100,
+    'Medium': 200,
+    'Hard': 300
   }[difficulty];
 
-  // Time bonus (faster = more points)
-  const timeMultiplier = Math.max(0.5, 1 - (executionTime / 1000));
+  // Adjust time penalties based on seconds
+  const timePenalty = Math.floor(completionTime / 60) * 5; // 5 points per minute
   
-  return Math.round(baseScore * timeMultiplier);
-}; 
+  return Math.max(baseScore - timePenalty, Math.floor(baseScore * 0.1));
+} 
