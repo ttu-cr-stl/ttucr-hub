@@ -11,7 +11,7 @@ interface TimeUpCompletionProps {
   timeElapsed: number;
   onRestart: () => void;
   onViewRankings: () => void;
-  endType: 'timeout' | 'manual';
+  endType: "timeout" | "manual";
 }
 
 export function TimeUpCompletion({
@@ -23,7 +23,7 @@ export function TimeUpCompletion({
   endType,
 }: TimeUpCompletionProps) {
   // Convert milliseconds to minutes and seconds
-  const minutes = Math.floor((timeElapsed / 1000) / 60);
+  const minutes = Math.floor(timeElapsed / 1000 / 60);
   const seconds = Math.floor((timeElapsed / 1000) % 60);
 
   return (
@@ -31,17 +31,17 @@ export function TimeUpCompletion({
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        textAlign: 'center',
-        padding: '0 2rem'
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        textAlign: "center",
+        padding: "0 2rem",
       }}
     >
       <div className="mb-8">
-        {endType === 'timeout' ? (
+        {endType === "timeout" ? (
           <>
             <h1 className="text-4xl font-bold text-[#4AF626] mb-2">
               Time&apos;s Up!
@@ -86,14 +86,25 @@ export function TimeUpCompletion({
       </div>
 
       <div className="mb-8 p-4 border border-[#4AF626]/30 rounded-md bg-black/30">
-        <h3 className="text-sm font-medium text-[#4AF626] mb-2">Session Summary</h3>
+        <h3 className="text-sm font-medium text-[#4AF626] mb-2">
+          Session Summary
+        </h3>
         <div className="text-sm text-[#4AF626]/70 space-y-1">
-          <p>Time Elapsed: {minutes}m {seconds}s</p>
+          <p>
+            Time Elapsed: {minutes}m {seconds}s
+          </p>
           <p>Challenges Attempted: {completedChallenges.length}</p>
-          <p>Average Time per Challenge: {completedChallenges.length > 0 
-            ? `${(completedChallenges.reduce((acc, curr) => acc + (curr.bestTime || 0), 0) / completedChallenges.length).toFixed(2)}s`
-            : 'N/A'
-          }</p>
+          <p>
+            Average Time per Challenge:{" "}
+            {completedChallenges.length > 0
+              ? `${(
+                  completedChallenges.reduce(
+                    (acc, curr) => acc + (curr.bestTime || 0),
+                    0
+                  ) / completedChallenges.length
+                ).toFixed(2)}s`
+              : "N/A"}
+          </p>
         </div>
       </div>
 
@@ -114,4 +125,4 @@ export function TimeUpCompletion({
       </div>
     </motion.div>
   );
-} 
+}
