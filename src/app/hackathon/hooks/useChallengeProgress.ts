@@ -62,12 +62,12 @@ export function useChallengeProgress(challenges: Challenge[]) {
         ? prev.completedChallenges.map((p) =>
             p.id === challengeId
               ? {
-                  ...p,
+                  id: challengeId,
                   completed: true,
                   attempts: p.attempts + 1,
-                  bestTime: Math.min(executionTime, p.bestTime || Infinity),
+                  bestTime: p.bestTime ? Math.min(executionTime, p.bestTime) : executionTime,
                   lastAttempt: new Date(),
-                  score: Math.max(score, p.score || 0) // Keep highest score
+                  score: score
                 }
               : p
           )
@@ -91,7 +91,7 @@ export function useChallengeProgress(challenges: Challenge[]) {
         ...prev,
         completedChallenges: newCompletedChallenges,
         currentChallengeId: nextChallenge?.id || challengeId,
-        totalScore: newCompletedChallenges.reduce((sum, c) => sum + (c.score || 0), 0)
+        totalScore: newCompletedChallenges.reduce((sum, c) => sum + c.score, 0)
       };
     });
   };

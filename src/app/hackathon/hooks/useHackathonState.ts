@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ChallengeProgress } from '../types';
-import { createHackathonSession, endHackathonSession, getActiveSession, getSession } from "@/db/hackathon";
+import { createHackathonSession, endHackathonSession, getActiveSession } from "@/db/hackathon";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { updateUserPoints } from "@/db/hackathon";
 import { calculateScore } from "../utils/scoring";

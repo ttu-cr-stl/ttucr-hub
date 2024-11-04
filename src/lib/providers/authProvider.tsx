@@ -72,7 +72,6 @@ export default function AuthProvider({
           theme: "light",
           accentColor: "#9C4544",
           logo: "/TTULogo-local.webp",
-          landingHeader: "Login with @ttu.edu email",
         },
         // Create embedded wallets for users who don't have a wallet
         embeddedWallets: {

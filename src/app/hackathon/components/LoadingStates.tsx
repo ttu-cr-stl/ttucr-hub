@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 export function ChallengeLoadingState() {
   return (
@@ -24,7 +24,11 @@ export function RankingsLoadingState() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.1 }}
-          className="h-16 bg-[#4AF626]/10 rounded"
+          style={{
+            height: "4rem",
+            backgroundColor: "rgba(74, 246, 38, 0.1)",
+            borderRadius: "0.25rem",
+          }}
         />
       ))}
     </div>
@@ -37,4 +41,4 @@ export function SubmissionLoadingState() {
       <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#4AF626] border-t-transparent" />
     </div>
   );
-} 
+}

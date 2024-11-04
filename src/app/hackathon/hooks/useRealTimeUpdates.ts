@@ -37,7 +37,7 @@ export function useRealTimeUpdates() {
     
     const fetchRankings = async () => {
       try {
-        const data = await getHackathonRankings(abortController.signal);
+        const data = await getHackathonRankings();
         if (!abortController.signal.aborted) {
           setRankings(data as unknown as RankingUser[]);
         }

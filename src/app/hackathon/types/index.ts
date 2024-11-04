@@ -56,6 +56,7 @@ export interface ChallengeProgress {
   attempts: number;
   bestTime?: number;
   lastAttempt?: Date;
+  score: number;
 }
 
 export interface UserProgress {
