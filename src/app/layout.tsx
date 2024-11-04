@@ -7,6 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Image from "next/image";
+import { Toaster } from "@/components/ui/toaster";
 
 const APP_NAME = "TTU@CR Hub";
 const APP_DEFAULT_TITLE = "TTU@CR Hub";
@@ -106,6 +107,7 @@ export default function RootLayout({
             </p>
           </div>
         </GlobalProviders>
+        <Toaster />
       </body>
     </html>
   );

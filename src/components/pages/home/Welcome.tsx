@@ -1,6 +1,6 @@
 "use client";
-import { Badge } from "@/components/ui/shadcn/badge";
-import { Skeleton } from "@/components/ui/shadcn/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { Degree } from "@/lib/utils/consts";
 import { FC } from "react";

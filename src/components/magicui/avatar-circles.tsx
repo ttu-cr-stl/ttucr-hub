@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils/cn";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/shadcn/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface AvatarCirclesProps {
   className?: string;

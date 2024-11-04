@@ -1,6 +1,6 @@
 import AvatarCircles from "@/components/magicui/avatar-circles";
 import SignUpBtn from "@/components/pages/(subpages)/event/SignUpBtn";
-import { Badge } from "@/components/ui/shadcn/badge";
+import { Badge } from "@/components/ui/badge";
 import ExpandableDescription from "@/components/utils/ExpandableDescription";
 import { getEventById, getEventByIdWithUserPics } from "@/db/events";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";

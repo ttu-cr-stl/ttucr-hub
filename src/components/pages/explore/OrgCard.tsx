@@ -1,12 +1,11 @@
-import { Badge } from "@/components/ui/shadcn/badge";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/shadcn/card";
+} from "@/components/ui/card";
 import { Org } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";

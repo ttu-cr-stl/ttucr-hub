@@ -5,7 +5,7 @@ import { extractUsername, isTTUEmail } from "@/lib/utils";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next-nprogress-bar";
 import { FC, useState } from "react";
-import { Button } from "../ui/shadcn/button";
+import { Button } from "../ui/button";
 import { Spinner } from "./Spinner";
 
 interface LoginBtnProps {}

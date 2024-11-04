@@ -1,7 +1,4 @@
-import OrgsList from "@/components/pages/explore/OrgsList";
-import React from "react";
-
-export const revalidate = 60 * 60 * 12; // 12 hour
+export const revalidate = 43200; // 12 hour
 
 export default function Explore() {
   return (
@@ -28,7 +25,7 @@ export default function Explore() {
           placeholder="Search TTU@CR"
         />
       </div> */}
-      <OrgsList />
+      {/* <OrgsList /> */}
     </div>
   );
 }

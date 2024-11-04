@@ -9,18 +9,20 @@ datasource db {
 }
 
 model User {
-  firstName       String
-  lastName        String
-  profilePic      String?
-  major           String
-  minor           String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime?         @updatedAt
-  address         String?
-  username        String            @id @unique
-  points          Int               @default(0)
-  EventAttendance EventAttendance[]
-  orgs            Org[]             @relation("OrgToUser")
+  firstName           String
+  lastName            String
+  profilePic          String?
+  major               String
+  minor               String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime?             @updatedAt
+  address             String?
+  username            String                @id @unique
+  points              Int                   @default(0)
+  EventAttendance     EventAttendance[]
+  HackathonSession    HackathonSession[]
+  HackathonSubmission HackathonSubmission[]
+  orgs                Org[]                 @relation("OrgToUser")
 }
 
 model Event {
@@ -56,7 +58,7 @@ model Org {
 }
 
 model EventAttendance {
-  id       String   @id
+  id       String   @id @default(cuid())
   eventId  String
   signedUp DateTime @default(now())
   attended Boolean  @default(false)
@@ -65,4 +67,36 @@ model EventAttendance {
   User     User     @relation(fields: [username], references: [username])
 
   @@unique([username, eventId])
+}
+
+model HackathonSubmission {
+  id            String           @id @default(cuid())
+  username      String
+  challengeId   String
+  score         Int              @default(0)
+  executionTime Float
+  completed     Boolean          @default(false)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  sessionId     String
+  session       HackathonSession @relation(fields: [sessionId], references: [id])
+  user          User             @relation(fields: [username], references: [username])
+
+  @@unique([username, challengeId, sessionId])
+  @@index([sessionId])
+  @@index([username])
+}
+
+model HackathonSession {
+  id          String                @id @default(cuid())
+  username    String
+  startTime   DateTime              @default(now())
+  endTime     DateTime?
+  totalScore  Int                   @default(0)
+  isActive    Boolean               @default(true)
+  user        User                  @relation(fields: [username], references: [username])
+  submissions HackathonSubmission[]
+
+  @@index([username, isActive])
+  @@index([username])
 }

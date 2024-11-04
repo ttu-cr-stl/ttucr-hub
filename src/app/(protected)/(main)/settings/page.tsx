@@ -1,7 +1,7 @@
 "use client";
 
 import { SettingsItem } from "@/components/pages/settings/SettingsItem";
-import { Card, CardContent, CardHeader } from "@/components/ui/shadcn/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { LogoutBtn } from "@/components/utils/LogoutBtn";
 import { useAddToHomeScreen } from "@/lib/hooks/useAddtoHomeScreen";
 import Link from "next/link";

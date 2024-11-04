@@ -1,12 +1,8 @@
 "use client";
 
 import { EventCard } from "@/components/pages/home/EventCard";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/shadcn/avatar";
-import { Badge } from "@/components/ui/shadcn/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import StucoTitle from "@/components/utils/StucoTitle";
 import { UserWithOrgsAndEvents } from "@/lib/types/prismaTypes";
 import { Degree } from "@/lib/utils/consts";
@@ -72,10 +68,12 @@ const UserProfileDisplay = ({
             {(() => {
               const now = new Date();
               const futureEvents =
-                user.EventAttendance?.filter((event) => event.Event.startTime >= now) || [];
+                user.EventAttendance?.filter(
+                  (event) => event.Event.startTime >= now
+                ) || [];
               const pastEvents =
-                user.EventAttendance?.filter((event) => 
-                  event.Event.startTime < now && event.attended
+                user.EventAttendance?.filter(
+                  (event) => event.Event.startTime < now && event.attended
                 ) || [];
 
               return (
@@ -91,7 +89,8 @@ const UserProfileDisplay = ({
                       {futureEvents
                         .sort(
                           (a, b) =>
-                            a.Event.startTime.getTime() - b.Event.startTime.getTime()
+                            a.Event.startTime.getTime() -
+                            b.Event.startTime.getTime()
                         )
                         .map((event) => (
                           <div key={event.id} className="w-full mb-2">
@@ -111,7 +110,8 @@ const UserProfileDisplay = ({
                       {pastEvents
                         .sort(
                           (a, b) =>
-                            b.Event.startTime.getTime() - a.Event.startTime.getTime()
+                            b.Event.startTime.getTime() -
+                            a.Event.startTime.getTime()
                         )
                         .map((event) => (
                           <div key={event.id} className="w-full mb-2">
