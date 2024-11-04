@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Event" ADD COLUMN     "reward" INTEGER NOT NULL DEFAULT 0;

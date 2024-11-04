@@ -94,12 +94,28 @@ export function TerminalText({
   ]);
 
   const renderLineWithUserComponent = (line: string) => {
-    const parts = line.split(/(display_user)/gi);
-    return parts.map((part, i) => {
-      if (part.toLowerCase() === "display_user") {
-        return <React.Fragment key={i}>{<MiniProfile />}</React.Fragment>;
+    if (!line) return null;
+    
+    // Handle the case where line is undefined or not a string
+    if (typeof line !== 'string') {
+      return line;
+    }
+
+    // Split by exact match of "display_user" instead of using regex
+    const parts = line.split("display_user");
+    
+    return parts.map((part, index) => {
+      // If it's not the last part, append the user component
+      if (index < parts.length - 1) {
+        return (
+          <React.Fragment key={index}>
+            {part}
+            <MiniProfile />
+          </React.Fragment>
+        );
       }
-      return <span key={i}>{part}</span>;
+      // Last part just needs the text
+      return <span key={index}>{part}</span>;
     });
   };
 
@@ -109,9 +125,13 @@ export function TerminalText({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className={cn("flex flex-col space-y-1 font-mono", className)}
-        style={{ color }}
-        as="div"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.25rem',
+          fontFamily: 'monospace',
+          color: color
+        }}
       >
         {displayedText.map((line, index) => (
           <div key={index} className="flex items-center">
