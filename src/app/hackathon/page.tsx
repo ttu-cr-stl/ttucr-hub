@@ -167,7 +167,9 @@ export default function Hackathon() {
           <div className="w-3 h-3 rounded-full bg-yellow-500" />
           <div className="w-3 h-3 rounded-full bg-green-500" />
         </div>
-        <div className="text-sm opacity-50">TTU Hackathon</div>
+        <div className="flex items-center gap-x-2 text-sm -ml-12">
+          TTU Hackathon
+        </div>
         <div className="flex items-center gap-4">
           {currentView !== "menu" && (
             <ScoreDisplay score={progress.totalScore} />
@@ -280,12 +282,14 @@ export default function Hackathon() {
                   <ChallengeCelebration
                     score={calculateScore({
                       completionTime: lastExecutionTime,
-                      difficulty: sampleChallenges[selectedIndex].difficulty
+                      difficulty: sampleChallenges[selectedIndex].difficulty,
                     })}
                     completionTime={lastExecutionTime}
                     difficulty={sampleChallenges[selectedIndex].difficulty}
                     onNext={handleNextChallenge}
-                    isLastChallenge={selectedIndex === sampleChallenges.length - 1}
+                    isLastChallenge={
+                      selectedIndex === sampleChallenges.length - 1
+                    }
                   />
                 )}
               </>
