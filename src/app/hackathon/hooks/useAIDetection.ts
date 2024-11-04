@@ -53,9 +53,6 @@ export function useAIDetection() {
     
     // Secondary detection: Common AI patterns
     const aiPatterns = [
-      // Function and class patterns
-      /def\s+solution\(/,
-      /class\s+Solution:/,
       
       // Documentation patterns
       /Time[:\s]+O\([^)]+\)/i,
@@ -65,11 +62,11 @@ export function useAIDetection() {
       /#\s*@return/,     // Return documentation
       
       // Common AI solution patterns
-      /return\s+result$/m,
-      /if\s+__name__\s*==\s*['"]__main__['"]/,
-      /(?:left|right|start|end)\s*=\s*\d+/,
-      /while\s+(?:left|right|start|end)/,
-      /for\s+i\s+in\s+range/,
+      // /return\s+result$/m,
+      // /if\s+__name__\s*==\s*['"]__main__['"]/,
+      // /(?:left|right|start|end)\s*=\s*\d+/,
+      // /while\s+(?:left|right|start|end)/,
+      // /for\s+i\s+in\s+range/,
       
       // Variable naming patterns
       /(?:result|output|ans|temp|curr|prev)(?:\d*)(?!\w)/,

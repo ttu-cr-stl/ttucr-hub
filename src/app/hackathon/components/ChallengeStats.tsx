@@ -5,10 +5,9 @@ import { ChallengeProgress } from "../types";
 
 interface ChallengeStatsProps {
   progress?: ChallengeProgress;
-  difficulty: "Easy" | "Medium" | "Hard";
 }
 
-export function ChallengeStats({ progress, difficulty }: ChallengeStatsProps) {
+export function ChallengeStats({ progress }: ChallengeStatsProps) {
   if (!progress) return null;
 
   return (

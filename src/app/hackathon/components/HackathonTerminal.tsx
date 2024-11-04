@@ -2,11 +2,15 @@
 
 import { useAuthUser } from "@/lib/providers/authProvider";
 import { NavPath } from "@/lib/types";
-import { usePrivy } from "@privy-io/react-auth";
+import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState, useMemo } from "react";
 import { TerminalText } from "../utils/terminalText";
+import { extractUsername } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { isTTUEmail } from "@/lib/utils";
+import { createUser } from "@/db/users";
 
 interface HackathonTerminalProps {
   onStart: () => void;
@@ -25,10 +29,35 @@ export function HackathonTerminal({
   hasActiveSession = false, 
   onStartNewSession 
 }: HackathonTerminalProps) {
-  const { user } = useAuthUser();
-  const { authenticated } = usePrivy();
   const [showOptions, setShowOptions] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null); 
+  const { ready, authenticated } = usePrivy();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const { login } = useLogin({
+    onComplete: async (user, isNewUser) => {
+      setLoading(true);
+
+      if (isNewUser && isTTUEmail(user.email?.address!)) {
+        try {
+          // Create user in DB
+          await createUser(extractUsername(user.email?.address!));
+          router.push(NavPath.ONBOARDING);
+        } catch (error) {
+          setLoading(false);
+          console.log(error);
+          throw new Error("Failed to create user");
+        }
+      } else {
+        router.push('/hackathon');
+      }
+    },
+
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const menuOptions = useMemo(() => [
     {
@@ -66,6 +95,10 @@ export function HackathonTerminal({
       return () => window.removeEventListener("keypress", handleKeyPress);
     }
   }, [showOptions, menuOptions]);
+
+  if (!ready) {
+    return null;
+  }
 
   if (!authenticated) {
     return (
@@ -116,13 +149,13 @@ export function HackathonTerminal({
             justifyContent: 'center'
           }}
         >
-          <Link
-            href={NavPath.LOGIN}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-black border border-[#4AF626] rounded-sm text-sm text-[#4AF626] hover:bg-[#4AF626]/10 transition-colors duration-200"
+          <div
+            onClick={() => login()}
+            className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-black border border-[#4AF626] rounded-sm text-sm text-[#4AF626] hover:bg-[#4AF626]/10 transition-colors duration-200"
           >
             <span className="font-mono">&gt;</span>
-            <span>REDIRECT TO LOGIN</span>
-          </Link>
+            {loading ? <span>LOADING...</span> : <span>REDIRECT TO LOGIN</span>}
+          </div>
         </motion.div>
       </div>
     );
@@ -184,7 +217,7 @@ export function HackathonTerminal({
                   }`}
                 >
                   <span className="mr-2">&gt;</span>
-                  {option.id}) {option.label}
+                  {option.id} - {option.label}
                 </button>
               </motion.div>
             ))}

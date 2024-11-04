@@ -6,95 +6,146 @@ import { cn } from "@/lib/utils/cn";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Award, ChevronRight, Clock } from "react-feather";
 import { sampleChallenges } from "../data/challenges";
 import { useRealTimeUpdates } from "../hooks/useRealTimeUpdates";
-import { AsyncStateWrapper } from './AsyncStateWrapper';
 import { calculateScore } from "../utils/scoring";
+import { AsyncStateWrapper } from "./AsyncStateWrapper";
 
 interface RankingsProps {
   className?: string;
 }
 
 function formatCompletionTime(timestamp: number | null): string {
-  if (!timestamp) return '';
-  
+  if (!timestamp) return "";
+
   const now = Date.now();
   const diff = now - timestamp;
-  
+
   // Less than a minute
   if (diff < 60000) {
-    return 'just now';
+    return "just now";
   }
-  
+
   // Less than an hour
   if (diff < 3600000) {
     const minutes = Math.floor(diff / 60000);
     return `${minutes}m ago`;
   }
-  
+
   // Less than a day
   if (diff < 86400000) {
     const hours = Math.floor(diff / 3600000);
     return `${hours}h ago`;
   }
-  
+
   // More than a day
   const days = Math.floor(diff / 86400000);
   return `${days}d ago`;
 }
 
+function triggerConfetti() {
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { y: 0.6 },
+  });
+}
+
 export function Rankings({ className }: RankingsProps) {
   const { rankings, isLoading } = useRealTimeUpdates();
-  const [celebratedUsers, setCelebratedUsers] = useState<Set<string>>(new Set());
   const [expandedUser, setExpandedUser] = useState<string | null>(null);
 
+  const celebratedRef = useRef<Set<string>>(new Set());
+
   const sortedRankings = rankings
-    .filter(user => user.HackathonSession?.length > 0)
+    .filter((user) => user.HackathonSession?.length > 0)
     .sort((a, b) => {
+      // Get the best session for each user
       const aSession = getBestSession(a.HackathonSession);
       const bSession = getBestSession(b.HackathonSession);
-      
+
+      // Get the total score for each session
       const aScore = aSession?.totalScore ?? 0;
       const bScore = bSession?.totalScore ?? 0;
 
+      // Sort by total score
       if (bScore !== aScore) {
         return bScore - aScore;
       }
 
-      const aEndTime = aSession?.endTime ? new Date(aSession.endTime).getTime() : Infinity;
-      const bEndTime = bSession?.endTime ? new Date(bSession.endTime).getTime() : Infinity;
+      // If the total score is the same, sort by completion time
+      const aEndTime = aSession?.endTime
+        ? new Date(aSession.endTime).getTime()
+        : Infinity;
+      const bEndTime = bSession?.endTime
+        ? new Date(bSession.endTime).getTime()
+        : Infinity;
 
       return aEndTime - bEndTime;
     });
 
   const getBestSession = (sessions: any[]) => {
     if (!sessions?.length) return null;
-    
-    const activeSession = sessions.find(s => s.isActive);
+
+    const activeSession = sessions.find((s) => s.isActive);
+
+    // If there is an active session, calculate the total score
     if (activeSession) {
-      activeSession.totalScore = activeSession.submissions.reduce((total: number, submission: { completed: boolean, challengeId: string, executionTime: number }) => {
-        if (!submission.completed) return total;
-        const challenge = sampleChallenges.find(c => c.id === submission.challengeId);
-        if (!challenge) return total;
-        return total + calculateScore({
-          executionTime: submission.executionTime,
-          difficulty: challenge.difficulty
-        });
-      }, 0);
+      activeSession.totalScore = activeSession.submissions.reduce(
+        (
+          total: number,
+          submission: {
+            completed: boolean;
+            challengeId: string;
+            executionTime: number;
+          }
+        ) => {
+          if (!submission.completed) return total;
+          const challenge = sampleChallenges.find(
+            (c) => c.id === submission.challengeId
+          );
+          if (!challenge) return total;
+          return (
+            total +
+            calculateScore({
+              executionTime: submission.executionTime,
+              difficulty: challenge.difficulty,
+            })
+          );
+        },
+        0
+      );
       return activeSession;
     }
+
+    // If there is no active session, calculate the total score for the best completed session
     return sessions.reduce((best, current) => {
-      const currentScore = current.submissions.reduce((total: number, submission: { completed: boolean, challengeId: string, executionTime: number }) => {
-        if (!submission.completed) return total;
-        const challenge = sampleChallenges.find(c => c.id === submission.challengeId);
-        if (!challenge) return total;
-        return total + calculateScore({
-          executionTime: submission.executionTime,
-          difficulty: challenge.difficulty
-        });
-      }, 0);
+      const currentScore = current.submissions.reduce(
+        (
+          total: number,
+          submission: {
+            completed: boolean;
+            challengeId: string;
+            executionTime: number;
+          }
+        ) => {
+          if (!submission.completed) return total;
+          const challenge = sampleChallenges.find(
+            (c) => c.id === submission.challengeId
+          );
+          if (!challenge) return total;
+          return (
+            total +
+            calculateScore({
+              executionTime: submission.executionTime,
+              difficulty: challenge.difficulty,
+            })
+          );
+        },
+        0
+      );
 
       if (!best || currentScore > best.totalScore) {
         return { ...current, totalScore: currentScore };
@@ -105,7 +156,7 @@ export function Rankings({ className }: RankingsProps) {
 
   const calculateProgress = (session: any) => {
     if (!session?.submissions?.length) return 0;
-    
+
     const uniqueCompletedChallenges = new Set(
       session.submissions
         .filter((submission: { completed: boolean }) => submission.completed)
@@ -119,44 +170,13 @@ export function Rankings({ className }: RankingsProps) {
     sortedRankings.forEach((user) => {
       const session = getBestSession(user.HackathonSession);
       const progress = calculateProgress(session);
-      if (progress === 100 && !celebratedUsers.has(user.username)) {
+
+      if (progress === 100 && !celebratedRef.current.has(user.username)) {
+        celebratedRef.current.add(user.username);
         triggerConfetti();
-        setCelebratedUsers((prev) => new Set([...prev, user.username]));
       }
     });
-  }, [sortedRankings, celebratedUsers]);
-
-  const triggerConfetti = () => {
-    const duration = 2 * 1000;
-    const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-    function randomInRange(min: number, max: number) {
-      return Math.random() * (max - min) + min;
-    }
-
-    const interval: any = setInterval(function () {
-      const timeLeft = animationEnd - Date.now();
-
-      if (timeLeft <= 0) {
-        return clearInterval(interval);
-      }
-
-      const particleCount = 50 * (timeLeft / duration);
-
-      // Confetti from both sides
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-      });
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-      });
-    }, 250);
-  };
+  }, [sortedRankings]);
 
   return (
     <div className={cn("flex flex-col h-full", className)}>
@@ -171,14 +191,13 @@ export function Rankings({ className }: RankingsProps) {
         </Badge>
       </div>
 
-      <AsyncStateWrapper
-        isLoading={isLoading}
-        type="rankings"
-      >
+      <AsyncStateWrapper isLoading={isLoading} type="rankings">
         {sortedRankings.length === 0 ? (
           <div className="flex flex-col items-center justify-center flex-1 text-[#4AF626]/70">
             <div className="text-sm mb-2">No Active Participants</div>
-            <div className="text-xs">Start a challenge to appear on the rankings!</div>
+            <div className="text-xs">
+              Start a challenge to appear on the rankings!
+            </div>
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto">
@@ -195,18 +214,20 @@ export function Rankings({ className }: RankingsProps) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                     style={{
-                      border: '1px solid rgba(74, 246, 38, 0.3)',
-                      borderRadius: '0.375rem',
-                      backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                      overflow: 'hidden',
+                      border: "1px solid rgba(74, 246, 38, 0.3)",
+                      borderRadius: "0.375rem",
+                      backgroundColor: "rgba(0, 0, 0, 0.3)",
+                      overflow: "hidden",
                       ...(isExpanded && {
-                        boxShadow: '0 0 0 1px rgba(74, 246, 38, 0.5)'
-                      })
+                        boxShadow: "0 0 0 1px rgba(74, 246, 38, 0.5)",
+                      }),
                     }}
                   >
                     <div
                       className="p-2 cursor-pointer hover:bg-[#4AF626]/5 transition-colors"
-                      onClick={() => setExpandedUser(isExpanded ? null : user.username)}
+                      onClick={() =>
+                        setExpandedUser(isExpanded ? null : user.username)
+                      }
                     >
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1.5 w-6">
@@ -282,7 +303,10 @@ export function Rankings({ className }: RankingsProps) {
                           <div className="text-[10px] text-[#4AF626]/70">
                             {bestSession?.endTime && !bestSession.isActive && (
                               <span className="ml-1">
-                                • {formatCompletionTime(new Date(bestSession.endTime).getTime())}
+                                •{" "}
+                                {formatCompletionTime(
+                                  new Date(bestSession.endTime).getTime()
+                                )}
                               </span>
                             )}
                           </div>
@@ -303,8 +327,8 @@ export function Rankings({ className }: RankingsProps) {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         style={{
-                          overflow: 'hidden',
-                          padding: '0.5rem 0.5rem 0.5rem 0.5rem'
+                          overflow: "hidden",
+                          padding: "0.5rem 0.5rem 0.5rem 0.5rem",
                         }}
                       >
                         <div className="grid grid-cols-3 gap-1.5 pt-1.5 border-t border-[#4AF626]/10">

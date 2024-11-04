@@ -19,12 +19,8 @@ interface ChallengeCelebrationProps {
 export function ChallengeCelebration({
   score,
   executionTime,
-  difficulty,
   onNext,
-  isLastChallenge,
 }: ChallengeCelebrationProps) {
-  console.log('Raw score:', score);
-  console.log('Score type:', typeof score);
   
   const validScore = typeof score === 'number' && !isNaN(score) ? score : 0;
   console.log('Validated score:', validScore);

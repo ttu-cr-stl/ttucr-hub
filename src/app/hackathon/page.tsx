@@ -266,7 +266,6 @@ export default function Hackathon() {
                     progress={progress.completedChallenges.find(
                       (p) => p.id === sampleChallenges[selectedIndex].id
                     )}
-                    difficulty={sampleChallenges[selectedIndex].difficulty}
                   />
 
                   <ChallengeNavigation

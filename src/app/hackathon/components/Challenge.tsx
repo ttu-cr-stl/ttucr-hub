@@ -25,14 +25,6 @@ interface ChallengeProps {
   onMarkChallengeComplete: (challengeId: string, executionTime: number) => void;
 }
 
-function LoadingSpinner() {
-  return (
-    <div className="flex items-center justify-center h-full">
-      <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#4AF626] border-t-transparent" />
-    </div>
-  );
-}
-
 export const Challenge = ({
   challenge,
   onShowCelebration,
@@ -41,7 +33,8 @@ export const Challenge = ({
 }: ChallengeProps) => {
   const [code, setCode] = useState<string>("");
   const [language, setLanguage] = useState<SupportedLanguage>("python");
-  const { executeCode, isExecuting, setIsExecuting, results } = useCodeExecution();
+  const { executeCode, isExecuting, setIsExecuting, results } =
+    useCodeExecution();
   const { trackEdit, analyzeCode, resetDetection } = useAIDetection();
   const { user } = useAuthUser();
   const { toast } = useToast();
