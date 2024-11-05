@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils/cn";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Award, ChevronRight, Clock } from "react-feather";
 import { sampleChallenges } from "../data/challenges";
 import { useRealTimeUpdates } from "../hooks/useRealTimeUpdates";
@@ -81,24 +81,33 @@ export function Rankings({ className }: RankingsProps) {
     // If there is an active session, calculate the total score
     if (activeSession) {
       activeSession.totalScore = (activeSession.submissions || []).reduce(
-        (total: number, submission: { completed: boolean; challengeId: string; completionTime: number }) => {
+        (
+          total: number,
+          submission: {
+            completed: boolean;
+            challengeId: string;
+            completionTime: number;
+          }
+        ) => {
           if (!submission?.completed) return total;
-          
-          const challenge = sampleChallenges.find(c => c.id === submission.challengeId);
+
+          const challenge = sampleChallenges.find(
+            (c) => c.id === submission.challengeId
+          );
           if (!challenge) return total;
-          
+
           const score = calculateScore({
             completionTime: submission.completionTime,
             difficulty: challenge.difficulty,
           });
-          
-          console.log('Calculated score for submission:', {
+
+          console.log("Calculated score for submission:", {
             challengeId: submission.challengeId,
             completionTime: submission.completionTime,
             difficulty: challenge.difficulty,
-            score
+            score,
           });
-          
+
           return total + score;
         },
         0
@@ -161,14 +170,15 @@ export function Rankings({ className }: RankingsProps) {
 
   return (
     <div className={cn("flex flex-col h-full", className)}>
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-2 px-2 sm:px-0">
         <h2 className="text-base font-semibold text-[#4AF626]">Rankings</h2>
         <Badge
           variant="outline"
           className="text-[#4AF626] border-[#4AF626]/30 text-[10px] px-1.5 py-0"
         >
           <Clock className="w-2.5 h-2.5 mr-0.5" />
-          Live Updates
+          <span className="hidden sm:inline">Live Updates</span>
+          <span className="sm:hidden">Live</span>
         </Badge>
       </div>
 
@@ -181,8 +191,8 @@ export function Rankings({ className }: RankingsProps) {
             </div>
           </div>
         ) : (
-          <div className="flex-1 overflow-y-auto">
-            <div className="space-y-1.5">
+          <div className="flex-1 overflow-y-auto px-2 sm:px-0">
+            <div className="space-y-2 sm:space-y-1.5">
               {sortedRankings.map((user, index) => {
                 const bestSession = getBestSession(user.HackathonSession);
                 const progress = calculateProgress(bestSession);
@@ -205,30 +215,30 @@ export function Rankings({ className }: RankingsProps) {
                     }}
                   >
                     <div
-                      className="p-2 cursor-pointer hover:bg-[#4AF626]/5 transition-colors"
+                      className="p-2 sm:p-3 cursor-pointer hover:bg-[#4AF626]/5 transition-colors"
                       onClick={() =>
                         setExpandedUser(isExpanded ? null : user.username)
                       }
                     >
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center gap-1.5 w-6">
+                      <div className="flex items-center gap-1.5 sm:gap-2">
+                        <div className="flex items-center gap-1 sm:gap-1.5 w-5 sm:w-6">
                           {index < 3 ? (
                             <Award
                               className={cn(
-                                "w-4 h-4",
+                                "w-3.5 h-3.5 sm:w-4 sm:h-4",
                                 index === 0 && "text-yellow-500",
                                 index === 1 && "text-gray-400",
                                 index === 2 && "text-amber-600"
                               )}
                             />
                           ) : (
-                            <span className="text-[#4AF626]/70 text-xs">
+                            <span className="text-[#4AF626]/70 text-[10px] sm:text-xs">
                               #{index + 1}
                             </span>
                           )}
                         </div>
 
-                        <Avatar className="w-6 h-6">
+                        <Avatar className="w-5 h-5 sm:w-6 sm:h-6">
                           {user.profilePic && (
                             <Image
                               src={user.profilePic}
@@ -240,26 +250,22 @@ export function Rankings({ className }: RankingsProps) {
                           )}
                         </Avatar>
 
-                        <div className="flex-1">
+                        <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5">
-                            <span className="font-medium text-xs text-[#4AF626]">
+                            <span className="font-medium text-[11px] sm:text-xs text-[#4AF626] truncate">
                               {user.username}
                             </span>
-                            {bestSession?.isActive ? (
-                              <Badge
-                                variant="outline"
-                                className="text-yellow-500 border-yellow-500/30 text-[10px] px-1 py-0"
-                              >
-                                Active
-                              </Badge>
-                            ) : (
-                              <Badge
-                                variant="outline"
-                                className="text-[#4AF626]/30 border-[#4AF626]/30 text-[10px] px-1 py-0"
-                              >
-                                Completed
-                              </Badge>
-                            )}
+                            <Badge
+                              variant="outline"
+                              className={cn(
+                                "text-[9px] sm:text-[10px] px-1 py-0 whitespace-nowrap",
+                                bestSession?.isActive
+                                  ? "text-yellow-500 border-yellow-500/30"
+                                  : "text-[#4AF626]/30 border-[#4AF626]/30"
+                              )}
+                            >
+                              {bestSession?.isActive ? "Active" : "Done"}
+                            </Badge>
                           </div>
 
                           <div className="mt-1 space-y-0.5">
@@ -277,16 +283,21 @@ export function Rankings({ className }: RankingsProps) {
                           </div>
                         </div>
 
-                        <div className="text-right">
+                        <div className="text-right ml-1 sm:ml-2">
                           <ScoreDisplay score={bestSession?.totalScore ?? 0} />
-                          <div className="text-[10px] text-[#4AF626]/70">
+                          <div className="text-[9px] sm:text-[10px] text-[#4AF626]/70">
                             {bestSession && (
                               <span className="ml-1">
-                                {bestSession.isActive ? "Time: " : "Completed in "}
+                                {bestSession.isActive ? "" : "In "}
                                 {formatCompletionTime(
                                   bestSession.submissions.reduce(
-                                    (total: number, submission: HackathonSubmission) => 
-                                      submission.completed ? total + submission.completionTime : total,
+                                    (
+                                      total: number,
+                                      submission: HackathonSubmission
+                                    ) =>
+                                      submission.completed
+                                        ? total + submission.completionTime
+                                        : total,
                                     0
                                   )
                                 )}
@@ -297,7 +308,7 @@ export function Rankings({ className }: RankingsProps) {
 
                         <ChevronRight
                           className={cn(
-                            "w-3 h-3 text-[#4AF626]/50 transition-transform",
+                            "w-3 h-3 text-[#4AF626]/50 transition-transform ml-1 sm:ml-2",
                             isExpanded && "rotate-90"
                           )}
                         />
@@ -317,7 +328,8 @@ export function Rankings({ className }: RankingsProps) {
                         <div className="grid grid-cols-3 gap-1.5 pt-1.5 border-t border-[#4AF626]/10">
                           {sampleChallenges.map((challenge) => {
                             const submission = bestSession.submissions?.find(
-                              (s: HackathonSubmission) => s.challengeId === challenge.id
+                              (s: HackathonSubmission) =>
+                                s.challengeId === challenge.id
                             );
 
                             return (
@@ -342,7 +354,9 @@ export function Rankings({ className }: RankingsProps) {
                                 </div>
                                 {submission?.completed && (
                                   <div className="text-[#4AF626]/50">
-                                    {formatCompletionTime(submission.completionTime)}
+                                    {formatCompletionTime(
+                                      submission.completionTime
+                                    )}
                                   </div>
                                 )}
                               </div>

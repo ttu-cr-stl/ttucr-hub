@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import { useMediaQuery } from "./hooks/useMediaQuery";
+import { AsyncStateWrapper } from "./components/AsyncStateWrapper";
 import { ChallengeCelebration } from "./components/ChallengeCelebration";
 import { ChallengeCompletion } from "./components/ChallengeCompletion";
 import { ChallengeNavigation } from "./components/ChallengeNavigation";
@@ -18,7 +20,7 @@ import { sampleChallenges } from "./data/challenges";
 import { useChallengeProgress } from "./hooks/useChallengeProgress";
 import { useHackathonState } from "./hooks/useHackathonState";
 import { calculateScore } from "./utils/scoring";
-import { AsyncStateWrapper } from './components/AsyncStateWrapper';
+import Link from "next/link";
 
 const DynamicChallenge = dynamic(
   () =>
@@ -30,7 +32,7 @@ const DynamicChallenge = dynamic(
 
 type View = "menu" | "challenge" | "rankings";
 
-export default function Hackathon() {
+function ClientHackathon() {
   const router = useRouter();
   const [currentView, setCurrentView] = useState<View>("menu");
   const [hasSeenIntro, setHasSeenIntro] = useState(false);
@@ -58,6 +60,13 @@ export default function Hackathon() {
 
   const TIME_LIMIT = 45; // 45 minutes
 
+  const [isMobileView, setIsMobileView] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  useEffect(() => {
+    setIsMobileView(isMobile);
+  }, [isMobile]);
+
   useEffect(() => {
     localStorage.setItem("hackathon_state", JSON.stringify(hackathonState));
   }, [hackathonState]);
@@ -72,7 +81,13 @@ export default function Hackathon() {
         totalScore: progress.totalScore,
       });
     }
-  }, [progress.completedChallenges.length, hackathonState.startTime, progress.completedChallenges, progress.totalScore, endHackathon]);
+  }, [
+    progress.completedChallenges.length,
+    hackathonState.startTime,
+    progress.completedChallenges,
+    progress.totalScore,
+    endHackathon,
+  ]);
 
   const handleStartHackathon = async () => {
     setIsLoading(true);
@@ -109,7 +124,7 @@ export default function Hackathon() {
         const currentChallenge = sampleChallenges[selectedIndex];
         const score = calculateScore({
           completionTime: executionTime,
-          difficulty: currentChallenge.difficulty
+          difficulty: currentChallenge.difficulty,
         });
 
         console.log("Calculated score:", score);
@@ -160,8 +175,8 @@ export default function Hackathon() {
   };
 
   return (
-    <div className="relative flex flex-col h-5/6 w-3/4 p-4 rounded-lg border border-[#4AF626] bg-black/90 font-mono text-[#4AF626] shadow-lg shadow-[#4AF626]/20">
-      <div className="flex items-center justify-between border-b border-[#4AF626]/30 pb-2 mb-4">
+    <>
+      <div className="flex items-center justify-between w-full border-b border-[#4AF626]/30 pb-2 mb-4">
         <div className="flex space-x-2">
           <div className="w-3 h-3 rounded-full bg-red-500" />
           <div className="w-3 h-3 rounded-full bg-yellow-500" />
@@ -202,101 +217,119 @@ export default function Hackathon() {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col min-h-0">
-        {currentView === "menu" ? (
-          <HackathonTerminal
-            onStart={handleStartHackathon}
-            onViewRankings={handleViewRankings}
-            hasSeenIntro={hasSeenIntro}
-            onIntroComplete={() => setHasSeenIntro(true)}
-            hasActiveSession={hasActiveSession}
-            onStartNewSession={handleStartNewSession}
-          />
-        ) : (
-          <>
-            {progress.completedChallenges.length === sampleChallenges.length ? (
-              <ChallengeCompletion
-                completedChallenges={progress.completedChallenges}
-                totalScore={progress.totalScore}
-                onRestart={handleStartNewSession}
-                onViewRankings={handleViewRankings}
-              />
-            ) : !hackathonState.startTime && hackathonState.hasStarted ? (
-              <TimeUpCompletion
-                completedChallenges={progress.completedChallenges}
-                totalScore={progress.totalScore}
-                timeElapsed={finalState?.timeElapsed || 0}
-                onRestart={handleStartNewSession}
-                onViewRankings={handleViewRankings}
-                endType={finalState?.endType || "timeout"}
-              />
-            ) : (
-              <>
-                <div className="flex-1 flex flex-col min-h-0">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={selectedIndex}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      style={{
-                        flex: 1,
-                        overflowY: "auto",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <Suspense fallback={<div>Loading...</div>}>
-                        <AsyncStateWrapper
-                          isLoading={isLoading}
-                          type="challenge"
-                        >
-                          <DynamicChallenge
-                            challenge={sampleChallenges[selectedIndex]}
-                            onShowCelebration={setShowCelebration}
-                            onSetLastExecutionTime={setLastExecutionTime}
-                            onMarkChallengeComplete={markChallengeComplete}
-                          />
-                        </AsyncStateWrapper>
-                      </Suspense>
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
+      {isMobileView ? (
+        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+          <span className="text-sm text-[#4AF626]/70">
+            Can&apos;t play on mobile, head to rankings
+          </span>
+          <Link href="/hackathon/rankings">
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-[#4AF626]/30 hover:bg-[#4AF626]/10 hover:text-[#4AF626]"
+            >
+              View Rankings
+            </Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="flex flex-1 flex-col min-h-0">
+          {currentView === "menu" ? (
+            <HackathonTerminal
+              onStart={handleStartHackathon}
+              onViewRankings={handleViewRankings}
+              hasSeenIntro={hasSeenIntro}
+              onIntroComplete={() => setHasSeenIntro(true)}
+              hasActiveSession={hasActiveSession}
+              onStartNewSession={handleStartNewSession}
+            />
+          ) : (
+            <>
+              {progress.completedChallenges.length ===
+              sampleChallenges.length ? (
+                <ChallengeCompletion
+                  completedChallenges={progress.completedChallenges}
+                  totalScore={progress.totalScore}
+                  onRestart={handleStartNewSession}
+                  onViewRankings={handleViewRankings}
+                />
+              ) : !hackathonState.startTime && hackathonState.hasStarted ? (
+                <TimeUpCompletion
+                  completedChallenges={progress.completedChallenges}
+                  totalScore={progress.totalScore}
+                  timeElapsed={finalState?.timeElapsed || 0}
+                  onRestart={handleStartNewSession}
+                  onViewRankings={handleViewRankings}
+                  endType={finalState?.endType || "timeout"}
+                />
+              ) : (
+                <>
+                  <div className="flex-1 flex flex-col min-h-0">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={selectedIndex}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        style={{
+                          flex: 1,
+                          overflowY: "auto",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Suspense fallback={<div>Loading...</div>}>
+                          <AsyncStateWrapper
+                            isLoading={isLoading}
+                            type="challenge"
+                          >
+                            <DynamicChallenge
+                              challenge={sampleChallenges[selectedIndex]}
+                              onShowCelebration={setShowCelebration}
+                              onSetLastExecutionTime={setLastExecutionTime}
+                              onMarkChallengeComplete={markChallengeComplete}
+                            />
+                          </AsyncStateWrapper>
+                        </Suspense>
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
 
-                <div className="border-t border-[#4AF626]/30 pt-4 space-y-4">
-                  <ChallengeStats
-                    progress={progress.completedChallenges.find(
-                      (p) => p.id === sampleChallenges[selectedIndex].id
-                    )}
-                  />
+                  <div className="border-t border-[#4AF626]/30 pt-4 space-y-4">
+                    <ChallengeStats
+                      progress={progress.completedChallenges.find(
+                        (p) => p.id === sampleChallenges[selectedIndex].id
+                      )}
+                    />
 
-                  <ChallengeNavigation
-                    challenges={sampleChallenges}
-                    currentChallengeIndex={selectedIndex}
-                    progress={progress.completedChallenges}
-                    onNavigate={setSelectedIndex}
-                  />
-                </div>
+                    <ChallengeNavigation
+                      challenges={sampleChallenges}
+                      currentChallengeIndex={selectedIndex}
+                      progress={progress.completedChallenges}
+                      onNavigate={setSelectedIndex}
+                    />
+                  </div>
 
-                {showCelebration && hackathonState.startTime && (
-                  <ChallengeCelebration
-                    score={calculateScore({
-                      completionTime: lastExecutionTime,
-                      difficulty: sampleChallenges[selectedIndex].difficulty,
-                    })}
-                    completionTime={lastExecutionTime}
-                    difficulty={sampleChallenges[selectedIndex].difficulty}
-                    onNext={handleNextChallenge}
-                    isLastChallenge={
-                      selectedIndex === sampleChallenges.length - 1
-                    }
-                  />
-                )}
-              </>
-            )}
-          </>
-        )}
-      </div>
+                  {showCelebration && hackathonState.startTime && (
+                    <ChallengeCelebration
+                      score={calculateScore({
+                        completionTime: lastExecutionTime,
+                        difficulty: sampleChallenges[selectedIndex].difficulty,
+                      })}
+                      completionTime={lastExecutionTime}
+                      difficulty={sampleChallenges[selectedIndex].difficulty}
+                      onNext={handleNextChallenge}
+                      isLastChallenge={
+                        selectedIndex === sampleChallenges.length - 1
+                      }
+                    />
+                  )}
+                </>
+              )}
+            </>
+          )}
+        </div>
+      )}
 
       <EndSessionDialog
         isOpen={showEndDialog}
@@ -306,6 +339,18 @@ export default function Hackathon() {
         completedChallenges={progress.completedChallenges.length}
         totalChallenges={sampleChallenges.length}
       />
-    </div>
+    </>
+  );
+}
+
+export default function Hackathon() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center w-full h-full">
+        <span className="text-sm text-[#4AF626]/70">Loading...</span>
+      </div>
+    }>
+      <ClientHackathon />
+    </Suspense>
   );
 }
