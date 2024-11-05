@@ -190,18 +190,14 @@ export const Challenge = ({
               <h3 className="text-yellow-500 font-medium mb-1">
                 AI-Generated Code Detected
               </h3>
-              <p className="text-yellow-500/80 text-sm mb-3">
-                We&apos;ve detected that this solution may be AI-generated.
-                Please note:
+              <p className="text-yellow-500/80 text-sm mb-2">
+                {results?.[0]?.aiDetection?.explanation || 
+                 "We've detected that this solution may be AI-generated."}
               </p>
               <ul className="text-sm text-yellow-500/70 list-disc list-inside space-y-1 mb-3">
-                <li>
-                  Using AI-generated code is not allowed in this challenge
-                </li>
+                <li>Using AI-generated code is not allowed in this challenge</li>
                 <li>Try solving the problem yourself to improve your skills</li>
-                <li>
-                  You can use pseudocode or break down the problem step by step
-                </li>
+                <li>You can use pseudocode or break down the problem step by step</li>
               </ul>
               <div className="flex gap-2">
                 <Button
@@ -263,10 +259,10 @@ export const Challenge = ({
       </div>
 
       {/* Problem Description Section */}
-      <div className="mb-4 p-4 border border-[#4AF626]/30 rounded-md bg-black/30">
+      <div className="mb-4 p-4 border border-[#4AF626]/30 rounded-md bg-black/30 h-[175px] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#4AF626]/30 hover:scrollbar-thumb-[#4AF626]/50">
         <div className="prose prose-sm prose-invert max-w-none">
           <div className="mb-4">
-            <div className="whitespace-pre-wrap text-[#4AF626]/90 text-sm">
+            <div className="whitespace-pre-wrap text-[#4AF626]/90 text-xs">
               {challenge.description}
             </div>
           </div>
@@ -284,7 +280,7 @@ export const Challenge = ({
         </div>
       </div>
 
-      <div className="flex gap-4 flex-1 h-full">
+      <div className="flex gap-4 h-full">
         {/* Left side - Code Editor */}
         <div className="flex-1 flex flex-col min-w-0">
           <span className="text-[#4AF626] text-xs mb-1">Code:</span>

@@ -53,7 +53,7 @@ export function useRealTimeUpdates() {
     };
 
     fetchRankings();
-    const interval = setInterval(fetchRankings, 5000);
+    const interval = setInterval(fetchRankings, 3000); // 3 seconds
     
     return () => {
       abortController.abort();

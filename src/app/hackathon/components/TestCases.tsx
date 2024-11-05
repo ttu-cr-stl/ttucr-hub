@@ -23,32 +23,6 @@ export const TestCasesComponent = ({
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between mb-1">
         <h3 className="text-[#4AF626] text-xs">Test Cases</h3>
-        {results && results[0]?.aiDetection?.isAIGenerated && (
-          <div className="flex items-center gap-2">
-            <Badge
-              variant="destructive"
-              className="bg-yellow-500/20 text-yellow-500 border-yellow-500/50"
-            >
-              <AlertTriangle className="w-3 h-3 mr-1" />
-              AI Generated Code Detected
-            </Badge>
-          </div>
-        )}
-        {results && (
-          <div className="flex items-center gap-2">
-            <Badge
-              variant={
-                results.every((r) => r.passed) ? "default" : "destructive"
-              }
-              className={cn(
-                results.every((r) => r.passed) &&
-                  "bg-[#4AF626] hover:bg-[#4AF626]/90 text-black"
-              )}
-            >
-              {results.filter((r) => r.passed).length}/{results.length} Passed
-            </Badge>
-          </div>
-        )}
       </div>
 
       <div className="flex-1 overflow-y-auto pr-4">
@@ -161,27 +135,6 @@ export const TestCasesComponent = ({
                       <span className="text-[#4AF626]/70">Explanation:</span>
                       <p className="mt-1 text-gray-300 text-xs">
                         {testCase.explanation}
-                      </p>
-                    </div>
-                  )}
-
-                  {results?.[index]?.aiDetection?.isAIGenerated && (
-                    <div className="mt-2 p-2 rounded bg-yellow-500/10 border border-yellow-500/20">
-                      <div className="flex items-center gap-2 text-yellow-500">
-                        <AlertTriangle className="w-4 h-4" />
-                        <span className="font-medium">
-                          AI Generated Code Warning
-                        </span>
-                      </div>
-                      <p className="mt-1 text-xs text-yellow-500/80">
-                        {results[index].aiDetection?.explanation}
-                      </p>
-                      <p className="mt-1 text-xs text-yellow-500/60">
-                        Confidence:{" "}
-                        {(results[index].aiDetection?.confidence * 100).toFixed(
-                          1
-                        )}
-                        %
                       </p>
                     </div>
                   )}

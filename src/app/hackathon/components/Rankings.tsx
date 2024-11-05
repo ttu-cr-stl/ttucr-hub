@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils/cn";
 import confetti from "canvas-confetti";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Award, ChevronRight, Clock } from "react-feather";
 import { sampleChallenges } from "../data/challenges";
 import { useRealTimeUpdates } from "../hooks/useRealTimeUpdates";
@@ -46,14 +46,14 @@ export function Rankings({ className }: RankingsProps) {
 
   const celebratedRef = useRef<Set<string>>(new Set());
 
-  const sortedRankings = rankings
-    .filter((user) => user.HackathonSession?.length > 0)
+  const sortedRankings = (rankings || [])
+    .filter((user) => user?.HackathonSession?.length > 0)
     .sort((a, b) => {
-      // Get the best session for each user
-      const aSession = getBestSession(a.HackathonSession);
-      const bSession = getBestSession(b.HackathonSession);
+      // Safely get the best session for each user
+      const aSession = getBestSession(a.HackathonSession || []);
+      const bSession = getBestSession(b.HackathonSession || []);
 
-      // Get the total score for each session
+      // Get the total score for each session with null checks
       const aScore = aSession?.totalScore ?? 0;
       const bScore = bSession?.totalScore ?? 0;
 
@@ -73,16 +73,16 @@ export function Rankings({ className }: RankingsProps) {
       return aEndTime - bEndTime;
     });
 
-  const getBestSession = (sessions: any[]) => {
+  const getBestSession = useCallback((sessions: any[] = []) => {
     if (!sessions?.length) return null;
 
-    const activeSession = sessions.find((s) => s.isActive);
+    const activeSession = sessions.find((s) => s?.isActive);
 
     // If there is an active session, calculate the total score
     if (activeSession) {
-      activeSession.totalScore = activeSession.submissions.reduce(
+      activeSession.totalScore = (activeSession.submissions || []).reduce(
         (total: number, submission: { completed: boolean; challengeId: string; completionTime: number }) => {
-          if (!submission.completed) return total;
+          if (!submission?.completed) return total;
           
           const challenge = sampleChallenges.find(c => c.id === submission.challengeId);
           if (!challenge) return total;
@@ -108,16 +108,11 @@ export function Rankings({ className }: RankingsProps) {
 
     // If there is no active session, calculate the total score for the best completed session
     return sessions.reduce((best, current) => {
+      if (!current?.submissions) return best;
+
       const currentScore = current.submissions.reduce(
-        (
-          total: number,
-          submission: {
-            completed: boolean;
-            challengeId: string;
-            completionTime: number;
-          }
-        ) => {
-          if (!submission.completed) return total;
+        (total: number, submission: any) => {
+          if (!submission?.completed) return total;
           const challenge = sampleChallenges.find(
             (c) => c.id === submission.challengeId
           );
@@ -138,9 +133,9 @@ export function Rankings({ className }: RankingsProps) {
       }
       return best;
     }, null);
-  };
+  }, []);
 
-  const calculateProgress = (session: any) => {
+  const calculateProgress = useCallback((session: any) => {
     if (!session?.submissions?.length) return 0;
 
     const uniqueCompletedChallenges = new Set(
@@ -150,7 +145,7 @@ export function Rankings({ className }: RankingsProps) {
     );
 
     return (uniqueCompletedChallenges.size / sampleChallenges.length) * 100;
-  };
+  }, []);
 
   useEffect(() => {
     sortedRankings.forEach((user) => {
@@ -162,7 +157,7 @@ export function Rankings({ className }: RankingsProps) {
         triggerConfetti();
       }
     });
-  }, [sortedRankings]);
+  }, [sortedRankings, getBestSession, calculateProgress]);
 
   return (
     <div className={cn("flex flex-col h-full", className)}>

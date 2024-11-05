@@ -160,7 +160,7 @@ export default function Hackathon() {
   };
 
   return (
-    <div className="relative flex flex-col h-4/5 w-3/4 p-4 rounded-lg border border-[#4AF626] bg-black/90 font-mono text-[#4AF626] shadow-lg shadow-[#4AF626]/20">
+    <div className="relative flex flex-col h-5/6 w-3/4 p-4 rounded-lg border border-[#4AF626] bg-black/90 font-mono text-[#4AF626] shadow-lg shadow-[#4AF626]/20">
       <div className="flex items-center justify-between border-b border-[#4AF626]/30 pb-2 mb-4">
         <div className="flex space-x-2">
           <div className="w-3 h-3 rounded-full bg-red-500" />

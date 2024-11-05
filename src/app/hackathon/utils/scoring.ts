@@ -11,7 +11,7 @@ export function calculateScore({ completionTime, difficulty }: ScoreParams): num
   }[difficulty];
 
   // Adjust time penalties based on seconds
-  const timePenalty = Math.floor(completionTime / 60) * 5; // 5 points per minute
+  const timePenalty = Math.floor(completionTime / 60) * 1; // 1 point per minute
   
   return Math.max(baseScore - timePenalty, Math.floor(baseScore * 0.1));
 } 

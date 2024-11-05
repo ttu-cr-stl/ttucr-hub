@@ -32,7 +32,7 @@ export default async function HackathonLayout({ children }: { children: ReactNod
       >
         {children}
 
-        <div className="absolute bottom-5 flex items-center gap-x-2">
+        <div className="absolute bottom-1 flex items-center gap-x-2">
           <span className="text-sm">powered by </span>
           <Image
             src="general/STLblack.png"
