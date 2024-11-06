@@ -11,8 +11,9 @@ const techMono = Share_Tech_Mono({
 
 export default async function HackathonLayout({ children }: { children: ReactNode }) {
   const isHackathonEnabled = process.env.HACKATHON_ENABLE === "TRUE";
+  const hackathonStartDate = new Date(process.env.DATE_HACKATHON_START ?? "");
   
-  if (!isHackathonEnabled) {
+  if (!isHackathonEnabled || hackathonStartDate > new Date()) {
     return (
       <main className={`z-20 fixed inset-0 flex flex-col items-center justify-center bg-black text-[#4AF626] ${techMono.className} tracking-wider`}>
         <h1 className="text-2xl mb-4">Hackathon Coming Soon</h1>
