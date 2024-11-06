@@ -562,6 +562,6 @@ export const sampleChallenges: Challenge[] = [
   sumNumbersChallenge,
   fizzBuzzChallenge,
   twoSumChallenge,
-  longestSubstringChallenge,
   rotateMatrixChallenge,
+  longestSubstringChallenge,
 ];
