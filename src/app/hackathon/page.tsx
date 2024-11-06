@@ -58,7 +58,7 @@ function ClientHackathon() {
     hasActiveSession,
   } = useHackathonState();
 
-  const TIME_LIMIT = 0.15; // 45 minutes
+  const TIME_LIMIT = 45; // 45 minutes
 
   const [isMobileView, setIsMobileView] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
