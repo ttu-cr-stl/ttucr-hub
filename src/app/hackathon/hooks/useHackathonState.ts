@@ -62,7 +62,7 @@ export function useHackathonState() {
     }
   };
 
-  const endHackathon = async (progress: { completedChallenges: ChallengeProgress[]; totalScore: number }) => {
+  const endHackathon = async (progress: { completedChallenges: ChallengeProgress[]; totalScore: number; endType: 'timeout' | 'manual' }) => {
     if (!user?.username) return;
     
     try {
@@ -88,7 +88,7 @@ export function useHackathonState() {
         totalScore: recalculatedScore,
         timeElapsed,
         finishedAt: Date.now(),
-        endType: 'manual',
+        endType: progress.endType,
       };
       
       setFinalState(finalState);
