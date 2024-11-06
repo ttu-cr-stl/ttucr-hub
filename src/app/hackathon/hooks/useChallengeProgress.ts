@@ -3,96 +3,112 @@
 import { useEffect, useState } from "react";
 import { Challenge, UserProgress } from "../types";
 import { calculateScore } from "../utils/scoring";
-
-const STORAGE_KEY = "hackathon_progress";
+import { getUserHackathonProgress, updateHackathonSubmission } from "@/db/hackathon";
+import { useAuthUser } from "@/lib/providers/authProvider";
 
 export function useChallengeProgress(challenges: Challenge[]) {
-  const [progress, setProgress] = useState<UserProgress>(() => {
-    if (typeof window === "undefined")
-      return {
-        currentChallengeId: challenges[0].id,
-        completedChallenges: [],
-        totalScore: 0,
-      };
+  const { user } = useAuthUser();
+  const [progress, setProgress] = useState<UserProgress>(() => ({
+    currentChallengeId: challenges[0].id,
+    completedChallenges: [],
+    totalScore: 0,
+  }));
 
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      return JSON.parse(stored);
-    }
-
-    return {
-      currentChallengeId: challenges[0].id,
-      completedChallenges: [],
-      totalScore: 0,
-    };
-  });
-
+  // Load progress from database on mount
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-  }, [progress]);
+    if (user?.username) {
+      getUserHackathonProgress(user.username).then(({ submissions }) => {
+        const completedChallenges = submissions.map(submission => ({
+          id: submission.challengeId,
+          completed: submission.completed,
+          attempts: 1, // This could be tracked in the database if needed
+          bestTime: submission.completionTime,
+          lastAttempt: submission.updatedAt,
+          score: submission.score
+        }));
 
-  const resetProgress = () => {
-    const initialProgress = {
-      currentChallengeId: challenges[0].id,
-      completedChallenges: [],
-      totalScore: 0,
-    };
-    setProgress(initialProgress);
-    localStorage.removeItem(STORAGE_KEY);
-  };
+        const totalScore = submissions.reduce((sum, s) => sum + s.score, 0);
+        const lastCompletedIndex = challenges.findIndex(
+          c => c.id === submissions[submissions.length - 1]?.challengeId
+        );
+        const nextChallengeId = challenges[lastCompletedIndex + 1]?.id || challenges[0].id;
 
-  const markChallengeComplete = (
-    challengeId: string,
-    completionTime: number
-  ) => {
-    setProgress((prev) => {
+        setProgress({
+          currentChallengeId: nextChallengeId,
+          completedChallenges,
+          totalScore
+        });
+      });
+    }
+  }, [user?.username, challenges]);
+
+  const markChallengeComplete = async (challengeId: string, completionTime: number) => {
+    if (!user?.username) return;
+
+    try {
       const challenge = challenges.find(c => c.id === challengeId);
-      if (!challenge) return prev;
+      if (!challenge) return;
 
       const score = calculateScore({
         completionTime,
         difficulty: challenge.difficulty
       });
 
-      const existingProgress = prev.completedChallenges.find(
-        (p) => p.id === challengeId
+      await updateHackathonSubmission(
+        user.username,
+        challengeId,
+        score,
+        completionTime,
+        true
       );
-      
-      const newCompletedChallenges = existingProgress
-        ? prev.completedChallenges.map((p) =>
-            p.id === challengeId
-              ? {
-                  id: challengeId,
-                  completed: true,
-                  attempts: p.attempts + 1,
-                  bestTime: p.bestTime ? Math.min(completionTime, p.bestTime) : completionTime,
-                  lastAttempt: new Date(),
-                  score: score
-                }
-              : p
-          )
-        : [
-            ...prev.completedChallenges,
-            {
-              id: challengeId,
-              completed: true,
-              attempts: 1,
-              bestTime: completionTime,
-              lastAttempt: new Date(),
-              score: score
-            },
-          ];
 
-      // Find next uncompleted challenge
-      const currentIndex = challenges.findIndex((c) => c.id === challengeId);
-      const nextChallenge = challenges[currentIndex + 1];
+      setProgress(prev => {
+        const existingProgress = prev.completedChallenges.find(p => p.id === challengeId);
+        const newCompletedChallenges = existingProgress
+          ? prev.completedChallenges.map(p =>
+              p.id === challengeId
+                ? {
+                    ...p,
+                    completed: true,
+                    attempts: p.attempts + 1,
+                    bestTime: Math.min(completionTime, p.bestTime || Infinity),
+                    lastAttempt: new Date(),
+                    score
+                  }
+                : p
+            )
+          : [
+              ...prev.completedChallenges,
+              {
+                id: challengeId,
+                completed: true,
+                attempts: 1,
+                bestTime: completionTime,
+                lastAttempt: new Date(),
+                score
+              }
+            ];
 
-      return {
-        ...prev,
-        completedChallenges: newCompletedChallenges,
-        currentChallengeId: nextChallenge?.id || challengeId,
-        totalScore: newCompletedChallenges.reduce((sum, c) => sum + c.score, 0)
-      };
+        const currentIndex = challenges.findIndex(c => c.id === challengeId);
+        const nextChallenge = challenges[currentIndex + 1];
+
+        return {
+          ...prev,
+          completedChallenges: newCompletedChallenges,
+          currentChallengeId: nextChallenge?.id || challengeId,
+          totalScore: newCompletedChallenges.reduce((sum, c) => sum + c.score, 0)
+        };
+      });
+    } catch (error) {
+      console.error("Error updating challenge progress:", error);
+    }
+  };
+
+  const resetProgress = () => {
+    setProgress({
+      currentChallengeId: challenges[0].id,
+      completedChallenges: [],
+      totalScore: 0
     });
   };
 
@@ -100,8 +116,8 @@ export function useChallengeProgress(challenges: Challenge[]) {
     progress,
     markChallengeComplete,
     currentChallengeIndex: challenges.findIndex(
-      (c) => c.id === progress.currentChallengeId
+      c => c.id === progress.currentChallengeId
     ),
-    resetProgress,
+    resetProgress
   };
 }

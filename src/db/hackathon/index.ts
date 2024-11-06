@@ -13,7 +13,7 @@ export async function createHackathonSession(username: string) {
     console.log("Creating hackathon session for user:", username);
 
     const user = await prisma.user.findUnique({
-      where: { username },
+      where: { username },    
     });
 
     if (!user) {

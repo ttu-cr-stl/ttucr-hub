@@ -3,9 +3,9 @@
 import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { useMediaQuery } from "./hooks/useMediaQuery";
 import { AsyncStateWrapper } from "./components/AsyncStateWrapper";
 import { ChallengeCelebration } from "./components/ChallengeCelebration";
 import { ChallengeCompletion } from "./components/ChallengeCompletion";
@@ -19,8 +19,8 @@ import { TimeUpCompletion } from "./components/TimeUpCompletion";
 import { sampleChallenges } from "./data/challenges";
 import { useChallengeProgress } from "./hooks/useChallengeProgress";
 import { useHackathonState } from "./hooks/useHackathonState";
+import { useMediaQuery } from "./hooks/useMediaQuery";
 import { calculateScore } from "./utils/scoring";
-import Link from "next/link";
 
 const DynamicChallenge = dynamic(
   () =>
@@ -345,11 +345,13 @@ function ClientHackathon() {
 
 export default function Hackathon() {
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center w-full h-full">
-        <span className="text-sm text-[#4AF626]/70">Loading...</span>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center w-full h-full">
+          <span className="text-sm text-[#4AF626]/70">Loading...</span>
+        </div>
+      }
+    >
       <ClientHackathon />
     </Suspense>
   );

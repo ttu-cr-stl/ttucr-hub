@@ -22,32 +22,15 @@ interface HackathonFinalState {
   endType: 'timeout' | 'manual';
 }
 
-interface UseHackathonStateReturn {
-  hackathonState: HackathonState;
-  finalState: HackathonFinalState | null;
-  startHackathon: () => void;
-  endHackathon: (progress: { completedChallenges: ChallengeProgress[]; totalScore: number }) => void;
-  resetHackathon: () => void;
-  hasActiveSession: boolean;
-}
-
-const STORAGE_KEYS = {
-  CURRENT: 'hackathon_state',
-  FINAL: 'hackathon_final_state'
-} as const;
-
-const TIME_LIMIT = 30 * 60 * 1000; // 30 minutes in milliseconds
-
-export function useHackathonState(): UseHackathonStateReturn {
+export function useHackathonState() {
   const { user } = useAuthUser();
-
   const [hackathonState, setHackathonState] = useState<HackathonState>(() => ({
     startTime: null,
     hasStarted: false
   }));
-
   const [finalState, setFinalState] = useState<HackathonFinalState | null>(null);
 
+  // Check for active session on mount and auth changes
   useEffect(() => {
     if (user?.username) {
       getActiveSession(user.username).then(session => {
@@ -83,6 +66,7 @@ export function useHackathonState(): UseHackathonStateReturn {
     if (!user?.username) return;
     
     try {
+      // Recalculate score from submissions to ensure consistency
       const recalculatedScore = progress.completedChallenges.reduce((total, challenge) => {
         const challengeDetails = sampleChallenges.find(c => c.id === challenge.id);
         if (!challengeDetails || !challenge.bestTime) return total;
@@ -117,9 +101,6 @@ export function useHackathonState(): UseHackathonStateReturn {
   };
 
   const resetHackathon = () => {
-    localStorage.removeItem(STORAGE_KEYS.CURRENT);
-    localStorage.removeItem(STORAGE_KEYS.FINAL);
-    
     setHackathonState({ startTime: null, hasStarted: false });
     setFinalState(null);
   };
