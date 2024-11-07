@@ -46,33 +46,6 @@ export function Rankings({ className }: RankingsProps) {
 
   const celebratedRef = useRef<Set<string>>(new Set());
 
-  const sortedRankings = (rankings || [])
-    .filter((user) => user?.HackathonSession?.length > 0)
-    .sort((a, b) => {
-      // Safely get the best session for each user
-      const aSession = getBestSession(a.HackathonSession || []);
-      const bSession = getBestSession(b.HackathonSession || []);
-
-      // Get the total score for each session with null checks
-      const aScore = aSession?.totalScore ?? 0;
-      const bScore = bSession?.totalScore ?? 0;
-
-      // Sort by total score
-      if (bScore !== aScore) {
-        return bScore - aScore;
-      }
-
-      // If the total score is the same, sort by completion time
-      const aEndTime = aSession?.endTime
-        ? new Date(aSession.endTime).getTime()
-        : Infinity;
-      const bEndTime = bSession?.endTime
-        ? new Date(bSession.endTime).getTime()
-        : Infinity;
-
-      return aEndTime - bEndTime;
-    });
-
   const getBestSession = useCallback((sessions: any[] = []) => {
     if (!sessions?.length) return null;
 
@@ -143,6 +116,36 @@ export function Rankings({ className }: RankingsProps) {
       return best;
     }, null);
   }, []);
+
+  const sortedRankings = (rankings || []).filter(
+    (user) => user?.HackathonSession?.length > 0
+  )
+  .sort((a, b) => {
+    // Safely get the best session for each user
+    const aSession = getBestSession(a.HackathonSession || []);
+    const bSession = getBestSession(b.HackathonSession || []);
+
+    // Get the total score for each session with null checks
+    const aScore = aSession?.totalScore ?? 0;
+    const bScore = bSession?.totalScore ?? 0;
+
+    return bScore - aScore;
+
+    // Sort by total score
+    if (bScore !== aScore) {
+  
+    }
+
+    // If the total score is the same, sort by completion time
+    const aEndTime = aSession?.endTime
+      ? new Date(aSession.endTime).getTime()
+      : Infinity;
+    const bEndTime = bSession?.endTime
+      ? new Date(bSession.endTime).getTime()
+      : Infinity;
+
+    return aEndTime - bEndTime;
+  });
 
   const calculateProgress = useCallback((session: any) => {
     if (!session?.submissions?.length) return 0;
