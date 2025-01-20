@@ -27,11 +27,17 @@ export async function getUserByUsername(
     },
   });
 
+  console.log("Raw isNewUser value:", user?.isNewUser);
+  console.log("Type of isNewUser:", typeof user?.isNewUser);
+
   if (user) {
-    return {
+    const extendedUser: ExtendedUser = {
       ...user,
       events: user.EventAttendance.map((ea) => ea.Event),
+      isNewUser: user.isNewUser,
     };
+    console.log("Final isNewUser value:", extendedUser.isNewUser);
+    return extendedUser;
   }
 
   return null;
@@ -54,6 +60,7 @@ export async function createUser(username: string) {
       lastName: "",
       major: "",
       username,
+      isNewUser: true,
     },
   });
 
@@ -67,7 +74,11 @@ export async function internalUpdateUserByUsername(
   console.log("updating user by username");
   const user = await prisma.user.update({
     where: { username },
-    data,
+    data: {
+      ...data,
+      // Only set isNewUser if it's explicitly included in the update data
+      ...(data.isNewUser !== undefined ? { isNewUser: data.isNewUser } : {}),
+    },
     include: {
       orgs: true,
       EventAttendance: {
@@ -81,6 +92,7 @@ export async function internalUpdateUserByUsername(
   const updatedUser: ExtendedUser = {
     ...user,
     events: user.EventAttendance.map((ea) => ea.Event),
+    isNewUser: user.isNewUser,
   };
 
   revalidatePath(NavPath.LEADERBOARD);

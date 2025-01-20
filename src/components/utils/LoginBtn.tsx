@@ -1,51 +1,57 @@
-"use client";
-import { createUser } from "@/db/users";
-import { NavPath } from "@/lib/types";
+import { createUser, getUserByUsername } from "@/db/users";
+import { useLogin } from "@privy-io/react-auth";
+import { useRouter } from "next/navigation";
 import { extractUsername, isTTUEmail } from "@/lib/utils";
-import { useLogin, usePrivy } from "@privy-io/react-auth";
-import { useRouter } from "next-nprogress-bar";
 import { FC, useState } from "react";
 import { Button } from "../ui/button";
 import { Spinner } from "./Spinner";
+import { NavPath } from "@/lib/types"; // Ensure NavPath is imported
 
-interface LoginBtnProps {}
-
-const LoginBtn: FC<LoginBtnProps> = ({}) => {
-  const { ready, authenticated } = usePrivy();
-  const [loading, setLoading] = useState(false);
+const LoginBtn: FC = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const { login } = useLogin({
-    onComplete: async (user, isNewUser) => {
+    onComplete: async (user) => {
       setLoading(true);
+      console.log("Login completed, checking email...");
 
-      if (isNewUser && isTTUEmail(user.email?.address!)) {
-        try {
-          // Create user in DB
-          await createUser(extractUsername(user.email?.address!));
+      if (isTTUEmail(user.email?.address!)) {
+        const username = extractUsername(user.email?.address!);
+        console.log("TTU email detected, username:", username);
+        
+        const existingUser = await getUserByUsername(username);
+        console.log("Existing user data:", existingUser);
+
+        if (existingUser) {
+          console.log("User exists, isNewUser status:", existingUser.isNewUser);
+          if (existingUser.isNewUser) {
+            console.log("Redirecting to onboarding...");
+            router.push(NavPath.ONBOARDING);
+          } else {
+            console.log("Redirecting to home...");
+            router.push(NavPath.HOME);
+          }
+        } else {
+          console.log("Creating new user...");
+          await createUser(username);
+          console.log("Redirecting to onboarding...");
           router.push(NavPath.ONBOARDING);
-        } catch (error) {
-          setLoading(false);
-          console.log(error);
-          throw new Error("Failed to create user");
         }
       } else {
+        console.log("Non-TTU email, redirecting to home...");
         router.push(NavPath.HOME);
       }
     },
-
     onError: (error) => {
-      console.log(error);
+      console.error("Login error:", error);
+      setLoading(false);
     },
   });
 
   return (
-    <Button
-      className="w-60 bg-gray-900"
-      disabled={!ready || authenticated}
-      onClick={login}
-    >
-      {ready && !loading ? "Login" : <Spinner />}
+    <Button className="w-60 bg-gray-900" disabled={loading} onClick={login}>
+      {loading ? <Spinner /> : "Login"}
     </Button>
   );
 };

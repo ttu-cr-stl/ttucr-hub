@@ -13,4 +13,5 @@ export type UserWithOrgsAndEvents = Prisma.UserGetPayload<{
 
 export type ExtendedUser = UserWithOrgsAndEvents & {
   events: Event[];
+  isNewUser: boolean;
 };

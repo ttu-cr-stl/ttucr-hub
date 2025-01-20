@@ -120,7 +120,12 @@ export const CarousselForm: FC = () => {
             );
             imgPath = `${imgPath}?t=${new Date().getTime()}`;
           }
-          updateUser({ ...values, profilePic: imgPath })
+          // Update user with form values and set isNewUser to false
+          updateUser({ 
+            ...values, 
+            profilePic: imgPath,
+            isNewUser: false  // Add this line to explicitly set isNewUser to false
+          })
             .then(() => {
               router.push(NavPath.HOME);
             })
