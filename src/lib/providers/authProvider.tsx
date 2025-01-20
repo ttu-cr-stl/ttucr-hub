@@ -1,5 +1,5 @@
 import { getUserByUsername, internalUpdateUserByUsername } from "@/db/users";
-import { Event, Org, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { PrivyProvider, usePrivy } from "@privy-io/react-auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { extractUsername } from "../utils";
@@ -18,9 +18,7 @@ export const useAuthUser = () => {
 };
 
 const AuthUserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<
-    ExtendedUser | null
-  >(null);
+  const [user, setUser] = useState<ExtendedUser | null>(null);
   const { user: privyUser } = usePrivy();
 
   useEffect(() => {

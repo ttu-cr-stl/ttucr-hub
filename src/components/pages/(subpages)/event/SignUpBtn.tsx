@@ -1,9 +1,7 @@
 "use client";
 import { toggleUserToEvent } from "@/db/events";
-import { createUser } from "@/db/users";
 import { useAuthUser } from "@/lib/providers/authProvider";
-import { NavPath } from "@/lib/types";
-import { extractUsername, isTTUEmail } from "@/lib/utils";
+import { handleLoginComplete } from "@/lib/utils/auth";
 import { cn } from "@/lib/utils/cn";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
 import confetti from "canvas-confetti";
@@ -35,21 +33,12 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
   const [isUpdating, setIsUpdating] = useState(false);
 
   const { login } = useLogin({
-    onComplete: async (user, isNewUser) => {
-      if (isNewUser && isTTUEmail(user.email?.address!)) {
-        try {
-          // Create user in DB
-          await createUser(extractUsername(user.email?.address!));
-          router.push(NavPath.ONBOARDING);
-        } catch (error) {
-          console.log(error);
-          throw new Error("Failed to create user");
-        }
-      }
+    onComplete: async (user) => {
+      await handleLoginComplete(user, router, () => setIsUpdating(false));
     },
-
     onError: (error) => {
-      console.log(error);
+      console.error("Login error:", error);
+      setIsUpdating(false);
     },
   });
 
@@ -59,12 +48,15 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
   }, [user, signedUpIds, isSignedUp]);
 
   useEffect(() => {
-    if (datePassed && attendedIds.includes(user?.username || '')) {
+    if (datePassed && attendedIds.includes(user?.username || "")) {
       const button = document.getElementById("attendanceButton");
       if (button) {
         const rect = button.getBoundingClientRect();
-        const x = rect.left / window.innerWidth + rect.width / (2 * window.innerWidth);
-        const y = rect.top / window.innerHeight + rect.height / (2 * window.innerHeight);
+        const x =
+          rect.left / window.innerWidth + rect.width / (2 * window.innerWidth);
+        const y =
+          rect.top / window.innerHeight +
+          rect.height / (2 * window.innerHeight);
 
         confetti({
           particleCount: 100,
@@ -88,7 +80,7 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
     );
 
   if (datePassed) {
-    const attended = attendedIds.includes(user?.username || '');
+    const attended = attendedIds.includes(user?.username || "");
 
     return (
       <button
@@ -99,23 +91,22 @@ const SignUpBtn: FC<SignUpBtnProps> = ({
           attended ? "bg-green-500" : "bg-red-500"
         )}
       >
-        <span className="text-sm">
-          {attended ? "Attended!" : "Missed it!"}
-        </span>
+        <span className="text-sm">{attended ? "Attended!" : "Missed it!"}</span>
       </button>
     );
   }
 
   // New check for user limit and closed status
-  if (!datePassed && (closed || (userLimit !== null && signedUpIds.length >= userLimit))) {
+  if (
+    !datePassed &&
+    (closed || (userLimit !== null && signedUpIds.length >= userLimit))
+  ) {
     return (
       <button
         disabled={true}
         className="flex items-center justify-center w-[100px] h-8 gap-x-1 rounded-full text-white cursor-not-allowed bg-gray-500"
       >
-        <span className="text-sm">
-          {closed ? "Closed" : "Full"}
-        </span>
+        <span className="text-sm">{closed ? "Closed" : "Full"}</span>
       </button>
     );
   }

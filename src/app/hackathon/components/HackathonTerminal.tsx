@@ -1,16 +1,11 @@
 "use client";
 
-import { useAuthUser } from "@/lib/providers/authProvider";
-import { NavPath } from "@/lib/types";
+import { handleLoginComplete } from "@/lib/utils/auth";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { useEffect, useState, useMemo } from "react";
-import { TerminalText } from "../utils/terminalText";
-import { extractUsername } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { isTTUEmail } from "@/lib/utils";
-import { createUser } from "@/db/users";
+import { useEffect, useMemo, useState } from "react";
+import { TerminalText } from "../utils/terminalText";
 
 interface HackathonTerminalProps {
   onStart: () => void;
@@ -21,63 +16,57 @@ interface HackathonTerminalProps {
   onStartNewSession?: () => void;
 }
 
-export function HackathonTerminal({ 
-  onStart, 
-  onViewRankings, 
-  hasSeenIntro, 
-  onIntroComplete, 
-  hasActiveSession = false, 
-  onStartNewSession 
+export function HackathonTerminal({
+  onStart,
+  onViewRankings,
+  hasSeenIntro,
+  onIntroComplete,
+  hasActiveSession = false,
+  onStartNewSession,
 }: HackathonTerminalProps) {
   const [showOptions, setShowOptions] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null); 
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const { ready, authenticated } = usePrivy();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const { login } = useLogin({
-    onComplete: async (user, isNewUser) => {
+    onComplete: async (user) => {
       setLoading(true);
-
-      if (isNewUser && isTTUEmail(user.email?.address!)) {
-        try {
-          // Create user in DB
-          await createUser(extractUsername(user.email?.address!));
-          router.push(NavPath.ONBOARDING);
-        } catch (error) {
-          setLoading(false);
-          console.log(error);
-          throw new Error("Failed to create user");
-        }
-      } else {
-        router.push('/hackathon');
-      }
+      await handleLoginComplete(user, router, () => setLoading(false));
     },
-
     onError: (error) => {
-      console.log(error);
+      console.error("Login error:", error);
+      setLoading(false);
     },
   });
 
-  const menuOptions = useMemo(() => [
-    {
-      id: "1",
-      label: hasActiveSession 
-        ? "Resume Challenge (In Progress)" 
-        : "Start Challenge (45 min time limit)",
-      action: onStart,
-    },
-    {
-      id: "2",
-      label: "View Rankings",
-      action: onViewRankings,
-    },
-    ...(hasActiveSession ? [{
-      id: "3",
-      label: "Start New Session",
-      action: onStartNewSession || (() => {}),
-    }] : []),
-  ], [hasActiveSession, onStart, onViewRankings, onStartNewSession]);
+  const menuOptions = useMemo(
+    () => [
+      {
+        id: "1",
+        label: hasActiveSession
+          ? "Resume Challenge (In Progress)"
+          : "Start Challenge (45 min time limit)",
+        action: onStart,
+      },
+      {
+        id: "2",
+        label: "View Rankings",
+        action: onViewRankings,
+      },
+      ...(hasActiveSession
+        ? [
+            {
+              id: "3",
+              label: "Start New Session",
+              action: onStartNewSession || (() => {}),
+            },
+          ]
+        : []),
+    ],
+    [hasActiveSession, onStart, onViewRankings, onStartNewSession]
+  );
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -107,33 +96,33 @@ export function HackathonTerminal({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           style={{
-            color: 'rgba(74, 246, 38, 0.8)',
-            fontSize: '1.25rem'
+            color: "rgba(74, 246, 38, 0.8)",
+            fontSize: "1.25rem",
           }}
         >
           ACCESS DENIED
         </motion.div>
-        
+
         <div className="space-y-2">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
             style={{
-              color: 'rgba(74, 246, 38, 0.6)',
-              fontSize: '0.875rem'
+              color: "rgba(74, 246, 38, 0.6)",
+              fontSize: "0.875rem",
             }}
           >
             Authentication required to access terminal
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
             style={{
-              color: 'rgba(74, 246, 38, 0.4)',
-              fontSize: '0.75rem'
+              color: "rgba(74, 246, 38, 0.4)",
+              fontSize: "0.75rem",
             }}
           >
             Please authenticate to continue...
@@ -145,8 +134,8 @@ export function HackathonTerminal({
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.6 }}
           style={{
-            display: 'flex',
-            justifyContent: 'center'
+            display: "flex",
+            justifyContent: "center",
           }}
         >
           <div
