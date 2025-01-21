@@ -64,6 +64,7 @@ export async function createUser(username: string) {
     },
   });
 
+  console.log("created user", user);
   return user;
 }
 
@@ -71,7 +72,7 @@ export async function internalUpdateUserByUsername(
   username: string,
   data: Partial<User>
 ): Promise<ExtendedUser> {
-  console.log("updating user by username");
+  console.log("updating user by username", username, data);
   const user = await prisma.user.update({
     where: { username },
     data: {
@@ -88,6 +89,8 @@ export async function internalUpdateUserByUsername(
       },
     },
   });
+
+  console.log("updated user", user);
 
   const updatedUser: ExtendedUser = {
     ...user,
