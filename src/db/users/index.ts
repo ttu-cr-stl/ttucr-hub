@@ -64,6 +64,7 @@ export async function createUser(username: string) {
     },
   });
 
+  console.log("created user", user);
   return user;
 }
 
@@ -88,6 +89,8 @@ export async function internalUpdateUserByUsername(
       },
     },
   });
+
+  console.log("updated user", user);
 
   const updatedUser: ExtendedUser = {
     ...user,
