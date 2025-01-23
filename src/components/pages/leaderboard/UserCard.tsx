@@ -23,7 +23,7 @@ function UserCard({ user }: UserCardProps) {
   };
 
   return (
-    <Link href={`/user/${user.username}`}>
+    <Link href={`/user/${user.username}`} prefetch={false}>
       <div
         className={`flex items-center w-full px-2 py-1.5 border-2 rounded-2xl bg-white`}
         style={{
