@@ -10,6 +10,13 @@ const nextConfig = {
   images: {
     loader: "custom",
     loaderFile: "./src/lib/utils/imageLoader.ts",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "yyccawyordfhdjblwusu.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
   },
   env: {
     PISTON_API_URL: process.env.PISTON_API_URL,
@@ -21,7 +28,7 @@ const nextConfig = {
         ...config.resolve.fallback,
         fs: false,
         path: false,
-        "crypto": false,
+        crypto: false,
       };
     }
 
