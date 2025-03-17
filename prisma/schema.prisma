@@ -42,6 +42,8 @@ model Event {
   closed          Boolean           @default(false)
   endTime         DateTime?
   userLimit       Int?
+  publishedAt     DateTime?
+  status          EventStatus       @default(DRAFT)
   EventAttendance EventAttendance[]
 }
 
@@ -100,4 +102,9 @@ model HackathonSession {
 
   @@index([username, isActive])
   @@index([username])
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
 }
