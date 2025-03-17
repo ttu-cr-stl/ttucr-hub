@@ -4,6 +4,7 @@ import { getOrgById } from "@/db/orgs";
 import { formatInTimeZone } from "date-fns-tz";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export const revalidate = 0;
 
@@ -12,16 +13,16 @@ interface Officer {
   position: string;
 }
 
-const Org = async (props: { params: Promise<{ id: string }> }) => {
-  const params = await props.params;
+type Props = {
+  params: { id: string };
+};
+
+export default async function Org({ params }: Props) {
   const org = await getOrgById(params.id);
 
-  if (!org)
-    return (
-      <div className="text-red-500 font-bold text-xl p-5">
-        Organization not found
-      </div>
-    );
+  if (!org) {
+    notFound();
+  }
 
   return (
     <div className="w-full overflow-x-visible">
@@ -90,6 +91,4 @@ const Org = async (props: { params: Promise<{ id: string }> }) => {
       </div>
     </div>
   );
-};
-
-export default Org;
+}

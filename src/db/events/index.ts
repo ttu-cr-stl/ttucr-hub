@@ -1,40 +1,51 @@
 "use server";
 import prisma from "@/db/prisma";
 import { revalidatePath } from "next/cache";
-export async function getAllEvents(filter: "future" | "past" | "all" = "future") {
+export async function getAllEvents(
+  filter: "future" | "past" | "all" = "future"
+) {
   const today = new Date();
 
   let events = await prisma.event.findMany({
     where: {
-      startTime: 
-        filter === "future" ? { gte: today } :
-        filter === "past" ? { lt: today } :
-        undefined
+      startTime:
+        filter === "future"
+          ? { gte: today }
+          : filter === "past"
+            ? { lt: today }
+            : undefined,
+      status: "PUBLISHED",
+      publishedAt: { not: null },
     },
     include: {
       EventAttendance: {
         include: {
           User: {
-            select: { profilePic: true }
-          }
-        }
-      }
-    }
+            select: { profilePic: true },
+          },
+        },
+      },
+    },
+    orderBy: [{ startTime: "asc" }],
   });
 
   if (filter === "past") {
-    events = events.filter(event => event.endTime && event.endTime < today);
+    events = events.filter((event) => event.endTime && event.endTime < today);
   }
 
-  return events.map(event => ({
+  return events.map((event) => ({
     ...event,
-    users: event.EventAttendance.map(ea => ea.User)
+    users: event.EventAttendance.map((ea) => ea.User),
   }));
 }
 
 export async function getEventById(id: string) {
   const event = await prisma.event.findUnique({
-    where: { id },
+    where: {
+      id,
+      status: "PUBLISHED",
+      publishedAt: { not: null },
+    },
   });
 
   return event;
@@ -42,7 +53,11 @@ export async function getEventById(id: string) {
 
 export async function getEventByIdWithUserPics(id: string) {
   const event = await prisma.event.findUnique({
-    where: { id },
+    where: {
+      id,
+      status: "PUBLISHED",
+      publishedAt: { not: null },
+    },
     include: {
       EventAttendance: {
         include: {
@@ -50,11 +65,11 @@ export async function getEventByIdWithUserPics(id: string) {
             select: {
               username: true,
               profilePic: true,
-            }
-          }
-        }
-      }
-    }
+            },
+          },
+        },
+      },
+    },
   });
 
   return event;
@@ -62,24 +77,32 @@ export async function getEventByIdWithUserPics(id: string) {
 
 export async function getEventUsers(id: string) {
   const event = await prisma.event.findUnique({
-    where: { id },
+    where: {
+      id,
+      status: "PUBLISHED",
+      publishedAt: { not: null },
+    },
     include: {
       EventAttendance: {
         include: {
           User: {
             include: {
-              orgs: true
-            }
-          }
-        }
-      }
-    }
+              orgs: true,
+            },
+          },
+        },
+      },
+    },
   });
 
-  return event?.EventAttendance.map(ea => ea.User) || [];
+  return event?.EventAttendance.map((ea) => ea.User) || [];
 }
 
-export async function toggleUserToEvent(eventId: string, username: string, alreadySignedUp: boolean) {
+export async function toggleUserToEvent(
+  eventId: string,
+  username: string,
+  alreadySignedUp: boolean
+) {
   console.log("toggleUserToEvent", eventId, username, alreadySignedUp);
 
   if (!alreadySignedUp) {
@@ -88,13 +111,13 @@ export async function toggleUserToEvent(eventId: string, username: string, alrea
         id: `${username}-${eventId}`,
         username,
         eventId,
-      }
+      },
     });
   } else {
     await prisma.eventAttendance.delete({
       where: {
         id: `${username}-${eventId}`,
-      }
+      },
     });
   }
 
