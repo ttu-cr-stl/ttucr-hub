@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";
 import { Event, User } from "@prisma/client";
+import { differenceInDays } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +16,17 @@ type EventCardProps = {
   small: boolean;
 };
 
+// Helper function to format duration
+const formatDuration = (startTime: Date, endTime?: Date | null) => {
+  if (!endTime) return null;
+  const days = differenceInDays(endTime, startTime);
+  if (days === 0) return null;
+  return `${days + 1} days`;
+};
+
 export const EventCard: React.FC<EventCardProps> = ({ event, small }) => {
+  const duration = formatDuration(event.startTime, event.endTime);
+
   if (small) {
     return (
       <Link href={`/event/${event.id}`}>
@@ -32,7 +43,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, small }) => {
             <div className="rounded-2xl shadow-md bg-gray-200 w-24 h-24"></div>
           )}
           <div className="relative flex flex-col w-[calc(100%-96px)] justify-evenly px-2 py-2">
-            <div className="absolute top-0 right-2 flex items-center pr-1 pt-1">
+            <div className="absolute top-0 right-2 flex items-center gap-x-1 pr-1 pt-1">
               <span className="text-[10px] font-bold text-gray-500">
                 {formatInTimeZone(
                   event.startTime,
@@ -40,6 +51,11 @@ export const EventCard: React.FC<EventCardProps> = ({ event, small }) => {
                   "dd MMM yy"
                 )}
               </span>
+              {duration && (
+                <Badge variant="outline" className="text-[8px] py-0 h-4">
+                  {duration}
+                </Badge>
+              )}
             </div>
 
             <span className="text-xl font-bold leading-tight line-clamp-1 mt-2">
@@ -83,7 +99,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, small }) => {
 
   return (
     <Link href={`/event/${event.id}`}>
-      <div className="flex flex-col gap-y-1 w-full min-h-[315px] aspect-[340/315] rounded-2xl shadow-sm shadow-gray-300 bg-white ">
+      <div className="flex flex-col gap-y-1 w-full min-h-[315px] aspect-[340/315] rounded-2xl shadow-sm shadow-gray-300 bg-white hover:shadow-md transition-shadow">
         <div className="relative flex items-end justify-between w-full min-h-[208px] aspect-[340/208] p-3 rounded-2xl shadow-md bg-gray-200 shadow-gray-400 overflow-clip">
           {event.coverImg ? (
             <Image
@@ -103,7 +119,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, small }) => {
               numPeople={event.users.length}
               avatarUrls={event.users
                 .slice(0, 3)
-                .map((user) => user.profilePic || "")}
+                .map((user) => user.profilePic || null)}
             />
           ) : (
             <div />
@@ -125,6 +141,11 @@ export const EventCard: React.FC<EventCardProps> = ({ event, small }) => {
                 }}
               >
                 <span className="whitespace-nowrap">{event.category}</span>
+              </Badge>
+            )}
+            {duration && (
+              <Badge variant="outline" className="text-[10px]">
+                {duration}
               </Badge>
             )}
           </div>

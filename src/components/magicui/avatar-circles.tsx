@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "@/lib/utils/cn";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils/cn";
 
 interface AvatarCirclesProps {
   className?: string;
@@ -10,25 +10,48 @@ interface AvatarCirclesProps {
 }
 
 const AvatarCircles = ({
-  numPeople,
   className,
+  numPeople,
   avatarUrls,
 }: AvatarCirclesProps) => {
-  const displayNum = (numPeople || 0) - avatarUrls.length;
+  // Filter out empty URLs and use initials for empty ones
+  const validUrls = avatarUrls
+    .filter((url) => url?.trim())
+    .slice(0, 3)
+    .map((url, index) => ({
+      url,
+      initial: String(index + 1),
+    }));
+
+  const displayNum = Math.max(0, (numPeople || 0) - validUrls.length);
 
   return (
-    <div className={cn("z-10 flex -space-x-4 rtl:space-x-reverse", className)}>
-      {avatarUrls.map((url, index) => (
+    <div className={cn("flex -space-x-4", className)}>
+      {validUrls.map(({ url, initial }, index) => (
         <Avatar
           key={index}
-          className="size-10 rounded-full border-2 border-white dark:border-gray-800 bg-gray-500"
+          className={cn(
+            "ring-2 ring-white dark:ring-gray-800",
+            className
+              ?.split(" ")
+              .find((c) => c.startsWith("*:"))
+              ?.slice(2)
+          )}
         >
-          <AvatarImage src={url} />
-          <AvatarFallback className="bg-[#D9D9D9]"></AvatarFallback>
+          {url && <AvatarImage src={url} alt={`User ${index + 1}`} />}
+          <AvatarFallback>{initial}</AvatarFallback>
         </Avatar>
       ))}
       {displayNum > 0 && (
-        <div className="z-20 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-black text-center text-xs font-medium text-white dark:border-gray-800 dark:bg-white dark:text-black">
+        <div
+          className={cn(
+            "flex items-center justify-center size-10 rounded-full bg-white text-black text-xs font-medium ring-2 ring-white dark:ring-gray-800 relative z-10",
+            className
+              ?.split(" ")
+              .find((c) => c.startsWith("*:"))
+              ?.slice(2)
+          )}
+        >
           +{displayNum}
         </div>
       )}

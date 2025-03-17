@@ -4,37 +4,48 @@ import { Badge } from "@/components/ui/badge";
 import ExpandableDescription from "@/components/utils/ExpandableDescription";
 import { getEventById, getEventByIdWithUserPics } from "@/db/events";
 import { EVENT_CATEGORIES } from "@/lib/utils/consts";
-import { isAfter } from "date-fns";
+import { differenceInDays, isAfter } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export const revalidate = 0; // 30 minutes
 
-export async function generateMetadata(
-  props: {
-    params: Promise<{ id: string }>;
-  }
-): Promise<Metadata> {
-  const params = await props.params;
-  // Fetch data for the specific page
-  const event = await getEventById(params.id);
+// Helper function to format duration
+const formatDuration = (startTime: Date, endTime?: Date | null) => {
+  if (!endTime) return null;
+  const days = differenceInDays(endTime, startTime);
+  if (days === 0) return null;
+  return `${days + 1} days`;
+};
 
-  if (!event)
+export async function generateMetadata(props: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const event = await getEventById(props.params.id);
+
+  if (!event) {
     return {
       title: "Event not found",
       description: "Event not found",
     };
+  }
 
-  const imageUrl = `https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?width=800&height=600&quality=75`;
-  const description = `*${formatInTimeZone(
-    event.startTime,
-    "America/Costa_Rica",
-    "MMM dd"
-  )} ${formatInTimeZone(event.startTime, "America/Costa_Rica", "K:mm aa")}* - ${
-    event.description
-  }`;
+  const duration = formatDuration(event.startTime, event.endTime);
+  const imageUrl = event.coverImg
+    ? `https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${event.coverImg}?width=800&height=600&quality=75`
+    : undefined;
+
+  const description = [
+    formatInTimeZone(event.startTime, "America/Costa_Rica", "MMM dd, K:mm aa"),
+    duration ? `(${duration})` : null,
+    event.location,
+    event.description,
+  ]
+    .filter(Boolean)
+    .join(" - ");
 
   return {
     title: event.name,
@@ -42,32 +53,34 @@ export async function generateMetadata(
     openGraph: {
       title: event.name,
       description: description,
-      images: [
-        {
-          url: imageUrl,
-          width: 800,
-          height: 600,
-          alt: event.name,
-        },
-      ],
+      ...(imageUrl && {
+        images: [
+          {
+            url: imageUrl,
+            width: 800,
+            height: 600,
+            alt: event.name,
+          },
+        ],
+      }),
     },
     twitter: {
       card: "summary_large_image",
       title: event.name,
       description: description,
-      images: [imageUrl],
+      ...(imageUrl && { images: [imageUrl] }),
     },
   };
 }
 
-export default async function Event(props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
+export default async function Event({ params }: { params: { id: string } }) {
   const event = await getEventByIdWithUserPics(params.id);
 
-  if (!event)
-    return (
-      <div className="text-red-500 font-bold text-xl p-5">Event not found</div>
-    );
+  if (!event) {
+    notFound();
+  }
+
+  const duration = formatDuration(event.startTime, event.endTime);
 
   //(position) (display) (align & justify) (width) (height) (margin) (padding) (tailwind-spacing)
   //(animate) (border & rounded) (shadow) (color) (text & font)
@@ -102,8 +115,10 @@ export default async function Event(props: { params: Promise<{ id: string }> }) 
               <AvatarCircles
                 className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
                 numPeople={event.EventAttendance.length}
-                avatarUrls={event.EventAttendance.slice(0, 3).map(
-                  (ea) => ea.User.profilePic || ""
+                avatarUrls={event.EventAttendance.slice(0, 3).map((ea) => 
+                  ea.User.profilePic 
+                    ? `https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${ea.User.profilePic}`
+                    : null
                 )}
               />
             )}
@@ -207,6 +222,11 @@ export default async function Event(props: { params: Promise<{ id: string }> }) 
             {event.reward > 0 && (
               <Badge className="text-xs font-normal bg-purple-500 hover:bg-purple-500">
                 {event.reward} pts
+              </Badge>
+            )}
+            {duration && (
+              <Badge variant="outline" className="text-base">
+                {duration}
               </Badge>
             )}
           </div>
