@@ -119,7 +119,13 @@ export const EventCard: React.FC<EventCardProps> = ({ event, small }) => {
               numPeople={event.users.length}
               avatarUrls={event.users
                 .slice(0, 3)
-                .map((user) => user.profilePic || null)}
+                .map((user) => 
+                  user.profilePic 
+                    ? `https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${user.profilePic}`
+                    : null
+                )
+                .filter((url): url is string => url !== null)
+              }
             />
           ) : (
             <div />

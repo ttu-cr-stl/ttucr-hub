@@ -13,12 +13,14 @@ interface Officer {
   position: string;
 }
 
-type Props = {
-  params: { id: string };
-};
+interface Props {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
 export default async function Org({ params }: Props) {
-  const org = await getOrgById(params.id);
+  const { id } = await params;
+  const org = await getOrgById(id);
 
   if (!org) {
     notFound();

@@ -22,9 +22,11 @@ const formatDuration = (startTime: Date, endTime?: Date | null) => {
 };
 
 export async function generateMetadata(props: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }): Promise<Metadata> {
-  const event = await getEventById(props.params.id);
+  const { id } = await props.params;
+  const event = await getEventById(id);
 
   if (!event) {
     return {
@@ -73,8 +75,12 @@ export async function generateMetadata(props: {
   };
 }
 
-export default async function Event({ params }: { params: { id: string } }) {
-  const event = await getEventByIdWithUserPics(params.id);
+export default async function Event({ params }: { 
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const { id } = await params;
+  const event = await getEventByIdWithUserPics(id);
 
   if (!event) {
     notFound();
@@ -115,11 +121,14 @@ export default async function Event({ params }: { params: { id: string } }) {
               <AvatarCircles
                 className="-space-x-6 *:bg-white *:text-black *:shadow-lg"
                 numPeople={event.EventAttendance.length}
-                avatarUrls={event.EventAttendance.slice(0, 3).map((ea) => 
-                  ea.User.profilePic 
-                    ? `https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${ea.User.profilePic}`
-                    : null
-                )}
+                avatarUrls={event.EventAttendance.slice(0, 3)
+                  .map((ea) => 
+                    ea.User.profilePic 
+                      ? `https://yyccawyordfhdjblwusu.supabase.co/storage/v1/object/public/${ea.User.profilePic}`
+                      : null
+                  )
+                  .filter((url): url is string => url !== null)
+                }
               />
             )}
           </Link>
@@ -221,7 +230,7 @@ export default async function Event({ params }: { params: { id: string } }) {
             )}
             {event.reward > 0 && (
               <Badge className="text-xs font-normal bg-purple-500 hover:bg-purple-500">
-                {event.reward} pts
+                {event.reward}
               </Badge>
             )}
             {duration && (
